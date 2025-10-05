@@ -1,7 +1,7 @@
 # sidekiq@llm
 
 - Active: `active`
-- Window: `2025-10-05T15:15:27Z` → `2025-10-05T15:20:27Z` (UTC)
+- Window: `2025-10-05T15:20:44Z` → `2025-10-05T15:25:44Z` (UTC)
 
 ## Metrics
 - Enqueued: 0
