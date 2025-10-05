@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-05T19:25:42Z
-- Branch: ops-status (5c0f0f6)
+- Generated: 2025-10-05T19:30:22Z
+- Branch: ops-status (c61968f)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,7 +10,7 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 0 |
+| Retries (global) | 5 |
 | Dead (global) | 2 |
 | Error lines (since 1 hour ago) | 5 |
 
@@ -21,6 +21,6 @@
 | sidekiq@images.service | active | running | 207746 | Fri 2025-10-03 03:09:41 KST |
 | sidekiq@llm.service | active | running | 207747 | Fri 2025-10-03 03:09:41 KST |
 | sidekiq@score.service | active | running | 207748 | Fri 2025-10-03 03:09:41 KST |
-| sidekiq_llm.service | active | running | 394270 | Mon 2025-10-06 04:19:26 KST |
+| sidekiq_llm.service | active | running | 416431 | Mon 2025-10-06 04:27:04 KST |
 
 Detail pages: `docs/status/sidekiq/*.md`
