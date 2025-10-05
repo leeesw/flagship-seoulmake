@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 3734387
 - **Since**: Mon 2025-10-06 00:38:55 KST
-- **Generated**: 2025-10-05T18:20:26Z
+- **Generated**: 2025-10-05T18:25:42Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,12 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 05 02:59:02 ip-172-31-11-160 bundle[2847464]: 2025-10-04T17:59:02.594Z pid=2847464 tid=1ouy8 class=Seo::GenerateMetaJob jid=99404ebaab98046a09be51ee elapsed=3.253 INFO: done
-Oct 05 02:59:06 ip-172-31-11-160 bundle[2847464]: OK   4753 | tags=["아파트 반려동물", "아파트 반려동물 관리규약", "공동주택 이웃 동의 절차", "반려동물 펫티켓 지키기"] focus="아파트에서 반려동물" fi=updated
-Oct 05 02:59:06 ip-172-31-11-160 bundle[2847464]: DONE processed=1 errors=0 dry_run=false
-Oct 05 02:59:06 ip-172-31-11-160 bundle[2847464]: 2025-10-04T17:59:06.403Z pid=2847464 tid=1ouzc class=Seo::GenerateMetaJob jid=644c06cd4b6f71adff0e041f elapsed=5.922 INFO: done
-Oct 05 14:04:58 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 05 14:04:58 ip-172-31-11-160 bundle[2847464]: 2025-10-05T05:04:58.507Z pid=2847464 tid=1ozm0 INFO: Shutting down
 Oct 05 14:04:58 ip-172-31-11-160 bundle[2847464]: 2025-10-05T05:04:58.507Z pid=2847464 tid=1ozm0 INFO: Terminating quiet threads for default capsule
 Oct 05 14:04:58 ip-172-31-11-160 bundle[2847464]: 2025-10-05T05:04:58.507Z pid=2847464 tid=1ouxk INFO: Scheduler exiting...
 Oct 05 14:04:59 ip-172-31-11-160 bundle[2847464]: 2025-10-05T05:04:59.008Z pid=2847464 tid=1ouxc INFO: Pausing to allow jobs to finish...
@@ -62,4 +56,10 @@ Oct 06 03:10:28 ip-172-31-11-160 bundle[3734387]: DONE processed=1 errors=0 dry_
 Oct 06 03:10:28 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:10:28.275Z pid=3734387 tid=27uxn class=Seo::GenerateMetaJob jid=f4a4e5b4e5608a7b6bd90e5f elapsed=3.872 INFO: done
 Oct 06 03:17:14 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:17:14.401Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=e4158e7fb280892652da3b59 INFO: start
 Oct 06 03:17:14 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:17:14.402Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=e4158e7fb280892652da3b59 elapsed=0.002 INFO: done
+Oct 06 03:22:11 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:22:11.820Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=e94155c568225c4babb27de7 INFO: start
+Oct 06 03:22:16 ip-172-31-11-160 bundle[3734387]: OK   4180 | tags=["장애인 훈련수당", "장애인 직업능력개발훈련 지원금", "훈련수당 신청 방법", "장애인 취업 지원 전략"] focus="훈련수당 신청방법" fi=updated
+Oct 06 03:22:16 ip-172-31-11-160 bundle[3734387]: DONE processed=1 errors=0 dry_run=false
+Oct 06 03:22:16 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:22:16.599Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=e94155c568225c4babb27de7 elapsed=4.779 INFO: done
+Oct 06 03:22:26 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:22:26.069Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=60da4e8d5622c9cc977eb6e7 INFO: start
+Oct 06 03:22:26 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:22:26.070Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=60da4e8d5622c9cc977eb6e7 elapsed=0.001 INFO: done
 ```
