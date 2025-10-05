@@ -1,0 +1,6 @@
+---
+require: ./config/environment
+concurrency: 10
+queues:
+  - ["score-blue", 5]
+  - ["default", 1]

@@ -1,0 +1,69 @@
+# frozen_string_literal: true
+require "uri"  # URI.parse 사용을 위해 추가
+
+class Onpage::SanitizeExternalLinksJob < ApplicationJob
+  # 우선 기존 LLM 큐 재사용 (원하면 :onpage 로 변경 후 큐 추가)
+  queue_as :llm_seo
+
+  # mode: "dry"|"apply"
+  def perform(post_id, mode = "dry")
+    dry = (mode.to_s != "apply")
+    wp  = Atr::WpBridge.new
+
+    # 1) post/page 판단 (page는 스킵)
+    info  = wp.post_export(post_id: post_id)
+    ptype = (info["type"] || info["post_type"] || "").to_s
+    allowed_types = (ENV["SANITIZE_POST_TYPES"] || "post").split(",").map { _1.strip.downcase }.reject(&:empty?)
+    unless allowed_types.include?(ptype.downcase)
+      dlog "onpage/sanitize_skip", { post_id:, reason: "non_post", type: ptype }
+      return
+    end
+
+    # 2) 내부 도메인 화이트리스트 구성 (상대경로 포함)
+    whitelist = build_host_whitelist
+
+    # 3) 브릿지에 위임: <a> 외부링크만 제거(텍스트 보존), iframe/script 등은 미터치
+    #    version은 서버 브릿지 구현 버전에 맞춰 1 사용(호환).
+    res = wp.sanitize_links(post_id: post_id, version: 1, dry_run: dry, whitelist: whitelist)
+
+    evt = dry ? "onpage/sanitize_dry" : "onpage/sanitize_ok"
+    dlog evt, { post_id:, whitelist:, result: res }
+  rescue => e
+    dlog "onpage/sanitize_error", { post_id:, error: e.message }
+    raise
+  end
+
+  private
+
+  def build_host_whitelist
+    hosts = []
+
+    # ATR_BASE가 /wp-json/atr/v1 여도 host만 뽑아 사용
+    begin
+      base_host = URI.parse(ENV["ATR_BASE"].to_s).host
+      if base_host && !base_host.empty?
+        hosts << base_host
+        hosts << "www.#{base_host}" unless base_host.start_with?("www.")
+      end
+    rescue
+      # no-op
+    end
+
+    # CDN/S3/CloudFront 등 내부 1P 리소스 도메인 추가 가능
+    %w[CDN_HOST S3_HOST CLOUDFRONT_HOST SANITIZE_HOST_WHITELIST].each do |k|
+      v = ENV[k]
+      next unless v && !v.strip.empty?
+      v.split(",").each { |x| hosts << x.strip }
+    end
+
+    hosts.uniq
+  end
+
+  def dlog(event, payload = {})
+    return unless defined?(Atr::Doclog)
+    Atr::Doclog.log(event, payload)
+  rescue
+    # ignore logging failure
+  end
+end
+

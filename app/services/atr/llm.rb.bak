@@ -1,0 +1,219 @@
+# frozen_string_literal: true
+require "json"
+require "net/http"
+require "uri"
+
+module Atr
+  # LLM provider switcher: OpenAI(default) or Gemini
+  class Llm
+    DEFAULT_PROVIDER = "openai"
+
+    def initialize(provider: nil)
+      @provider = (provider || ENV["ATR_LLM_PROVIDER"] || DEFAULT_PROVIDER).to_s.downcase
+    end
+
+    # Returns a Hash like:
+    # {
+    #   "main_tag"=>"...", "long_tail_tags"=>["a","b","c"],
+    #   "focus_keyword"=>"...", "description"=>"...", "headline"=>"..."
+    # }
+    #
+    # 여기서는 절대 길이 검증으로 raise 하지 않습니다.
+    def generate_seo(title:, html:)
+      prompt = build_prompt(title: title.to_s, html: html.to_s)
+
+      raw =
+        case @provider
+        when "openai" then call_openai(prompt)
+        when "gemini" then call_gemini(prompt)
+        else               call_openai(prompt)
+        end
+
+      obj = coerce_to_hash(raw)
+
+      # 필수 필드 보정 (예외 없이 빈 값 허용)
+      obj["main_tag"]          = (obj["main_tag"].to_s.strip.presence || safe_main_from_title(title))
+      obj["long_tail_tags"]    = Array(obj["long_tail_tags"]).map(&:to_s).reject(&:empty?).first(3)
+      obj["focus_keyword"]     = normalize_focus_keyword(
+                                   (obj["focus_keyword"] || "").to_s,
+                                   title: title.to_s,
+                                   main:  obj["main_tag"]
+                                 )
+      obj["description"]     ||= ""
+      obj["headline"]        ||= safe_headline_from_title(title)
+
+      obj
+    rescue => e
+      {
+        "main_tag"       => safe_main_from_title(title),
+        "long_tail_tags" => fallback_longtails(title),
+        "focus_keyword"  => normalize_focus_keyword("", title: title.to_s, main: safe_main_from_title(title)),
+        "description"    => fallback_description(title),
+        "headline"       => safe_headline_from_title(title),
+        "error"          => e.message
+      }
+    end
+
+    private
+
+    def build_prompt(title:, html:)
+      <<~PROMPT
+      당신은 한국어 SEO 전문가이자 카피라이터입니다. 아래 포스트의 제목과 HTML 본문을 보고
+      **JSON만** 반환하세요(설명 문구 금지). 키는 다음과 같습니다:
+
+      - main_tag: 가장 대표가 되는 메인 태그 1개(2~3단어 이내, 과도하게 일반적 단어 지양)
+      - long_tail_tags: 메인과 밀접하게 연관된 롱테일 태그 3개(각 2~5단어 이내, 구체적)
+      - focus_keyword: **제목 안에 실제로 존재하는 2~3단어 '연속' 구절** 정확히 1개(제목에서 그대로 발췌)
+      - description: RankMath 메타 설명(2문장 내, 자연스럽게; 너무 과장 금지)
+      - headline: 썸네일용 임팩트 헤드라인(최대 40자 권장, 2줄 내 적합)
+
+      요구 사항:
+      - 절대 JSON 이외의 텍스트를 출력하지 마세요(코드펜스/주석 금지).
+      - focus_keyword는 반드시 제목 내 연속된 2~3단어 구절이어야 하며, 그대로 복사하세요.
+      - main_tag/long_tail_tags는 검색의도와 일치하도록 구체적이며 중복/동의어 남발을 피하세요.
+
+      제목: #{title}
+
+      본문(일부):
+      #{html.to_s.gsub(/\s+/, " ").strip[0, 5000]}
+      PROMPT
+    end
+
+    # -------- OpenAI ----------
+    def call_openai(prompt)
+      api_key = ENV["OPENAI_API_KEY"].to_s
+      raise "OPENAI_API_KEY missing" if api_key.empty?
+
+      uri = URI.parse("https://api.openai.com/v1/chat/completions")
+      req = Net::HTTP::Post.new(uri)
+      req["Authorization"] = "Bearer #{api_key}"
+      req["Content-Type"]  = "application/json"
+      body = {
+        model: (ENV["OPENAI_MODEL"] || "gpt-4.1-mini"),
+        messages: [
+          { role: "system", content: "반드시 JSON 객체만 출력하세요. 주석/설명 금지." },
+          { role: "user",   content: prompt }
+        ],
+        temperature: 0.4
+      }
+      req.body = JSON.dump(body)
+
+      res = http_request(uri, req)
+      raise "OpenAI HTTP #{res.code}: #{res.body}" unless res.is_a?(Net::HTTPSuccess)
+
+      data = JSON.parse(res.body) rescue {}
+      data.dig("choices", 0, "message", "content").to_s
+    end
+
+    # -------- Gemini ----------
+    def call_gemini(prompt)
+      api_key = ENV["GEMINI_API_KEY"].to_s
+      raise "GEMINI_API_KEY missing" if api_key.empty?
+
+      uri = URI.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=#{api_key}")
+      req = Net::HTTP::Post.new(uri)
+      req["Content-Type"] = "application/json"
+      body = {
+        contents: [{ parts: [{ text: "반드시 JSON만 출력:\n\n#{prompt}" }] }],
+        generationConfig: { temperature: 0.4 }
+      }
+      req.body = JSON.dump(body)
+
+      res = http_request(uri, req)
+      raise "Gemini HTTP #{res.code}: #{res.body}" unless res.is_a?(Net::HTTPSuccess)
+
+      data = JSON.parse(res.body) rescue {}
+      data.dig("candidates", 0, "content", "parts", 0, "text").to_s
+    end
+
+    # ---- HTTP helper ----
+    def http_request(uri, req)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      http.open_timeout = 20
+      http.read_timeout = 60
+      http.request(req)
+    end
+
+    # ---- parsing & fallbacks ----
+    def coerce_to_hash(raw)
+      return raw if raw.is_a?(Hash)
+      s = raw.to_s.strip
+      s = s.sub(/\A```json\s*/i, "").sub(/```\s*\z/, "")
+      JSON.parse(s)
+    rescue
+      {}
+    end
+
+    def safe_main_from_title(title)
+      t = title.to_s.strip
+      return t if !t.empty? && t.length <= 25
+      t.split(/[|\-–:]/).first.to_s.strip.presence || "일반"
+    end
+
+    def safe_headline_from_title(title)
+      t = title.to_s.gsub(/\s+/, " ").strip
+      clamp = (ENV["ATR_HEADLINE_MAX_CHARS"] || 40).to_i
+      return t if t.length <= clamp
+      t[0, clamp - 1].rstrip + "…"
+    end
+
+    def fallback_longtails(title)
+      base = safe_main_from_title(title)
+      ["#{base} 가이드", "#{base} 추천", "#{base} 핵심"]
+    end
+
+    def fallback_description(title)
+      base = safe_main_from_title(title)
+      "#{base}의 핵심을 간단히 정리했습니다. 지금 바로 확인해 보세요."
+    end
+
+    # ---- Focus keyword normalization (제목 내 2~3단어 연속 구절 강제) ----
+    def normalize_focus_keyword(focus, title:, main:)
+      title = title.to_s.strip
+      return "" if title.empty?
+
+      # 토큰화: 공백 기준, 1글자 토큰/불용어 제거
+      tokens = title.split(/\s+/)
+      content_tokens = tokens.reject { |w| w.size <= 1 || korean_stopwords.include?(w) }
+
+      grams = []
+      # 2-gram 먼저(우선), 그다음 3-gram
+      (0..content_tokens.size - 2).each { |i| grams << "#{content_tokens[i]} #{content_tokens[i + 1]}" }
+      (0..content_tokens.size - 3).each { |i| grams << "#{content_tokens[i]} #{content_tokens[i + 1]} #{content_tokens[i + 2]}" }
+
+      # 1) 기존 focus가 1~3단어이고 제목에 그대로 있으면 유지
+      f = focus.to_s.strip
+      if f.split(/\s+/).size.between?(1, 3) && title.include?(f)
+        return f
+      end
+
+      # 2) main 단어들과 가장 겹치는 2~3단어 구절 선택
+      main_words = main.to_s.split(/\s+/).reject { |w| w.size <= 1 }
+      if main_words.any?
+        with_main = grams.select { |g| main_words.all? { |mw| g.include?(mw) } }
+        return with_main.first if with_main.any?
+      end
+
+      # 3) 기존 focus의 첫 단어라도 포함하는 구절 사용
+      fw = f.split(/\s+/).first.to_s
+      if !fw.empty?
+        cand = grams.find { |g| g.include?(fw) }
+        return cand if cand
+      end
+
+      # 4) 아무 것도 못 찾으면: 제목의 첫 2-gram, 없으면 main(최대 3단어) 축약
+      return grams.first if grams.first
+      main_words = main_words.presence || title.split(/\s+/)
+      main_words.first(3).join(" ").strip
+    end
+
+    def korean_stopwords
+      @korean_stopwords ||= Set.new(%w[
+        은 는 이 가 을 를 의 에 에서 으로 와 과 및 또 또는 그리고 그러나 그러나도 하지만 또한
+        대해 대한 관련 위한 위해 로서 로써 보다 보다도 부터 까지 에게 에게서 한 해서 하여 하다 되다 이다 임
+        등 등등 같은 경우 경우에 경우의 경우도 경우라면 경우에는 위한
+      ])
+    end
+  end
+end

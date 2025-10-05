@@ -1,0 +1,49 @@
+# Ensure the original is loaded first
+require_dependency Rails.root.join("app/services/atr/fi_pipeline").to_s
+
+mod = Atr.const_get(:FiPipeline)
+
+# 유연한 디스패처: 위치/키워드 인자 모두 수용
+uploader_impl = proc do |wp, *args, **kwargs|
+  # file_path 추출 (키워드 우선, 없으면 첫 번째 위치 인자 사용)
+  file_path = kwargs[:file_path]
+  if file_path.nil? && args[0].is_a?(String)
+    file_path = args[0]
+  end
+  filename = kwargs[:filename]
+  title    = kwargs[:title]
+  alt      = kwargs[:alt]
+  mime     = kwargs[:mime]
+
+  raise "upload_media!: file_path missing" if file_path.nil?
+
+  # 우선순위: upload_media! > upload_media > media_upload
+  if wp.respond_to?(:upload_media!)
+    return wp.upload_media!(file_path: file_path, filename: filename, title: title, alt: alt, mime: mime)
+  elsif wp.respond_to?(:upload_media)
+    begin
+      # 키워드 호출 시도
+      return wp.upload_media(file_path: file_path, filename: filename, title: title, alt: alt, mime: mime)
+    rescue ArgumentError
+      # 일부 구현은 위치 인자만 받을 수 있음
+      return wp.upload_media(file_path, filename: filename, title: title, alt: alt, mime: mime)
+    end
+  elsif wp.respond_to?(:media_upload)
+    begin
+      return wp.media_upload(file_path: file_path, filename: filename, title: title, alt: alt, mime: mime)
+    rescue ArgumentError
+      return wp.media_upload(file_path, filename: filename, title: title, alt: alt, mime: mime)
+    end
+  else
+    avail = wp.methods.grep(/upload|media/i).sort
+    raise "WpBridge upload method not found (available=#{avail})"
+  end
+end
+
+# 기존 인스턴스 메서드가 있으면 제거 후 재정의(강제 오버라이드)
+if mod.instance_methods.include?(:upload_media!)
+  mod.send(:remove_method, :upload_media!)
+end
+mod.module_eval do
+  define_method(:upload_media!, &uploader_impl)
+end

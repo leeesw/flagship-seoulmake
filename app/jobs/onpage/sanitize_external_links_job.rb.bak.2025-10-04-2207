@@ -1,0 +1,71 @@
+# frozen_string_literal: true
+require "json"
+require "uri"
+
+class Onpage::SanitizeExternalLinksJob
+  include Sidekiq::Job
+  sidekiq_options queue: :llm_seo, retry: 5, backtrace: true
+
+  # mode: "dry" | "apply"
+  def perform(post_id, mode = "dry")
+    dry = (mode.to_s != "apply")
+    wp  = Atr::WpBridge.new
+
+    # 1) 타입 게이트 (페이지 오염 방지)
+    info   = wp.post_export(post_id: post_id)
+    ptype  = (info["type"] || info["post_type"]).to_s.strip
+    ptype  = "post" if ptype.empty?  # 타입을 못 받으면 post로 간주
+
+    allowed_raw = (ENV["SANITIZE_POST_TYPES"] || "post").strip
+    if allowed_raw != "*" # "*"면 타입체크 생략(전부 허용)
+      allowed_types = allowed_raw.split(",").map { _1.strip.downcase }.reject(&:empty?)
+      unless allowed_types.include?(ptype.downcase)
+        dlog "onpage/sanitize_skip", { post_id: post_id, reason: "type_not_allowed", type: ptype, allowed: allowed_types }
+        return
+      end
+    end
+
+    # 2) 내부 도메인 화이트리스트
+    whitelist = build_host_whitelist
+
+    # 3) WP 브릿지 위임: <a> 외부링크만 제거(앵커 텍스트 보존), iframe/script 등은 건드리지 않음
+    res = wp.sanitize_links(post_id: post_id, version: 1, dry_run: dry, whitelist: whitelist)
+
+    evt = dry ? "onpage/sanitize_dry" : "onpage/sanitize_ok"
+    dlog evt, { post_id: post_id, whitelist: whitelist, result: res }
+  rescue => e
+    dlog "onpage/sanitize_error", { post_id: post_id, error: e.message }
+    raise
+  end
+
+  private
+
+  def build_host_whitelist
+    hosts = []
+    begin
+      base_host = URI.parse(ENV["ATR_BASE"].to_s).host
+      if base_host && !base_host.empty?
+        hosts << base_host
+        hosts << "www.#{base_host}" unless base_host.start_with?("www.")
+      end
+    rescue
+      # ignore
+    end
+
+    # 1P 리소스/추가 허용 호스트
+    %w[CDN_HOST S3_HOST CLOUDFRONT_HOST SANITIZE_HOST_WHITELIST].each do |k|
+      v = ENV[k]
+      next if v.nil? || v.strip.empty?
+      v.split(",").each { |x| x = x.strip; hosts << x unless x.empty? }
+    end
+
+    hosts.uniq
+  end
+
+  def dlog(event, payload = {})
+    return unless defined?(Atr::Doclog)
+    Atr::Doclog.log(event, payload)
+  rescue
+    # ignore logging failure
+  end
+end

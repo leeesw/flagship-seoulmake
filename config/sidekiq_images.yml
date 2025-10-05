@@ -1,0 +1,6 @@
+---
+require: ./config/environment
+concurrency: 6
+queues:
+  - ["images-blue", 5]
+  - ["default", 1]

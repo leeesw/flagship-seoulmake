@@ -1,0 +1,38 @@
+# Load original first
+require_dependency Rails.root.join("app/services/atr/fi_pipeline").to_s
+
+mod = Atr.const_get(:FiPipeline)
+
+# 이미 process!가 있으면 아무것도 안 함
+unless mod.respond_to?(:process!)
+  # 대체 진입점들을 순서대로 시도할 래퍼
+  mod.define_singleton_method(:process!) do |**kwargs|
+    # 1) 모듈/클래스 자체에 대체 진입점이 있는가?
+    if mod.respond_to?(:run!)
+      return mod.run!(**kwargs)
+    elsif mod.respond_to?(:run)
+      return mod.run(**kwargs)
+    elsif mod.respond_to?(:call)
+      return mod.call(**kwargs)
+    end
+
+    # 2) 인스턴스 기반이라면 시도 (클래스일 때만 new가 가능)
+    begin
+      inst = mod.new
+    rescue
+      inst = nil
+    end
+
+    if inst
+      if inst.respond_to?(:process!)
+        return inst.process!(**kwargs)
+      elsif inst.respond_to?(:process)
+        return inst.process(**kwargs)
+      elsif inst.respond_to?(:call)
+        return inst.call(**kwargs)
+      end
+    end
+
+    raise "Atr::FiPipeline: no suitable entrypoint (process!/run!/run/call on class or instance)"
+  end
+end

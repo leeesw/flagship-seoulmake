@@ -1,0 +1,118 @@
+# frozen_string_literal: true
+require "json"
+require "uri"
+require "net/http"
+require "openssl"
+
+module Atr
+  # WordPress REST Bridge client
+  class WpBridge
+    DEFAULT_TIMEOUT = 20
+
+    def initialize(base: Atr::Config.base, token: Atr::Config.token, timeout: nil)
+      # timeout 우선순위: 인자 → ENV(ATR_WP_TIMEOUT_SEC) → DEFAULT_TIMEOUT
+      eff_timeout = timeout || ENV["ATR_WP_TIMEOUT_SEC"] || DEFAULT_TIMEOUT
+      @base    = base.to_s.sub(%r{/\z}, "")
+      @token   = token.to_s
+      @timeout = Integer(eff_timeout)
+    end
+
+    # ---------- Public endpoints ----------
+    def health
+      get("/health")
+    end
+
+    def meta_versions(limit: 200, offset: 0, orderby: "ID")
+      get("/meta-versions", query: { limit:, offset:, orderby: })
+    end
+
+    def post_export(post_id:)
+      get("/post-export", query: { post_id: post_id.to_i })
+    end
+
+    def seo_v2(post_id:, tags:, focus_keyword:, description:, overwrite: false)
+      payload = {
+        post_id: post_id.to_i,
+        tags: Array(tags),
+        focus_keyword: focus_keyword.to_s,
+        description: description.to_s,
+        overwrite: !!overwrite
+      }
+      post("/seo-v2", json: payload)
+    end
+
+    def featured_image(post_id:, square_base64:, card_base64: nil, alt: nil, overwrite: false)
+      payload = {
+        post_id: post_id.to_i,
+        overwrite: !!overwrite,
+        alt: (alt || "").to_s,
+        square_base64: square_base64.to_s
+      }
+      payload[:card_base64] = card_base64.to_s if card_base64
+      post("/featured-image", json: payload)
+    end
+
+    def seo_source(post_id:, title: nil, excerpt: nil, content: nil, h2: [], h3: [], tags: [], focus_keyword: nil)
+      payload = {
+        post_id: post_id.to_i,
+        title:, excerpt:, content:,
+        h2: Array(h2), h3: Array(h3),
+        tags: Array(tags),
+        focus_keyword:
+      }.compact
+      post("/seo-source", json: payload)
+    end
+
+    def sanitize_links(post_id:, version: 1, dry_run: false, whitelist: [])
+      payload = {
+        post_id: post_id.to_i,
+        version: version.to_i,
+        dry_run: !!dry_run,
+        whitelist: Array(whitelist)
+      }
+      post("/sanitize-links", json: payload)
+    end
+
+    # ---------- HTTP helpers ----------
+    private
+
+    def base_uri(path, query = nil)
+      uri = URI.parse(@base + "/wp-json/atr/v1" + path)
+      uri.query = URI.encode_www_form(query) if query && !query.empty?
+      uri
+    end
+
+    def get(path, query: nil)
+      uri = base_uri(path, query)
+      req = Net::HTTP::Get.new(uri)
+      req["X-ATR-Token"] = @token
+      perform(uri, req)
+    end
+
+    def post(path, json:)
+      uri = base_uri(path)
+      req = Net::HTTP::Post.new(uri)
+      req["X-ATR-Token"] = @token
+      req["Content-Type"] = "application/json"
+      req.body = JSON.generate(json)
+      perform(uri, req)
+    end
+
+    def perform(uri, req)
+      http = Net::HTTP.new(uri.host, uri.port)
+      if uri.scheme == "https"
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      end
+      http.open_timeout = @timeout
+      http.read_timeout = @timeout
+
+      res = http.start { http.request(req) }
+      body = res.body.to_s
+      json = JSON.parse(body) rescue { "ok" => false, "raw" => body }
+
+      raise(StandardError, "WP bridge HTTP #{res.code}: #{body}") unless res.is_a?(Net::HTTPSuccess)
+      json
+    end
+  end
+end

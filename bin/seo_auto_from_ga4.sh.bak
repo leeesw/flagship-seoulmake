@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -------------------------
+# GA4 → 점수 스냅샷 → 후보 추출 → SEO 자동화(DRY/실적용) → 요약 리포트
+# 사용 예:
+#   chmod +x bin/seo_auto_from_ga4.sh
+#   WP_API_BASE="https://seoulmake.com" DRY=true N=10 OVERWRITE=false \
+#     bin/seo_auto_from_ga4.sh /home/ubuntu/ga4_pages_2025-09.csv
+#
+# 환경변수:
+#   WP_API_BASE   : WordPress 사이트 베이스 URL (필수, 예: https://seoulmake.com)
+#   DRY           : true/false (기본 true)   → DRY=false면 실적용
+#   OVERWRITE     : true/false (기본 false)  → 기존 값 덮어쓰기 여부
+#   N             : 후보 개수 (기본 10)
+#   THRESHOLD     : (선택) 점수 임계치 재정의 시 사용 (기본은 런타임 환경설정)
+# -------------------------
+
+# 0) 프로젝트 루트 이동 + ENV 로드 + 캐시 정리
+cd "$(dirname "$0")/.."
+rm -rf tmp/cache/bootsnap 2>/dev/null || true
+set -a && . ./.env.workers && set +a
+
+# 1) 인자: GA4 원본 CSV (필수)
+if [ "${1:-}" = "" ]; then
+  echo "USAGE: $0 /path/to/GA4.csv"
+  exit 1
+fi
+GA4_CSV="$1"
+
+# 2) GA4 점수 스냅샷 생성 (docs/logs/ga4_scores/YYYYMMDD.csv)
+echo "[1/5] GA4 스코어링 실행..."
+bundle exec rake "ga4:score_csv[$GA4_CSV]" >/dev/null
+
+# 3) 최신 스냅샷에서 업데이트 후보 추출 → tmp/ga4_candidates.csv
+echo "[2/5] 후보 추출(tmp/ga4_candidates.csv)..."
+LATEST="$(ls -t docs/logs/ga4_scores/*.csv | head -n1)"
+mkdir -p tmp
+# needs_update=true && path != "/" 만 선별, (path,score) → score 오름차순 상위 N
+N="${N:-10}"
+awk -F, 'NR>1 && tolower($7) ~ /true/ { gsub(/"/,"",$0); if ($1!="/") print $1","$6 }' "$LATEST" \
+  | sort -t, -k2,2g \
+  | head -n "$N" > tmp/ga4_candidates.csv
+
+# 4) SEO 자동화 실행(DRY/실적용)
+: "${WP_API_BASE:?WP_API_BASE 환경변수를 설정하세요 (예: https://seoulmake.com)}"
+DRY="${DRY:-true}"
+OVERWRITE="${OVERWRITE:-false}"
+
+echo "[3/5] SEO 자동화 실행 (DRY=${DRY} OVERWRITE=${OVERWRITE} N=${N})..."
+# script 내부에서 CAND=tmp/ga4_candidates.csv 를 기본값으로 사용
+DRY="$DRY" OVERWRITE="$OVERWRITE" WP_API_BASE="$WP_API_BASE" \
+  bundle exec rails runner script/seo_dry_from_candidates.rb
+
+# 5) 최근 자동화 로그 출력
+echo "[4/5] 최근 로그 요약:"
+./bin/doclog_today seo_automation || true
+echo "출력 CSV: $LATEST"
+echo "후보 파일: tmp/ga4_candidates.csv"
+
+# 6) 요약 리포트 생성(마크다운)
+echo "[5/5] 요약 리포트 생성..."
+WP_API_BASE="${WP_API_BASE}" N="${N}" \
+  bundle exec rails runner script/ga4_summary_md.rb >/dev/null || true
+echo "요약: docs/logs/ga4_scores/summary.md"

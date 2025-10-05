@@ -1,0 +1,7 @@
+:concurrency: <%= ENV.fetch("SIDEKIQ_LLM_CONCURRENCY", "10") %>
+:queues:
+  - [llm_seo, 5]
+  - [llm_onpage, 3]
+  - [llm_schema, 2]
+  - [default, 1]
+:logfile: ./log/sidekiq-llm.log

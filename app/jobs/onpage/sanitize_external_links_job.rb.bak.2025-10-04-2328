@@ -1,0 +1,189 @@
+# frozen_string_literal: true
+require "json"
+require "uri"
+
+class Onpage::SanitizeExternalLinksJob
+  include Sidekiq::Job
+  sidekiq_options queue: :llm_seo, retry: 5, backtrace: true
+
+  # mode: "dry"|"apply"
+  def perform(post_id, mode = "dry")
+    dry = (mode.to_s != "apply")
+    wp  = Atr::WpBridge.new
+
+    # 1) post/page 판단: 빈 값이면 post로 간주 + ENV로 필터
+    info  = wp.post_export(post_id: post_id)
+    ptype = (info["type"] || info["post_type"]).to_s.strip
+    ptype = "post" if ptype.empty? # 타입을 못 받으면 post로 간주
+
+    allowed_raw = (ENV["SANITIZE_POST_TYPES"] || "post").strip
+    if allowed_raw != "*"
+      allowed_types = allowed_raw.split(",").map { _1.strip.downcase }.reject(&:empty?)
+      unless allowed_types.include?(ptype.downcase)
+        dlog "onpage/sanitize_skip", { post_id:, reason: "type_not_allowed", type: ptype, allowed: allowed_types }
+        return
+      end
+    end
+
+    # 2) 내부 도메인 화이트리스트
+    whitelist = build_host_whitelist
+
+    # 3) 1차: WP 브리지로 위임
+    res = nil
+    begin
+      res = wp.sanitize_links(post_id: post_id, version: 1, dry_run: dry, whitelist: whitelist)
+    rescue => e
+      dlog "onpage/sanitize_bridge_error", { post_id:, error: e.message }
+      res = { "ok" => false, "error" => e.message }
+    end
+
+    # 4) APPLY 모드에서 브리지가 스킵/실패했으면, 실제 외부 링크 존재 시 로컬 폴백 + 저장
+    if !dry && (res.is_a?(Hash) && (res["skipped"] || !res["ok"]))
+      # 최신 본문 재확인
+      begin
+        info  = wp.post_export(post_id: post_id)
+      rescue
+      end
+      html = info["content"].to_s
+
+      sanitized = local_sanitize_html(html, whitelist)
+
+      if sanitized && sanitized != html
+        saved = push_content(wp, post_id, sanitized, ptype)
+        dlog "onpage/sanitize_local_apply", { post_id:, changed: true, saved:, bridge_result: res }
+        Sidekiq.logger.info("[sanitize-local] post_id=#{post_id} saved=#{saved}")
+      else
+        dlog "onpage/sanitize_local_apply", { post_id:, changed: false, bridge_result: res }
+      end
+    else
+      evt = dry ? "onpage/sanitize_dry" : "onpage/sanitize_ok"
+      dlog evt, { post_id:, whitelist:, result: res }
+      Sidekiq.logger.info("[sanitize] post_id=#{post_id} dry=#{dry} result=#{res.to_json}")
+    end
+  rescue => e
+    dlog "onpage/sanitize_error", { post_id:, error: e.message }
+    raise
+  end
+
+  private
+
+  # 로컬 폴백: 외부 <a>만 제거(내부링크/텍스트/하위노드 보존)
+  def local_sanitize_html(html, whitelist)
+    begin
+      require "nokogiri"
+    rescue LoadError
+      Sidekiq.logger.warn("[sanitize-local] nokogiri not available; skipping local fallback")
+      return nil
+    end
+
+    frag = (defined?(Nokogiri::HTML5) ? Nokogiri::HTML5.fragment(html) : Nokogiri::HTML.fragment(html))
+
+    frag.css('a[href^="http"]').each do |a|
+      href = a["href"].to_s
+      host = (URI.parse(href).host rescue "").to_s.downcase
+      next if host.empty?
+      next if internal_host?(host, whitelist) # 내부면 유지
+      a.replace(a.children)                   # 외부면 <a>만 제거
+    end
+
+    frag.to_html
+  end
+
+  def internal_host?(host, whitelist)
+    wl = Array(whitelist).compact.map(&:downcase)
+    wl.any? { |w| host == w || host.end_with?(".#{w}") }
+  end
+
+  # 컨텐츠 저장: 1) ENV 강제 2) WpBridge 후보군 3) WP REST 폴백
+  def push_content(wp, post_id, new_html, ptype)
+    forced = ENV["SANITIZE_SAVE_METHOD"].to_s.strip
+    if !forced.empty? && wp.respond_to?(forced)
+      return try_save(wp, forced.to_sym, post_id, new_html)
+    end
+
+    # 2) 브리지 메서드 자동탐지 (현재 없음)
+    candidates = [
+      :post_update,
+      :post_update_html,
+      :post_import,
+      :update_post,
+      :replace_post_content,
+      :save_post_content,
+      :update
+    ]
+    candidates.each do |m|
+      next unless wp.respond_to?(m)
+      return true if try_save(wp, m, post_id, new_html)
+    end
+
+    # 3) WP REST 폴백
+    begin
+      base = (ENV["WP_REST_BASE"].presence || ENV["ATR_BASE"].to_s).to_s
+      user = (ENV["WP_APP_USER"] || "").to_s
+      pw   = (ENV["WP_APP_PASSWORD"] || ENV["WP_APP_PW"] || "").to_s
+
+      if base.to_s.strip.empty? || user.empty? || pw.empty?
+        dlog "onpage/sanitize_local_save_miss", { post_id:, reason: "missing_rest_env", need: %w[WP_REST_BASE/ATR_BASE WP_APP_USER WP_APP_PASSWORD] }
+        return false
+      end
+
+      require Rails.root.join("app/services/wp_rest_client")
+      client = WpRestClient.new(base: base, user: user, app_password: pw)
+      res = client.update_content(id: post_id, type: ptype, content: new_html)
+      dlog "onpage/sanitize_local_save_rest", { post_id:, rest: res }
+      return !!res[:ok]
+    rescue => e
+      dlog "onpage/sanitize_local_save_error_rest", { post_id:, error: e.message }
+      return false
+    end
+  end
+
+  # 다양한 시그니처를 관용적으로 시도
+  def try_save(wp, method_name, post_id, new_html)
+    calls = [
+      -> { wp.public_send(method_name, post_id: post_id, content: new_html) },
+      -> { wp.public_send(method_name, id: post_id, content: new_html) },
+      -> { wp.public_send(method_name, post_id: post_id, html: new_html) },
+      -> { wp.public_send(method_name, post_id, new_html) },
+      -> { wp.public_send(method_name, { post_id: post_id, content: new_html }) },
+    ]
+
+    calls.each do |call|
+      begin
+        call.call
+        return true
+      rescue ArgumentError
+        next
+      rescue => e
+        dlog "onpage/sanitize_local_save_error_try", { post_id:, method: method_name, error: e.message }
+      end
+    end
+    false
+  end
+
+  def build_host_whitelist
+    hosts = []
+    begin
+      base_host = URI.parse(ENV["ATR_BASE"].to_s).host
+      if base_host && !base_host.empty?
+        hosts << base_host
+        hosts << "www.#{base_host}" unless base_host.start_with?("www.")
+      end
+    rescue
+    end
+
+    %w[CDN_HOST S3_HOST CLOUDFRONT_HOST SANITIZE_HOST_WHITELIST].each do |k|
+      v = ENV[k]
+      next unless v && !v.strip.empty?
+      v.split(",").each { |x| hosts << x.strip }
+    end
+
+    hosts.compact.uniq
+  end
+
+  def dlog(event, payload = {})
+    return unless defined?(Atr::Doclog)
+    Atr::Doclog.log(event, payload)
+  rescue
+  end
+end

@@ -1,0 +1,140 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require "csv"
+require "uri"
+require "net/http"
+require "time"
+require "fileutils"
+require "nokogiri"
+
+WP_API_BASE = ENV.fetch("WP_API_BASE") { raise "WP_API_BASE not set" }
+
+# 토글이 꺼져 있으면 조용히 종료(무해 확장)
+if ENV.fetch("WORDCOUNT_ENABLE", "true").downcase != "true"
+  puts "WORDCOUNT_ENABLE=false → skip wordcount candidates"
+  exit 0
+end
+
+WORDCOUNT_MAX          = ENV.fetch("WORDCOUNT_MAX", "700").to_i
+WORDCOUNT_EXTRA_N      = ENV.fetch("WORDCOUNT_EXTRA_N", "20").to_i
+WORDCOUNT_EXCLUDE_DAYS = ENV.fetch("WORDCOUNT_EXCLUDE_DAYS", "30").to_i
+WORDCOUNT_WP_TIMEOUT   = ENV.fetch("WORDCOUNT_WP_TIMEOUT", "20").to_i  # seconds
+
+OUT_PATH = "tmp/under_wordcount_candidates.csv"
+FileUtils.mkdir_p("tmp")
+
+def http_get_json_with_headers(url)
+  uri = URI(url)
+  req = Net::HTTP::Get.new(uri)
+  req["Accept"] = "application/json"
+  req["User-Agent"] = "wc_candidates/1.0 (+rails-runner)"
+
+  Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", read_timeout: WORDCOUNT_WP_TIMEOUT) do |http|
+    resp = http.request(req)
+    code = resp.code.to_i
+
+    # 429: rate limit → 짧게 기다렸다 1회 재시도
+    if code == 429
+      sleep 1
+      resp = http.request(req)
+      code = resp.code.to_i
+    end
+
+    # 성공
+    if code.between?(200, 299)
+      json = JSON.parse(resp.body)
+      return [json, resp.to_hash, code]
+    end
+
+    # 400 (유효하지 않은 page 등)은 호출자에서 "종료 신호"로 사용
+    return [nil, resp.to_hash, code]
+  end
+end
+
+def strip_html_to_text(html)
+  frag = Nokogiri::HTML.fragment(html.to_s)
+  frag.text
+end
+
+def count_words(text)
+  s = text.to_s.gsub(/[^\p{L}\p{N}\s]/u, " ").gsub(/\s+/, " ").strip
+  return 0 if s.empty?
+  s.split(/\s+/).size
+end
+
+base = "#{WP_API_BASE}/wp-json/wp/v2/posts?per_page=100&_fields=id,link,slug,title,content,modified,status"
+
+# 1) 첫 페이지 요청 → 총 페이지 알아내기
+page = 1
+json, headers, code = http_get_json_with_headers("#{base}&page=#{page}")
+if code == 401 || code == 403
+  warn "WP REST auth error (#{code}). 공개글만 조회됩니다."
+end
+
+total_pages =
+  if headers && headers["x-wp-totalpages"] && !headers["x-wp-totalpages"].empty?
+    headers["x-wp-totalpages"].first.to_i
+  else
+    json.is_a?(Array) ? 1 : 0
+  end
+
+rows = []
+
+def recent_excluded?(modified_iso, days)
+  return false if days <= 0
+  ts = Time.parse(modified_iso) rescue nil
+  return false unless ts
+  ts > (Time.now - days * 86_400)
+end
+
+# 2) 페이지 순회(헤더 기반으로 끝까지)
+while json.is_a?(Array) && !json.empty?
+  json.each do |post|
+    # 공개글만
+    status = post["status"]
+    next if status && status != "publish"
+
+    # 최근 수정 제외(중복 업데이트 방지)
+    if recent_excluded?(post["modified"], WORDCOUNT_EXCLUDE_DAYS)
+      next
+    end
+
+    title   = post.dig("title", "rendered").to_s
+    content = post.dig("content", "rendered").to_s
+    text    = strip_html_to_text(content)
+    wc      = count_words(text)
+    next unless wc.positive? && wc <= WORDCOUNT_MAX
+
+    path =
+      begin
+        URI(post["link"].to_s).path
+      rescue
+        "/#{post["slug"]}"
+      end
+
+    rows << [path, title.gsub(/\s+/, " ").strip, wc, "wc<=#{WORDCOUNT_MAX}(#{wc})"]
+  end
+
+  page += 1
+  break if total_pages > 0 && page > total_pages
+
+  json, headers, code = http_get_json_with_headers("#{base}&page=#{page}")
+
+  # 400: 존재하지 않는 페이지 → 정상 종료
+  break if code == 400
+  # 그 외 오류: 안전하게 종료(지금까지 모은 rows는 그대로 사용)
+  break if code && !code.between?(200, 299)
+end
+
+# 3) 정렬/상한 적용 후 저장
+rows.sort_by! { |r| r[2] } # wordcount 오름차순
+rows = rows.first(WORDCOUNT_EXTRA_N)
+
+CSV.open(OUT_PATH, "w") do |csv|
+  csv << %w[path title wordcount reason]
+  rows.each { |r| csv << r }
+end
+
+puts "WROTE #{OUT_PATH} rows=#{rows.size}"
