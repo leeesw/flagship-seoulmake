@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 203150
 - **Since**: Mon 2025-10-06 03:31:50 KST
-- **Generated**: 2025-10-05T18:35:32Z
+- **Generated**: 2025-10-05T18:40:21Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,10 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 00:38:54 ip-172-31-11-160 bundle[1236913]: 2025-10-05T15:38:54.469Z pid=1236913 tid=qond INFO: Scheduler exiting...
-Oct 06 00:38:54 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 06 00:38:54 ip-172-31-11-160 bundle[1236913]: 2025-10-05T15:38:54.970Z pid=1236913 tid=qoj5 INFO: Pausing to allow jobs to finish...
-Oct 06 00:38:55 ip-172-31-11-160 bundle[1236913]: 2025-10-05T15:38:55.470Z pid=1236913 tid=qdch INFO: Bye!
 Oct 06 00:38:55 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
 Oct 06 00:38:55 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
 Oct 06 00:38:55 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 36.718s CPU time.
@@ -62,4 +58,8 @@ Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=20
 Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
 Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
 Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.437Z pid=203150 tid=47qm INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 06 03:35:54 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:35:54.342Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=3ffb021e0f838a634eca1309 INFO: start
+Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: OK   4180 | tags=["장애인 훈련수당", "장애인 직업능력개발훈련 지원", "훈련수당 신청 절차", "장애인 취업 지원금 안내"] focus="훈련수당 신청방법" fi=updated
+Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: DONE processed=1 errors=0 dry_run=false
+Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:35:58.138Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=3ffb021e0f838a634eca1309 elapsed=3.796 INFO: done
 ```
