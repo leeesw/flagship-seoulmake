@@ -1,13 +1,5 @@
-# WP SEO 커버리지 요약
+# WordPress / SEO Snapshot
 
-생성 시각: 2025-10-05 13:05:44 KST
-
-## 태그 개수 분포 (publish/post)
-- 4개 미만: 102
-- 4개 이상: 5557
-- 총 게시물: 5659
-
-## RankMath 메타(타이틀/설명/포커스) 커버리지
-- 하나라도 누락: 14
-- 전부 채움: 5645
-- 총 게시물: 5659
+- Generated: `2025-10-05T04:22:55Z` (UTC)
+- Published posts: 5659
+- Total tags: 26114
