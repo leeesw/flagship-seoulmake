@@ -1,9 +1,12 @@
-# 운영 개요
+# Operations Status Overview
 
-- 생성 시각: 2025-10-05 04:05:44 UTC / 2025-10-05 13:05:44 KST
-- 리포 커밋: 77a98454a03f
-- 모드: `SEO_OVERWRITE=true`, `SEO_TAGS_REQUIRE_FOUR=true`
-- 타이머: 5분 간격 (status_docs.timer)
-- 감지된 Sidekiq 유닛: sidekiq@ads sidekiq@images sidekiq@llm sidekiq@score sidekiq_llm 
+- Generated at: `2025-10-05T04:22:41Z` (UTC)
+- Window: last 5 minutes (`2025-10-05T04:17:41Z` → `2025-10-05T04:22:41Z`)
 
-본 폴더는 시스템 상태 자동요약입니다. 변경이 있을 때만 커밋/푸시됩니다.
+## Sidekiq Services
+- sidekiq_llm.service : **active**
+- sidekiq@ads.service : **active**
+- sidekiq@images.service : **active**
+- sidekiq@llm.service : **active**
+- sidekiq@score.service : **active**
+

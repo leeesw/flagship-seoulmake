@@ -1,4 +1,4 @@
-# sidekiq_llm
+# sidekiq@score
 
 - Active: `active`
 - Window: `2025-10-05T04:17:41Z` → `2025-10-05T04:22:41Z` (UTC)
