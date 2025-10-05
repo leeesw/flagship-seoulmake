@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 3734387
 - **Since**: Mon 2025-10-06 00:38:55 KST
-- **Generated**: 2025-10-05T18:05:22Z
+- **Generated**: 2025-10-05T18:10:57Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,10 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 05 02:59:01 ip-172-31-11-160 bundle[2847464]: 2025-10-04T17:59:01.110Z pid=2847464 tid=1oux4 class=Seo::GenerateMetaJob jid=6ff0ad49c37eef099c8a9c48 elapsed=3.77 INFO: done
-Oct 05 02:59:01 ip-172-31-11-160 bundle[2847464]: OK   4178 | tags=["장애인 취업 지원", "맞춤형 직업상담 서비스", "직업능력평가 방법", "장애인 직업지도 전략"] focus="장애인 취업 지원" fi=updated
-Oct 05 02:59:01 ip-172-31-11-160 bundle[2847464]: DONE processed=1 errors=0 dry_run=false
-Oct 05 02:59:01 ip-172-31-11-160 bundle[2847464]: 2025-10-04T17:59:01.861Z pid=2847464 tid=1ouww class=Seo::GenerateMetaJob jid=caa2ce4cb79d3d5f772b40c4 elapsed=3.516 INFO: done
 Oct 05 02:59:02 ip-172-31-11-160 bundle[2847464]: OK   4754 | tags=["어린이놀이시설 안전관리", "놀이터 위생 점검 방법", "어린이 안전점검 체크리스트", "놀이시설 법적 책임과 과태료"] focus="어린이놀이시설 안전관리" fi=updated
 Oct 05 02:59:02 ip-172-31-11-160 bundle[2847464]: DONE processed=1 errors=0 dry_run=false
 Oct 05 02:59:02 ip-172-31-11-160 bundle[2847464]: 2025-10-04T17:59:02.594Z pid=2847464 tid=1ouy8 class=Seo::GenerateMetaJob jid=99404ebaab98046a09be51ee elapsed=3.253 INFO: done
@@ -62,4 +58,8 @@ Oct 06 00:57:45 ip-172-31-11-160 bundle[3734387]: 2025-10-05T15:57:45.729Z pid=3
 Oct 06 00:57:50 ip-172-31-11-160 bundle[3734387]: OK   4180 | tags=["장애인 훈련수당", "장애인 직업능력개발훈련 지원금", "훈련수당 신청 방법", "장애인 취업 지원 서비스"] focus="훈련수당 신청방법" fi=updated
 Oct 06 00:57:50 ip-172-31-11-160 bundle[3734387]: DONE processed=1 errors=0 dry_run=false
 Oct 06 00:57:50 ip-172-31-11-160 bundle[3734387]: 2025-10-05T15:57:50.507Z pid=3734387 tid=27v63 class=Seo::GenerateMetaJob jid=9661123b0f8b47d24fb33921 elapsed=4.778 INFO: done
+Oct 06 03:10:24 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:10:24.403Z pid=3734387 tid=27uxn class=Seo::GenerateMetaJob jid=f4a4e5b4e5608a7b6bd90e5f INFO: start
+Oct 06 03:10:28 ip-172-31-11-160 bundle[3734387]: OK   4180 | tags=["장애인 훈련수당", "장애인 직업능력개발훈련 지원금", "훈련수당 신청방법 안내", "장애인 취업 지원 프로그램"] focus="훈련수당 신청방법" fi=updated
+Oct 06 03:10:28 ip-172-31-11-160 bundle[3734387]: DONE processed=1 errors=0 dry_run=false
+Oct 06 03:10:28 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:10:28.275Z pid=3734387 tid=27uxn class=Seo::GenerateMetaJob jid=f4a4e5b4e5608a7b6bd90e5f elapsed=3.872 INFO: done
 ```
