@@ -1,12 +1,26 @@
-# Operations Status Overview
+# Ops Overview
 
-- Generated at: `2025-10-05T16:15:27Z` (UTC)
-- Window: last 5 minutes (`2025-10-05T16:10:27Z` → `2025-10-05T16:15:27Z`)
+- Generated: 2025-10-05T17:07:25Z
+- Branch: ops-status (ee1500b)
 
-## Sidekiq Services
-- sidekiq_llm.service : **active**
-- sidekiq@ads.service : **active**
-- sidekiq@images.service : **active**
-- sidekiq@llm.service : **active**
-- sidekiq@score.service : **active**
+## Redis / Sidekiq
+- **REDIS_URL**: redis://127.0.0.1:6380/1
+- **Queue**: llm_seo
 
+| Metric | Value |
+|---|---:|
+| Queue backlog | 0 |
+| Retries (global) | 0 |
+| Dead (global) | 2 |
+| Error lines (since 1 hour ago) | 5 |
+
+## Workers
+| Service | Active | Sub | PID | Since |
+|---|---|---|---:|---|
+| sidekiq@ads.service | active | running | 207743 | Fri 2025-10-03 03:09:41 KST |
+| sidekiq@images.service | active | running | 207746 | Fri 2025-10-03 03:09:41 KST |
+| sidekiq@llm.service | active | running | 207747 | Fri 2025-10-03 03:09:41 KST |
+| sidekiq@score.service | active | running | 207748 | Fri 2025-10-03 03:09:41 KST |
+| sidekiq_llm.service | active | running | 3734387 | Mon 2025-10-06 00:38:55 KST |
+
+Detail pages: `docs/status/sidekiq/*.md`
