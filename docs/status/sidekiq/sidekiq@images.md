@@ -1,7 +1,7 @@
 # sidekiq@images
 
 - Active: `active`
-- Window: `2025-10-05T10:20:31Z` → `2025-10-05T10:25:31Z` (UTC)
+- Window: `2025-10-05T10:25:36Z` → `2025-10-05T10:30:36Z` (UTC)
 
 ## Metrics
 - Enqueued: 0
