@@ -1,9 +1,9 @@
 # sidekiq_llm.service
 
 - **Active**: active (running)
-- **PID**: 346275
-- **Since**: Mon 2025-10-06 04:04:50 KST
-- **Generated**: 2025-10-05T19:10:32Z
+- **PID**: 378116
+- **Since**: Mon 2025-10-06 04:15:10 KST
+- **Generated**: 2025-10-05T19:15:10Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,54 +12,54 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 03:31:49 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:31:49.884Z pid=3734387 tid=27ux7 INFO: Pausing to allow jobs to finish...
-Oct 06 03:31:50 ip-172-31-11-160 bundle[3734387]: 2025-10-05T18:31:50.385Z pid=3734387 tid=27wlv INFO: Bye!
-Oct 06 03:31:50 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
-Oct 06 03:31:50 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 03:31:50 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 20.038s CPU time, 165.4M memory peak, 0B memory swap peak.
-Oct 06 03:31:50 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Booted Rails 8.0.2.1 application in production environment
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: See LICENSE and the LGPL-3.0 for licensing details.
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.435Z pid=203150 tid=47qm INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 06 03:31:52 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:31:52.437Z pid=203150 tid=47qm INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
-Oct 06 03:35:54 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:35:54.342Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=3ffb021e0f838a634eca1309 INFO: start
-Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: OK   4180 | tags=["장애인 훈련수당", "장애인 직업능력개발훈련 지원", "훈련수당 신청 절차", "장애인 취업 지원금 안내"] focus="훈련수당 신청방법" fi=updated
-Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: DONE processed=1 errors=0 dry_run=false
-Oct 06 03:35:58 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:35:58.138Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=3ffb021e0f838a634eca1309 elapsed=3.796 INFO: done
-Oct 06 03:44:09 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:44:09.319Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=b946b28d698ba7a2af9e28b0 INFO: start
-Oct 06 03:44:09 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:44:09.320Z pid=203150 tid=4j1y class=Seo::GenerateMetaJob jid=b946b28d698ba7a2af9e28b0 elapsed=0.001 INFO: done
-Oct 06 03:59:05 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:59:05.848Z pid=203150 tid=47qm INFO: Shutting down
-Oct 06 03:59:05 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:59:05.848Z pid=203150 tid=47qm INFO: Terminating quiet threads for default capsule
-Oct 06 03:59:05 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:59:05.848Z pid=203150 tid=4iw6 INFO: Scheduler exiting...
-Oct 06 03:59:05 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 06 03:59:06 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:59:06.348Z pid=203150 tid=4iwu INFO: Pausing to allow jobs to finish...
-Oct 06 03:59:07 ip-172-31-11-160 bundle[203150]: 2025-10-05T18:59:07.849Z pid=203150 tid=47qm INFO: Bye!
-Oct 06 03:59:07 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
-Oct 06 03:59:07 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 03:59:07 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 5.632s CPU time, 166.1M memory peak, 0B memory swap peak.
-Oct 06 03:59:07 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.877Z pid=307636 tid=6jh0 INFO: Booted Rails 8.0.2.1 application in production environment
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.877Z pid=307636 tid=6jh0 INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.877Z pid=307636 tid=6jh0 INFO: See LICENSE and the LGPL-3.0 for licensing details.
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.877Z pid=307636 tid=6jh0 INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.877Z pid=307636 tid=6jh0 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 06 03:59:09 ip-172-31-11-160 bundle[307636]: 2025-10-05T18:59:09.879Z pid=307636 tid=6jh0 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
-Oct 06 04:04:48 ip-172-31-11-160 bundle[307636]: 2025-10-05T19:04:48.355Z pid=307636 tid=6jh0 INFO: Shutting down
-Oct 06 04:04:48 ip-172-31-11-160 bundle[307636]: 2025-10-05T19:04:48.355Z pid=307636 tid=6jh0 INFO: Terminating quiet threads for default capsule
-Oct 06 04:04:48 ip-172-31-11-160 bundle[307636]: 2025-10-05T19:04:48.355Z pid=307636 tid=6ez0 INFO: Scheduler exiting...
-Oct 06 04:04:48 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 06 04:04:48 ip-172-31-11-160 bundle[307636]: 2025-10-05T19:04:48.855Z pid=307636 tid=6eus INFO: Pausing to allow jobs to finish...
-Oct 06 04:04:50 ip-172-31-11-160 bundle[307636]: 2025-10-05T19:04:50.356Z pid=307636 tid=6jh0 INFO: Bye!
-Oct 06 04:04:50 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
-Oct 06 04:04:50 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 04:04:50 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 2.456s CPU time, 103.4M memory peak, 0B memory swap peak.
-Oct 06 04:04:50 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.355Z pid=346275 tid=7gub INFO: Booted Rails 8.0.2.1 application in production environment
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.355Z pid=346275 tid=7gub INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.355Z pid=346275 tid=7gub INFO: See LICENSE and the LGPL-3.0 for licensing details.
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.355Z pid=346275 tid=7gub INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.355Z pid=346275 tid=7gub INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 06 04:04:52 ip-172-31-11-160 bundle[346275]: 2025-10-05T19:04:52.357Z pid=346275 tid=7gub INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/loader/eager_load.rb:16:in 'block in Zeitwerk::Loader::EagerLoad#eager_load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/loader/eager_load.rb:10:in 'Thread::Mutex#synchronize'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/loader/eager_load.rb:10:in 'Zeitwerk::Loader::EagerLoad#eager_load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/loader.rb:431:in 'block in Zeitwerk::Loader.eager_load_all'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/registry/loaders.rb:10:in 'Array#each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/registry/loaders.rb:10:in 'Zeitwerk::Registry::Loaders#each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/zeitwerk-2.7.3/lib/zeitwerk/loader.rb:429:in 'Zeitwerk::Loader.eager_load_all'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/application/finisher.rb:79:in 'block in <module:Finisher>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:32:in 'BasicObject#instance_exec'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:32:in 'Rails::Initializable::Initializer#run'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:61:in 'block in Rails::Initializable#run_initializers'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:231:in 'block in TSort.tsort_each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:353:in 'block (2 levels) in TSort.each_strongly_connected_component'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:434:in 'TSort.each_strongly_connected_component_from'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:352:in 'block in TSort.each_strongly_connected_component'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'Rails::Initializable::Collection#each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'Method#call'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'TSort.each_strongly_connected_component'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:229:in 'TSort.tsort_each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:208:in 'TSort#tsort_each'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:60:in 'Rails::Initializable#run_initializers'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/application.rb:440:in 'Rails::Application#initialize!'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/config/environment.rb:5:in '<top (required)>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/bundled_gems.rb:82:in 'Kernel.require'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/bundled_gems.rb:82:in 'block (2 levels) in Kernel#replace_require'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/lib/sidekiq/cli.rb:305:in 'Sidekiq::CLI#boot_application'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/lib/sidekiq/cli.rb:42:in 'Sidekiq::CLI#run'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/bin/sidekiq:31:in '<top (required)>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/bin/sidekiq:25:in 'Kernel#load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/bin/sidekiq:25:in '<top (required)>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli/exec.rb:59:in 'Kernel.load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli/exec.rb:59:in 'Bundler::CLI::Exec#kernel_load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli/exec.rb:23:in 'Bundler::CLI::Exec#run'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli.rb:451:in 'Bundler::CLI#exec'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/vendor/thor/lib/thor/command.rb:28:in 'Bundler::Thor::Command#run'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in 'Bundler::Thor::Invocation#invoke_command'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/vendor/thor/lib/thor.rb:538:in 'Bundler::Thor.dispatch'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli.rb:35:in 'Bundler::CLI.dispatch'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/vendor/thor/lib/thor/base.rb:584:in 'Bundler::Thor::Base::ClassMethods#start'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli.rb:29:in 'Bundler::CLI.start'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/exe/bundle:28:in 'block in <top (required)>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/friendly_errors.rb:118:in 'Bundler.with_friendly_errors'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/exe/bundle:20:in '<top (required)>'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/bin/bundle:25:in 'Kernel#load'
+Oct 06 04:15:05 ip-172-31-11-160 bundle[378097]: /home/ubuntu/.rbenv/versions/3.4.5/bin/bundle:25:in '<main>'
+Oct 06 04:15:05 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Main process exited, code=exited, status=1/FAILURE
+Oct 06 04:15:05 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Failed with result 'exit-code'.
+Oct 06 04:15:05 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 1.386s CPU time.
+Oct 06 04:15:10 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Scheduled restart job, restart counter is at 17.
+Oct 06 04:15:10 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
 ```
