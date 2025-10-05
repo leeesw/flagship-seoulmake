@@ -1,6 +1,6 @@
 # ALERTS
 
-- Generated: 2025-10-05T19:30:22Z
+- Generated: 2025-10-05T19:35:42Z
 - Window: 1 hour ago
 - Thresholds: queue>20, retries>10, dead>1, errors>10
 
@@ -9,6 +9,6 @@
 
 ## Snapshot
 - Queue backlog: 0
-- Retries: 5
+- Retries: 0
 - Dead: 2
 - Error lines: 5
