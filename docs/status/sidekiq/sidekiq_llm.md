@@ -1,7 +1,7 @@
 # sidekiq_llm
 
 - Active: `active`
-- Window: `2025-10-05T09:05:59Z` → `2025-10-05T09:10:59Z` (UTC)
+- Window: `2025-10-05T09:10:20Z` → `2025-10-05T09:15:20Z` (UTC)
 
 ## Metrics
 - Enqueued: 0
