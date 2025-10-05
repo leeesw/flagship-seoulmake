@@ -1,0 +1,298 @@
+# frozen_string_literal: true
+require "json"
+require "securerandom"
+require "tempfile"
+require "open3"
+require "base64"
+require "shellwords"
+
+module Atr
+  class Runner
+    class << self
+      # Entry: 한 번에 1건 처리
+      def tick
+        wp = Atr::WpBridge.new
+
+        # 1) 후보 페이징 커서 읽기(파일 기반; 추후 Redis로 쉽게 대체 가능)
+        cursor = load_cursor
+        limit  = Atr::Config.meta_page_limit rescue 200
+        order  = Atr::Config.meta_orderby rescue "ID"
+
+        meta = wp.meta_versions(limit: limit, offset: cursor[:offset], orderby: order)
+        items = Array(meta["items"])
+        total = Integer(meta["total"] || items.size)
+        puts "[atr.tick] fetched #{items.size} items (offset=#{cursor[:offset]}/total=#{total})"
+
+        # 2) 업데이트 필요 후보 1건 선택
+        seo_target = Atr::Config.target_seo_ver
+        fi_target  = Atr::Config.target_fi_ver
+
+        cand = items.find do |it|
+          (Integer(it["seo_ver"]) < seo_target) || (Integer(it["fi_ver"]) < fi_target)
+        end
+
+        # 다음 오프셋 계산(후보가 있든 없든 페이징은 전진)
+        next_offset = cursor[:offset] + limit
+        next_offset = 0 if total > 0 && next_offset >= total
+        save_cursor(offset: next_offset)
+
+        if cand.nil?
+          puts "[atr.tick] no candidate in this page (advance offset=#{next_offset})"
+          return
+        end
+
+        post_id = Integer(cand["id"])
+        puts "[atr.tick] candidate post_id=#{post_id} seo_ver=#{cand["seo_ver"]} fi_ver=#{cand["fi_ver"]}"
+
+        # 3) 원문 수집
+        exp = wp.post_export(post_id: post_id)
+        title   = exp["title"].to_s
+        excerpt = exp["excerpt"].to_s
+        content = exp["content"].to_s
+        h2      = Array(exp["h2"])
+        h3      = Array(exp["h3"])
+        body_len = content.gsub(/\s+/, " ").size
+
+        min_chars = Atr::Config.seo_min_body_chars
+        if body_len < min_chars
+          puts "[atr.tick] skip: body too short (#{body_len} < #{min_chars})"
+          return
+        end
+
+        # 4) SEO 생성 (LLM → 실패 시 안전한 폴백)
+        seo = generate_seo(title:, excerpt:, content:, h2:, h3:)
+        tags  = seo[:tags]
+        focus = seo[:focus]
+        desc  = seo[:description]
+
+        overwrite = Atr::Config.seo_overwrite_on_change
+        r = wp.seo_v2(post_id:, tags:, focus_keyword: focus, description: desc, overwrite:)
+        puts "[atr.tick] seo-v2 => #{r.inspect}"
+
+        # 5) 썸네일(정사각) 생성 및 적용 (멱등: 이미 있으면 WP가 스킵)
+        text_for_tile =
+          case Atr::Config.feimg_text
+          when "focus"  then (focus.presence || title)
+          when "title"  then title
+          when "summary" then seo[:short_title] || title
+          else title
+          end
+
+        sq_b64 = generate_square_tile_base64(text_for_tile, post_id: post_id)
+        if sq_b64
+          fr = wp.featured_image(post_id:, square_base64: sq_b64, alt: focus.to_s)
+          puts "[atr.tick] featured-image => #{fr.inspect}"
+        else
+          puts "[atr.tick] featured-image skipped (no image generated)"
+        end
+
+        # 6) 원문 요약 저장(선택) — 나중에 태깅 모델 교체용 트레이스
+        begin
+          wp.seo_source(post_id:, title:, excerpt:, content: nil, h2:, h3:, tags:, focus_keyword: focus)
+        rescue => e
+          puts "[atr.tick] seo-source warn: #{e.class}: #{e.message}"
+        end
+
+        puts "[atr.tick] DONE post_id=#{post_id}"
+      rescue => e
+        puts "[atr.tick] ERROR #{e.class}: #{e.message}"
+        puts e.backtrace.first(5).join("\n")
+      end
+
+      # ---------- Internal: cursor ----------
+      def cursor_file
+        Rails.root.join("tmp", "atr.cursor.json")
+      end
+
+      def load_cursor
+        f = cursor_file
+        if File.exist?(f)
+          JSON.parse(File.read(f), symbolize_names: true)
+        else
+          { offset: 0 }
+        end
+      rescue
+        { offset: 0 }
+      end
+
+      def save_cursor(offset:)
+        FileUtils.mkdir_p(File.dirname(cursor_file))
+        File.write(cursor_file, JSON.pretty_generate({ offset: offset.to_i }))
+      rescue => e
+        puts "[atr.tick] cursor save warn: #{e.class}: #{e.message}"
+      end
+
+      # ---------- Internal: SEO generation ----------
+      def generate_seo(title:, excerpt:, content:, h2:, h3:)
+        tags_min  = Atr::Config.seo_tags_target_min
+        desc_len  = Atr::Config.seo_desc_target_len
+
+        # 시드(LLM 실패 시 폴백)
+        seed_focus = (h2.first || h3.first || title).to_s.strip[0, 40]
+        seed_tags  = (h2 + h3).map { _1.to_s.strip }.reject(&:empty?).take([tags_min, 6].max)
+        seed_desc  = excerpt.to_s.strip
+        seed_desc  = content.gsub(/\s+/, " ").strip[0, desc_len] if seed_desc.empty?
+
+        begin
+          out = case Atr::Config.llm_provider
+                when "gemini" then llm_gemini_json(title:, excerpt:, content:)
+                else                llm_openai_json(title:, excerpt:, content:)
+                end
+          tags  = Array(out["tags"]).map { _1.to_s.strip }.reject(&:empty?)
+          focus = out["focus"].to_s.strip
+          desc  = out["description"].to_s.strip
+
+          tags  = (tags + seed_tags).uniq
+          tags  = tags.first([tags.size, 10].min)
+          focus = (focus.empty? ? seed_focus : focus)[0, 60]
+          desc  = normalize_desc(desc, desc_len)
+
+          { tags:, focus:, description: desc, short_title: out["short_title"].to_s.strip }
+        rescue => e
+          puts "[atr.seo] LLM fallback: #{e.class}: #{e.message}"
+          { tags: seed_tags, focus: seed_focus, description: normalize_desc(seed_desc, desc_len), short_title: nil }
+        end
+      end
+
+      def normalize_desc(desc, target_len)
+        s = desc.gsub(/\s+/, " ").strip
+        return s if s.size <= target_len
+        # 적당히 마침표 기준 절단
+        cut = s[0, target_len]
+        if (i = cut.rindex(/[.?!…]|[。！？]/))
+          cut = cut[0, i+1]
+        end
+        cut
+      end
+
+      # ---------- Internal: LLM calls ----------
+      def llm_openai_json(title:, excerpt:, content:)
+        key   = Atr::Config.openai_key
+        model = Atr::Config.openai_model
+        raise "OPENAI_API_KEY missing" if key.to_s.empty?
+
+        uri = URI.parse("https://api.openai.com/v1/chat/completions")
+        req = Net::HTTP::Post.new(uri)
+        req["Authorization"] = "Bearer #{key}"
+        req["Content-Type"]  = "application/json"
+        prompt = <<~PROMPT
+          너는 한국어 SEO 도우미야.
+          입력된 제목/요약/본문을 바탕으로 JSON을 만들어라:
+          - tags: 3~8개의 핵심 태그(짧고 일반명사 위주, 중복/특수문자 금지)
+          - focus: RankMath focus keyword 한 개(아주 짧게)
+          - description: 140~#{Atr::Config.seo_desc_target_len}자 사이 요약(클릭을 유도하되 과장 금지)
+          - short_title: 썸네일용 8~16자 수준의 짧은 제목(없으면 빈 문자열)
+          반드시 JSON만 출력.
+          ---
+          제목: #{title}
+          요약: #{excerpt}
+          본문(일부): #{content.to_s[0, 2000]}
+        PROMPT
+
+        body = {
+          model: model,
+          messages: [
+            { role: "system", content: "You are a concise Korean SEO assistant. Always output valid JSON." },
+            { role: "user",   content: prompt }
+          ],
+          temperature: 0.2,
+          response_format: { type: "json_object" }
+        }
+        req.body = JSON.generate(body)
+
+        res = http_json(uri, req)
+        txt = res.dig("choices", 0, "message", "content").to_s
+        JSON.parse(txt)
+      end
+
+      def llm_gemini_json(title:, excerpt:, content:)
+        key   = Atr::Config.gemini_key
+        model = Atr::Config.gemini_model
+        raise "GEMINI_API_KEY missing" if key.to_s.empty?
+
+        uri = URI.parse("https://generativelanguage.googleapis.com/v1beta/models/#{model}:generateContent?key=#{key}")
+        req = Net::HTTP::Post.new(uri)
+        req["Content-Type"] = "application/json"
+        prompt = <<~PROMPT
+          너는 한국어 SEO 도우미야. 아래 정보를 바탕으로 다음 JSON을 반환해:
+          {"tags":[],"focus":"","description":"","short_title":""}
+          제약:
+          - tags: 3~8개, 짧고 일반명사 위주
+          - focus: 한 개, 60자 미만
+          - description: 140~#{Atr::Config.seo_desc_target_len}자
+          - short_title: 8~16자 수준(없으면 "")
+          ---
+          제목: #{title}
+          요약: #{excerpt}
+          본문(일부): #{content.to_s[0, 2000]}
+        PROMPT
+        body = {
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" }
+        }
+        req.body = JSON.generate(body)
+
+        res = http_json(uri, req)
+        txt = res.dig("candidates", 0, "content", "parts", 0, "text").to_s
+        JSON.parse(txt)
+      end
+
+      def http_json(uri, req)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = (uri.scheme == "https")
+        http.open_timeout = 20
+        http.read_timeout = 40
+        res = http.start { http.request(req) }
+        body = res.body.to_s
+        raise "HTTP #{res.code}: #{body}" unless res.is_a?(Net::HTTPSuccess)
+        JSON.parse(body)
+      end
+
+      # ---------- Internal: Square tile (ImageMagick) ----------
+      def generate_square_tile_base64(text, post_id:)
+        size    = Atr::Config.feimg_size
+        font    = Atr::Config.feimg_font
+        pal     = Array(Atr::Config.feimg_palette)
+        bg      = pal.empty? ? "#141414" : pal[post_id.to_i % pal.size]
+        ps      = pointsize_for(text)
+
+        # caption: 사용해 자동 줄바꿈
+        out = Tempfile.new(["atrfi-", ".png"])
+        cmd = [
+          "convert",
+          "-size", "#{size}x#{size}",
+          "-background", bg.to_s,
+          "-fill", "white",
+          "-gravity", "center",
+          "-font", font.to_s,
+          "-pointsize", ps.to_s,
+          "caption:#{text}",
+          out.path
+        ]
+
+        stdout, stderr, status = Open3.capture3(*cmd)
+        unless status.success?
+          warn "[atr.fi] convert failed: #{stderr}"
+          return nil
+        end
+
+        raw = File.binread(out.path)
+        Base64.strict_encode64(raw)
+      rescue => e
+        warn "[atr.fi] error: #{e.class}: #{e.message}"
+        nil
+      ensure
+        out.close! rescue nil
+      end
+
+      def pointsize_for(text)
+        len = text.to_s.length
+        return 84 if len <= 14
+        return 72 if len <= 22
+        return 60 if len <= 32
+        return 50 if len <= 48
+        44
+      end
+    end
+  end
+end

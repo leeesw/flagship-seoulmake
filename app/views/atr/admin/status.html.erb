@@ -1,0 +1,114 @@
+<!-- app/views/atr/admin/status.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ATR Status</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif;max-width:1100px;margin:24px auto;padding:0 12px;}
+    h1{margin:0 0 12px;}
+    .summary{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px;}
+    .chip{border-radius:20px;padding:6px 10px;background:#f5f5f5;border:1px solid #eee;font-size:13px}
+    .ok{background:#e7f8ed;border-color:#bfe8cd}
+    .skipped{background:#fff7e6;border-color:#ffe3ab}
+    .error{background:#ffe8e8;border-color:#ffc4c4}
+    .controls{display:flex;gap:10px;align-items:center;margin:8px 0 16px;}
+    table{width:100%;border-collapse:collapse;}
+    th,td{padding:8px;border-bottom:1px solid #eee;font-size:14px;vertical-align:top;}
+    th{background:#fafafa;text-align:left;}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .muted{color:#777}
+    .badge{display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid #ddd;background:#fafafa;font-size:12px}
+    .state-ok{background:#e7f8ed;border-color:#bfe8cd}
+    .state-skip{background:#fff7e6;border-color:#ffe3ab}
+    .state-err{background:#ffe8e8;border-color:#ffc4c4}
+  </style>
+  <% if params[:refresh].present? %>
+    <script>
+      // ?refresh=10 같이 주면 N초 후 새로고침
+      setTimeout(function(){ location.reload(); }, <%= params[:refresh].to_i * 1000 %>);
+    </script>
+  <% end %>
+</head>
+<body>
+  <h1>ATR Status</h1>
+
+  <div class="summary">
+    <div class="chip ok">SEO ok: <strong><%= @summary.dig(:seo, :ok) || 0 %></strong></div>
+    <div class="chip skipped">SEO skipped: <strong><%= @summary.dig(:seo, :skipped) || 0 %></strong></div>
+    <div class="chip error">SEO error: <strong><%= @summary.dig(:seo, :error) || 0 %></strong></div>
+
+    <div class="chip ok">FI ok: <strong><%= @summary.dig(:fi, :ok) || 0 %></strong></div>
+    <div class="chip skipped">FI skipped: <strong><%= @summary.dig(:fi, :skipped) || 0 %></strong></div>
+    <div class="chip error">FI error: <strong><%= @summary.dig(:fi, :error) || 0 %></strong></div>
+
+    <div class="chip">총 행: <strong><%= @summary[:total_rows] || (@rows&.size || 0) %></strong></div>
+    <div class="chip">생성시각: <strong><%= @generated_at %></strong></div>
+  </div>
+
+  <div class="controls">
+    <form method="get" action="<%= atr_admin_status_path %>">
+      <label>표시 개수
+        <select name="limit">
+          <% [50,100,200,500,1000].each do |n| %>
+            <option value="<%= n %>" <%= 'selected' if params[:limit].to_i == n %>><%= n %></option>
+          <% end %>
+        </select>
+      </label>
+      <label>자동 새로고침(초)
+        <input type="number" min="0" step="5" name="refresh" value="<%= params[:refresh].presence || '' %>" placeholder="예: 10" />
+      </label>
+      <button type="submit">적용</button>
+      <a class="badge" href="<%= atr_admin_status_data_path(limit: (params[:limit] || 200)) %>">JSON</a>
+    </form>
+
+    <%= button_to "Reindex (log 재스캔)", atr_admin_status_reindex_path, method: :post, form: {style:"display:inline"} %>
+    <a class="badge" href="<%= atr_admin_path %>">Admin 홈</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:140px">시각(UTC)</th>
+        <th style="width:90px">Post ID</th>
+        <th>태그</th>
+        <th style="width:180px">SEO</th>
+        <th style="width:200px">Featured Image</th>
+        <th style="width:120px">링크</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rows.each do |r| %>
+        <tr>
+          <td class="mono"><%= r[:at] %></td>
+          <td class="mono"><%= r[:post_id] %></td>
+          <td><span class="badge"><%= r[:tags] || "unknown" %></span></td>
+          <td>
+            <% st = (r[:seo] || {})[:state] %>
+            <% ver = (r[:seo] || {})[:ver] %>
+            <% reason = (r[:seo] || {})[:reason] %>
+            <span class="badge <%= {'ok'=>'state-ok','skipped'=>'state-skip','error'=>'state-err'}[st] %>">
+              SEO: <%= st || 'unknown' %><%== ver ? " (v#{ver})" : "" %>
+            </span>
+            <% if reason %><div class="muted">reason: <%= reason %></div><% end %>
+          </td>
+          <td>
+            <% fst = (r[:fi] || {})[:state] %>
+            <% att = (r[:fi] || {})[:attachment_id] %>
+            <% freason = (r[:fi] || {})[:reason] %>
+            <span class="badge <%= {'ok'=>'state-ok','skipped'=>'state-skip','error'=>'state-err'}[fst] %>">
+              FI: <%= fst || 'unknown' %><%== att ? " (#"+att.to_s+")" : "" %>
+            </span>
+            <% if freason %><div class="muted">reason: <%= freason %></div><% end %>
+          </td>
+          <td>
+            <a href="https://seoulmake.com/?p=<%= r[:post_id] %>" target="_blank">View</a>
+            &nbsp;|&nbsp;
+            <a href="https://seoulmake.com/wp-admin/post.php?post=<%= r[:post_id] %>&action=edit" target="_blank">Edit</a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>
+</html>

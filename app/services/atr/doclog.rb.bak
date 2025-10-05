@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+require "fileutils"
+require "json"
+require "socket"
+require "time"
+
+module Atr
+  # 팀 온보딩/감사 추적을 위해 docs/ 아래에 "사실 기록(evidence)"를 남기는 초경량 로거.
+  #
+  # - JSON Lines(ndjson)로 저장: docs/logs/<section>/<YYYY>/<YYYY-MM-DD>.ndjson
+  # - 스냅샷(요약/표/CSV 등)은 docs/snapshots/<section>/<YYYY-MM>/
+  # - 운영 영향 0: 파일만 append. 실패해도 본 처리 로직에 영향 X.
+  #
+  class Doclog
+    ROOT = Rails.root.join("docs").freeze
+
+    # section: "seo_automation/dry", "seo_automation/applied", "seo_automation/error" 등
+    # payload: 직렬화 가능한 Hash
+    def self.log(section, payload)
+      t = Time.now.utc
+      dir = ROOT.join("logs", section.to_s, t.strftime("%Y"))
+      FileUtils.mkdir_p(dir)
+
+      file = dir.join("#{t.strftime("%Y-%m-%d")}.ndjson")
+      rec  = {
+        ts:  t.iso8601,
+        host: Socket.gethostname,
+        pid: Process.pid,
+      }.merge(payload || {})
+
+      File.open(file, "a") { |f| f.puts(rec.to_json) }
+      file.to_s
+    rescue => e
+      # 로깅 실패는 무시(운영 로직 영향 X)
+      Rails.logger.warn("[Doclog] #{e.class}: #{e.message}") rescue nil
+      nil
+    end
+
+    # 사람이 읽는 스냅샷(표/CSV/요약 텍스트 등)을 월별 폴더에 저장
+    # 예) snapshot("ga4/score", name: "2025-09-29.csv", content: "...")
+    def self.snapshot(section, name:, content:)
+      t = Time.now.utc
+      dir = ROOT.join("snapshots", section.to_s, t.strftime("%Y-%m"))
+      FileUtils.mkdir_p(dir)
+      path = dir.join(name.to_s)
+      File.write(path, content.to_s)
+      path.to_s
+    rescue => e
+      Rails.logger.warn("[Doclog.snapshot] #{e.class}: #{e.message}") rescue nil
+      nil
+    end
+  end
+end

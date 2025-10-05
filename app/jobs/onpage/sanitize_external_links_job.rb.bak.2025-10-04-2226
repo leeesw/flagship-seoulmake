@@ -1,0 +1,184 @@
+# frozen_string_literal: true
+require "json"
+require "uri"
+
+class Onpage::SanitizeExternalLinksJob
+  include Sidekiq::Job
+  sidekiq_options queue: :llm_seo, retry: 5, backtrace: true
+
+  # mode: "dry"|"apply"
+  def perform(post_id, mode = "dry")
+    dry = (mode.to_s != "apply")
+    wp  = Atr::WpBridge.new
+
+    # 1) post/page 판단: 빈 값이면 post로 간주 + ENV로 필터
+    info  = wp.post_export(post_id: post_id)
+    ptype = (info["type"] || info["post_type"]).to_s.strip
+    ptype = "post" if ptype.empty? # 타입을 못 받으면 post로 간주 (페이지 오염 방지: 아래 ENV로 다시 거른다)
+
+    allowed_raw = (ENV["SANITIZE_POST_TYPES"] || "post").strip
+    if allowed_raw != "*" # "*"면 타입체크 생략(전부 허용)
+      allowed_types = allowed_raw.split(",").map { _1.strip.downcase }.reject(&:empty?)
+      unless allowed_types.include?(ptype.downcase)
+        dlog "onpage/sanitize_skip", { post_id:, reason: "type_not_allowed", type: ptype, allowed: allowed_types }
+        return
+      end
+    end
+
+    # 2) 내부 도메인 화이트리스트
+    whitelist = build_host_whitelist
+
+    # 3) 1차: WP 브리지로 위임
+    res = nil
+    begin
+      res = wp.sanitize_links(post_id: post_id, version: 1, dry_run: dry, whitelist: whitelist)
+    rescue => e
+      dlog "onpage/sanitize_bridge_error", { post_id:, error: e.message }
+      res = { "ok" => false, "error" => e.message }
+    end
+
+    # 4) APPLY 모드에서 브리지가 스킵하거나 실패했는데, 실제 외부 링크가 남아있으면 로컬 폴백
+    if !dry && (res.is_a?(Hash) && (res["skipped"] || !res["ok"]))
+      # 안전하게 최신 본문을 다시 읽어온다
+      begin
+        info  = wp.post_export(post_id: post_id)
+      rescue
+        # 실패 시 최초 info로 진행
+      end
+      html = info["content"].to_s
+
+      sanitized = local_sanitize_html(html, whitelist)
+
+      if sanitized && sanitized != html
+        saved = push_content(wp, post_id, sanitized)
+        dlog "onpage/sanitize_local_apply", { post_id:, changed: true, saved:, bridge_result: res }
+        Sidekiq.logger.info("[sanitize-local] post_id=#{post_id} saved=#{saved}")
+      else
+        dlog "onpage/sanitize_local_apply", { post_id:, changed: false, bridge_result: res }
+      end
+    else
+      evt = dry ? "onpage/sanitize_dry" : "onpage/sanitize_ok"
+      dlog evt, { post_id:, whitelist:, result: res }
+      Sidekiq.logger.info("[sanitize] post_id=#{post_id} dry=#{dry} result=#{res.to_json}")
+    end
+  rescue => e
+    dlog "onpage/sanitize_error", { post_id:, error: e.message }
+    raise
+  end
+
+  private
+
+  # 로컬 폴백: 외부 <a>만 제거(내부링크/텍스트/하위노드 보존)
+  def local_sanitize_html(html, whitelist)
+    begin
+      require "nokogiri"
+    rescue LoadError
+      Sidekiq.logger.warn("[sanitize-local] nokogiri not available; skipping local fallback")
+      return nil
+    end
+
+    frag = (defined?(Nokogiri::HTML5) ? Nokogiri::HTML5.fragment(html) : Nokogiri::HTML.fragment(html))
+
+    frag.css('a[href^="http"]').each do |a|
+      href = a["href"].to_s
+      host = (URI.parse(href).host rescue "").to_s.downcase
+      next if host.empty?
+      next if internal_host?(host, whitelist) # 내부면 유지
+      a.replace(a.children)                   # 외부면 <a>만 제거, 안의 텍스트/노드 보존
+    end
+
+    frag.to_html
+  end
+
+  def internal_host?(host, whitelist)
+    wl = Array(whitelist).compact.map(&:downcase)
+    wl.any? { |w| host == w || host.end_with?(".#{w}") }
+  end
+
+  # 컨텐츠 저장: 자동 탐지 + ENV 강제 지정 지원
+  #
+  # - SANITIZE_SAVE_METHOD 를 지정하면 그 메서드만 시도
+  # - 아니면 후보군을 순서대로 탐지/시도
+  def push_content(wp, post_id, new_html)
+    forced = ENV["SANITIZE_SAVE_METHOD"].to_s.strip
+    if !forced.empty? && wp.respond_to?(forced)
+      return try_save(wp, forced.to_sym, post_id, new_html)
+    end
+
+    candidates = [
+      :post_update,            # (post_id:, content:) 또는 (post_id, content)
+      :post_update_html,       # (post_id:, html:)
+      :post_import,            # (post_id:, content:)
+      :update_post,            # (id:, content:)
+      :replace_post_content,   # (post_id:, content:)
+      :save_post_content,      # (post_id:, content:)
+      :update,                 # (post_id:, content:) 형태의 범용 update
+    ]
+
+    candidates.each do |m|
+      next unless wp.respond_to?(m)
+      return true if try_save(wp, m, post_id, new_html)
+    end
+
+    # 무엇으로 저장해야 할 지 찾지 못한 경우, 디버깅용으로 가능한 공개 메서드 힌트 남김
+    begin
+      methods = wp.public_methods(false).grep(/post|content|update|import|save/)
+    rescue
+      methods = []
+    end
+    dlog "onpage/sanitize_local_save_miss", { post_id:, methods: methods }
+    false
+  end
+
+  # 다양한 시그니처를 관용적으로 시도
+  def try_save(wp, method_name, post_id, new_html)
+    calls = [
+      -> { wp.public_send(method_name, post_id: post_id, content: new_html) },
+      -> { wp.public_send(method_name, id: post_id, content: new_html) },
+      -> { wp.public_send(method_name, post_id: post_id, html: new_html) },
+      -> { wp.public_send(method_name, post_id, new_html) },
+      -> { wp.public_send(method_name, { post_id: post_id, content: new_html }) },
+    ]
+
+    calls.each do |call|
+      begin
+        call.call
+        return true
+      rescue ArgumentError
+        # 시그니처 불일치 → 다음 시도
+        next
+      rescue => e
+        dlog "onpage/sanitize_local_save_error_try", { post_id:, method: method_name, error: e.message }
+      end
+    end
+    false
+  end
+
+  def build_host_whitelist
+    hosts = []
+    begin
+      base_host = URI.parse(ENV["ATR_BASE"].to_s).host
+      if base_host && !base_host.empty?
+        hosts << base_host
+        hosts << "www.#{base_host}" unless base_host.start_with?("www.")
+      end
+    rescue
+      # no-op
+    end
+
+    %w[CDN_HOST S3_HOST CLOUDFRONT_HOST SANITIZE_HOST_WHITELIST].each do |k|
+      v = ENV[k]
+      next unless v && !v.strip.empty?
+      v.split(",").each { |x| hosts << x.strip }
+    end
+
+    hosts.compact.uniq
+  end
+
+  def dlog(event, payload = {})
+    return unless defined?(Atr::Doclog)
+    Atr::Doclog.log(event, payload)
+  rescue
+    # ignore logging failure
+  end
+end

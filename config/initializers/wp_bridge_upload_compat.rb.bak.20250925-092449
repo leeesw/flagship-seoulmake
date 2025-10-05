@@ -1,0 +1,220 @@
+require "net/http"
+require "uri"
+require "json"
+require "securerandom"
+require "base64"
+
+module Atr
+  class WpBridge
+    # ------------------------------------------------------------------------
+    # Media 업로드 (/wp/v2/media)
+    # 반환: { id: Integer, source_url: String, raw: Hash }
+    # ------------------------------------------------------------------------
+    def upload_media!(file_path:, filename: nil, title: nil, alt: nil, mime: nil)
+      raise "file not found: #{file_path}" unless File.exist?(file_path)
+
+      uri = URI.parse("#{wp_api_base}/media")
+
+      user, pass = wp_credentials
+      boundary = "----atr#{SecureRandom.hex(8)}"
+      fn  = (filename && !filename.empty?) ? filename : File.basename(file_path)
+      mt  = mime.to_s.empty? ? mime_type_from_ext(fn) : mime
+      bin = File.binread(file_path)
+
+      form_parts = []
+      form_parts << build_file_part("file", fn, mt, bin, boundary)
+      form_parts << build_field_part("title",    title, boundary) if title && !title.empty?
+      form_parts << build_field_part("alt_text", alt,   boundary) if alt   && !alt.empty?
+      form_parts << "--#{boundary}--\r\n"
+      body = form_parts.join
+
+      req = Net::HTTP::Post.new(uri)
+      req["Authorization"] = "Basic #{Base64.strict_encode64("#{user}:#{pass}")}"
+      req["Content-Type"]  = "multipart/form-data; boundary=#{boundary}"
+      req["Accept"]        = "application/json"
+      req.body = body
+
+      res = http_request(uri, req)
+      raise "HTTP #{res.code}: #{res.body}" unless res.is_a?(Net::HTTPSuccess)
+
+      json = JSON.parse(res.body)
+      src  = prefer_cf_host(json["source_url"])
+      { id: json["id"], source_url: src, raw: json }
+    end
+
+    # ------------------------------------------------------------------------
+    # 대표이미지(썸네일) 지정 (/wp/v2/posts/:id)
+    # ------------------------------------------------------------------------
+    def update_post_featured_media(post_id:, attachment_id:)
+      payload = { featured_media: Integer(attachment_id) }
+      json = http_json(:post, "/posts/#{post_id}", payload)
+      json
+    end
+
+    # 여러 이름으로 불려도 다 수용
+    alias set_featured_media  update_post_featured_media
+    alias set_featured        update_post_featured_media
+    alias set_post_thumbnail  update_post_featured_media
+    alias set_featured_image  update_post_featured_media
+    alias set_featured_image! update_post_featured_media
+
+    # ------------------------------------------------------------------------
+    # (옵션) RankMath 소셜 이미지 지정
+    #  - attachment_id 또는 image_url 중 하나 제공
+    #  - 실패해도 파이프라인을 막지 않도록 예외는 삼키고 결과 리턴
+    # ------------------------------------------------------------------------
+    def set_rankmath_social_images(post_id:, attachment_id: nil, image_url: nil)
+      url = image_url
+      if url.nil? && attachment_id
+        begin
+          url = get_media_url(attachment_id)
+        rescue
+          # ignore, 계속 진행
+        end
+      end
+      url = prefer_cf_host(url) if url
+
+      meta = {}
+      meta["rank_math_facebook_image"]      = Integer(attachment_id) if attachment_id
+      meta["rank_math_twitter_image"]       = Integer(attachment_id) if attachment_id
+      meta["rank_math_facebook_image_url"]  = url if url
+      meta["rank_math_twitter_image_url"]   = url if url
+      return { ok: false, skipped: true, reason: "no social fields to set" } if meta.empty?
+
+      begin
+        json = http_json(:post, "/posts/#{post_id}", { meta: meta }, raise_on_error: false)
+        if json.is_a?(Hash) && json["_http_error_"]
+          return { ok: false, error: "HTTP #{json["code"]}", body: json["body"] }
+        end
+        { ok: true, result: json }
+      rescue => e
+        { ok: false, error: e.message }
+      end
+    end
+
+    # 별칭(파이프라인이 어떤 이름을 호출해도 대응)
+    alias set_social            set_rankmath_social_images
+    alias set_social_image      set_rankmath_social_images
+    alias set_social_images     set_rankmath_social_images
+    alias set_open_graph_image  set_rankmath_social_images
+    alias set_og_image          set_rankmath_social_images
+    alias set_og_images         set_rankmath_social_images
+    alias set_rankmath_social   set_rankmath_social_images
+
+    private
+
+    # ---- 공통 HTTP(JSON) ----
+    def http_json(method, path, payload = nil, raise_on_error: true)
+      base = wp_api_base
+      uri  = URI.parse(base + (path.start_with?("/") ? path : "/#{path}"))
+
+      req =
+        case method.to_sym
+        when :get   then Net::HTTP::Get.new(uri)
+        when :post  then Net::HTTP::Post.new(uri)
+        when :put   then Net::HTTP::Put.new(uri)
+        when :patch then Net::HTTP::Patch.new(uri)
+        else             Net::HTTP::Post.new(uri)
+        end
+
+      user, pass = wp_credentials
+      req["Authorization"] = "Basic #{Base64.strict_encode64("#{user}:#{pass}")}"
+      req["Accept"]        = "application/json"
+      if payload
+        req["Content-Type"] = "application/json"
+        req.body = JSON.dump(payload)
+      end
+
+      res = http_request(uri, req)
+      unless res.is_a?(Net::HTTPSuccess)
+        if raise_on_error
+          raise "HTTP #{res.code}: #{res.body}"
+        else
+          return { "_http_error_" => true, "code" => res.code, "body" => res.body }
+        end
+      end
+      JSON.parse(res.body)
+    end
+
+    def http_request(uri, req)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      http.open_timeout = 20
+      http.read_timeout = 60
+      http.start { http.request(req) }
+    end
+
+    # ---- WP API Base / 크리덴셜 ----
+    def wp_api_base
+      if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_api_base) && !Atr::Config.wp_api_base.to_s.empty?
+        Atr::Config.wp_api_base.to_s
+      elsif ENV["WP_API_BASE"].to_s != ""
+        ENV["WP_API_BASE"].to_s
+      elsif defined?(Atr::Config) && Atr::Config.respond_to?(:base) && !Atr::Config.base.to_s.empty?
+        "#{Atr::Config.base.to_s.sub(%r{/\z}, "")}/wp-json/wp/v2"
+      else
+        raise "WP API base missing (set WP_API_BASE or ATR_BASE)"
+      end
+    end
+
+    def wp_credentials
+      user =
+        if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_user) && !Atr::Config.wp_user.to_s.empty?
+          Atr::Config.wp_user
+        else
+          ENV["WP_USER"] || ENV["WP_USERNAME"]
+        end
+      pass =
+        if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_app_pw) && !Atr::Config.wp_app_pw.to_s.empty?
+          Atr::Config.wp_app_pw
+        else
+          ENV["WP_APP_PW"] || ENV["WP_PASSWORD"]
+        end
+      raise "WP credentials missing" if user.to_s.empty? || pass.to_s.empty?
+      [user, pass]
+    end
+
+    # ---- 유틸 ----
+    def get_media_url(attachment_id)
+      json = http_json(:get, "/media/#{Integer(attachment_id)}")
+      prefer_cf_host(json["source_url"])
+    end
+
+    def prefer_cf_host(url)
+      host = ENV["ATR_FI_CF_HOST"].to_s
+      return url if url.to_s.empty? || host.empty?
+      begin
+        u = URI.parse(url)
+        u.scheme = "https"
+        u.host   = host
+        u.to_s
+      rescue
+        url
+      end
+    end
+
+    def build_field_part(name, value, boundary)
+      "--#{boundary}\r\n" \
+      "Content-Disposition: form-data; name=\"#{name}\"\r\n\r\n" \
+      "#{value}\r\n"
+    end
+
+    def build_file_part(name, filename, mime, binary, boundary)
+      "--#{boundary}\r\n" \
+      "Content-Disposition: form-data; name=\"#{name}\"; filename=\"#{filename}\"\r\n" \
+      "Content-Type: #{mime}\r\n\r\n" \
+      "#{binary}\r\n"
+    end
+
+    def mime_type_from_ext(filename)
+      ext = File.extname(filename).downcase
+      case ext
+      when ".png"          then "image/png"
+      when ".jpg", ".jpeg" then "image/jpeg"
+      when ".webp"         then "image/webp"
+      when ".gif"          then "image/gif"
+      else                      "application/octet-stream"
+      end
+    end
+  end
+end

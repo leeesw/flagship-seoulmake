@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="${ATR_DOCLOG_ROOT:-docs/logs}"
+JOB="${1:-seo_automation}"
+FILE="$(ls -t "${ROOT}/${JOB}/"*.jsonl 2>/dev/null | head -n1 || true)"
+[ -z "${FILE}" ] && { echo "no logs for ${JOB}"; exit 0; }
+echo "== ${FILE} =="
+tail -n 200 "${FILE}"

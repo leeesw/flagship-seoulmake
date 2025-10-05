@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ATR Runner Status</title>
+  <style>
+    :root{--bg:#0b0e11;--fg:#e8eef5;--muted:#9fb2c7;--ok:#13c27a;--warn:#f5a524;--err:#ef4444;--card:#11161c;--line:#1f2a36;}
+    *{box-sizing:border-box;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Apple Color Emoji,Segoe UI Emoji;}
+    body{margin:0;background:var(--bg);color:var(--fg)}
+    header{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    header h1{font-size:18px;margin:0 12px 0 0}
+    header button,header select{background:#18212b;border:1px solid var(--line);color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer}
+    header button:hover{background:#1b2632}
+    header .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:12px}
+    main{padding:12px}
+    table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    thead th{font-weight:600;text-align:left;font-size:12px;color:var(--muted);padding:10px;border-bottom:1px solid var(--line);background:#10161d}
+    tbody td{padding:12px;border-top:1px solid var(--line);font-size:14px;vertical-align:top}
+    tbody tr:hover{background:#121a22}
+    code{background:#0d131a;border:1px solid var(--line);padding:2px 6px;border-radius:6px}
+    .state{font-weight:600}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
+    .muted{color:var(--muted)}
+    .small{font-size:12px;color:var(--muted)}
+    .nowrap{white-space:nowrap}
+    .wrap{word-break:break-all}
+    .right{display:flex;gap:8px;align-items:center;margin-left:auto}
+    a{color:#79b8ff;text-decoration:none} a:hover{text-decoration:underline}
+    footer{padding:10px 20px;color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>ATR Runner Status</h1>
+  <span class="pill" id="last-updated">-</span>
+  <div class="right">
+    <label class="small">Filter:
+      <select id="filter">
+        <option value="">All</option>
+        <option value="seo_ok">SEO=ok</option>
+        <option value="seo_skipped">SEO=skipped</option>
+        <option value="fi_ok">FI=ok</option>
+        <option value="fi_skipped">FI=skipped</option>
+        <option value="fi_error">FI=error</option>
+      </select>
+    </label>
+    <select id="limit">
+      <option>20</option><option selected>50</option><option>100</option><option>200</option>
+    </select>
+    <button id="refresh">Refresh</button>
+    <button id="toggle">Auto: ON</button>
+    <button id="run">Run now</button>
+  </div>
+</header>
+
+<main>
+  <table>
+    <thead>
+      <tr>
+        <th class="nowrap">When</th>
+        <th>Post</th>
+        <th>SEO</th>
+        <th>FI</th>
+        <th>FI detail</th>
+        <th>Featured</th>
+      </tr>
+    </thead>
+    <tbody id="rows"><tr><td colspan="6" class="small muted">Loading…</td></tr></tbody>
+  </table>
+</main>
+
+<footer>
+  Uses <code>/atr/admin/status/data</code> and <code>/atr/admin/run</code>. Auto-refresh every 30s.
+</footer>
+
+<script>
+const S = { timer:null, auto:true };
+const $ = (s)=>document.querySelector(s);
+
+function fmtTime(s){
+  try{
+    if(!s) return "-";
+    const d = new Date(s);
+    return d.toLocaleString();
+  }catch(_){ return s||"-"; }
+}
+function cls(v, ok='ok', warn='warn', err='err'){
+  if(v==='ok') return ok;
+  if(v==='skipped'||v==='unknown') return 'muted';
+  if(v==='error'||v==='fail') return err;
+  return '';
+}
+function wpEditLink(id){ return `https://seoulmake.com/wp-admin/post.php?post=${id}&action=edit`; }
+function mediaLink(id){ return id ? `https://seoulmake.com/wp-admin/post.php?post=${id}&action=edit` : null; }
+
+async function load(){
+  const limit = parseInt($('#limit').value,10)||50;
+  const f = $('#filter').value;
+  const url = `/atr/admin/status/data?limit=${limit}`;
+  const res = await fetch(url,{cache:'no-cache'});
+  const data = await res.json();
+  const rows = (data.rows||[]).slice();
+
+  // basic filters on client
+  const filtered = rows.filter(r=>{
+    if(!f) return true;
+    if(f==='seo_ok') return r.seo_state==='ok';
+    if(f==='seo_skipped') return r.seo_state==='skipped';
+    if(f==='fi_ok') return r.fi_state==='ok';
+    if(f==='fi_skipped') return r.fi_state==='skipped';
+    if(f==='fi_error') return (r.fi_state==='error');
+    return true;
+  });
+
+  $('#rows').innerHTML = filtered.map(r=>{
+    const pid = r.post_id;
+    const fi  = r.fi || {};
+    const att = fi.attachment_id || '-';
+    const reason = fi.reason || '-';
+    const src = fi.source_url || '-';
+    const when = r.updated_at || r.created_at || r.ts || null;
+
+    return `<tr>
+      <td class="small nowrap">${fmtTime(when)}</td>
+      <td>
+        <div><a href="${wpEditLink(pid)}" target="_blank">#${pid}</a></div>
+        ${r.title ? `<div class="small wrap">${r.title}</div>`:''}
+      </td>
+      <td class="state ${cls(r.seo_state)}">${r.seo_state||'-'}</td>
+      <td class="state ${cls(r.fi_state)}">${r.fi_state||'-'}</td>
+      <td class="small wrap">${reason}</td>
+      <td class="small wrap">${att}${src && src!=='-' ? ` &middot; <a href="${src}" target="_blank">open</a>` : ''}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="6" class="small muted">No rows</td></tr>`;
+
+  $('#last-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+}
+
+$('#refresh').onclick = load;
+$('#limit').onchange = load;
+$('#filter').onchange = load;
+$('#toggle').onclick = ()=>{
+  S.auto = !S.auto;
+  $('#toggle').textContent = 'Auto: ' + (S.auto ? 'ON' : 'OFF');
+  if(S.auto){ start(); } else { stop(); }
+};
+$('#run').onclick = async ()=>{
+  const btn = $('#run');
+  const txt = btn.textContent;
+  btn.textContent = 'Running…';
+  btn.disabled = true;
+  try{
+    await fetch('/atr/admin/run', {method:'POST', redirect:'follow'});
+    await load();
+  }catch(e){ console.error(e); }
+  btn.disabled = false;
+  btn.textContent = txt;
+};
+
+function start(){ stop(); S.timer = setInterval(load, 30000); }
+function stop(){ if(S.timer){ clearInterval(S.timer); S.timer=null; } }
+
+load(); start();
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+# frozen_string_literal: true
+require "net/http"
+require "uri"
+require "json"
+require "securerandom"
+require "base64"
+
+module Atr
+  class WpBridge
+    #
+    # ---------- Public: Media upload ----------
+    #
+    # Uploads a file to WP REST /wp/v2/media
+    # Returns: { id: Integer, source_url: String, raw: Hash }
+    #
+    def upload_media!(file_path:, filename: nil, title: nil, alt: nil, mime: nil)
+      raise "file not found: #{file_path}" unless File.exist?(file_path)
+
+      base = wp_api_base
+      uri  = URI.parse("#{base}/media")
+
+      fn  = (filename && !filename.empty?) ? filename : File.basename(file_path)
+      mt  = mime.to_s.empty? ? mime_type_from_ext(fn) : mime
+      bin = File.binread(file_path)
+      boundary = "----atr#{SecureRandom.hex(8)}"
+
+      parts = []
+      parts << build_file_part("file", fn, mt, bin, boundary)
+      parts << build_field_part("title", title, boundary)    if title && !title.empty?
+      parts << build_field_part("alt_text", alt, boundary)   if alt && !alt.empty?
+      parts << "--#{boundary}--\r\n"
+      body = parts.join
+
+      req = Net::HTTP::Post.new(uri)
+      req["Authorization"] = basic_auth_header
+      req["Content-Type"]  = "multipart/form-data; boundary=#{boundary}"
+      req["Accept"]        = "application/json"
+      req.body = body
+
+      res = do_http(uri, req)
+      raise "HTTP #{res.code}: #{res.body}" unless res.is_a?(Net::HTTPSuccess)
+
+      json = safe_json(res.body)
+      { id: json["id"], source_url: json["source_url"], raw: json }
+    end
+
+    #
+    # ---------- Public: Featured image ----------
+    #
+    # Sets featured image (post thumbnail) for a post.
+    # Returns: { ok: true/false, id: post_id, featured_media: attachment_id, raw: Hash }
+    #
+    def set_featured_media(post_id:, attachment_id:)
+      base = wp_api_base
+      uri  = URI.parse("#{base}/posts/#{Integer(post_id)}")
+
+      req = Net::HTTP::Post.new(uri) # WP REST updates accept POST
+      req["Authorization"] = basic_auth_header
+      req["Content-Type"]  = "application/json"
+      req["Accept"]        = "application/json"
+      req.body = JSON.dump({ featured_media: Integer(attachment_id) })
+
+      res  = do_http(uri, req)
+      json = safe_json(res.body)
+      { ok: res.is_a?(Net::HTTPSuccess), id: json["id"], featured_media: json["featured_media"], raw: json }
+    rescue => e
+      { ok: false, error: e.message }
+    end
+
+    # Friendly aliases
+    def set_featured(post_id:, attachment_id:)       = set_featured_media(post_id: post_id, attachment_id: attachment_id)
+    def set_post_thumbnail(post_id:, attachment_id:) = set_featured_media(post_id: post_id, attachment_id: attachment_id)
+    def set_featured_image(post_id:, attachment_id:) = set_featured_media(post_id: post_id, attachment_id: attachment_id)
+
+    #
+    # ---------- Public: RankMath social images ----------
+    #
+    # Best-effort update of RankMath social image meta via REST.
+    # Returns: { ok: true/false, raw: Hash, error?: String }
+    #
+    def set_rankmath_social_images(post_id:, image_url:)
+      base = wp_api_base
+      uri  = URI.parse("#{base}/posts/#{Integer(post_id)}")
+
+      payload = {
+        meta: {
+          "rank_math_facebook_image" => image_url,
+          "rank_math_twitter_image"  => image_url
+        }
+      }
+
+      req = Net::HTTP::Post.new(uri)
+      req["Authorization"] = basic_auth_header
+      req["Content-Type"]  = "application/json"
+      req["Accept"]        = "application/json"
+      req.body = JSON.dump(payload)
+
+      res  = do_http(uri, req)
+      json = safe_json(res.body)
+      { ok: res.is_a?(Net::HTTPSuccess), raw: json }
+    rescue => e
+      { ok: false, error: e.message }
+    end
+
+    # Aliases
+    def set_social(post_id:, image_url:)       = set_rankmath_social_images(post_id: post_id, image_url: image_url)
+    def set_social_image(post_id:, image_url:) = set_rankmath_social_images(post_id: post_id, image_url: image_url)
+
+    #
+    # ---------- Public: meta_versions ----------
+    #
+    # Reads seo/fi versions from post meta.
+    # Returns: { seo: Integer, fi: Integer } (on error includes :error)
+    #
+    def meta_versions(post_id)
+      base = wp_api_base
+      uri  = URI.parse("#{base}/posts/#{Integer(post_id)}?context=edit")
+
+      req = Net::HTTP::Get.new(uri)
+      req["Authorization"] = basic_auth_header
+      req["Accept"]        = "application/json"
+
+      res  = do_http(uri, req)
+      json = safe_json(res.body)
+      meta = json["meta"] || {}
+
+      seo = begin
+        Integer(meta["seo_ver"] || meta["atr_seo_ver"] || meta["sm_seo_ver"] || 0)
+      rescue
+        0
+      end
+
+      fi = begin
+        Integer(meta["fi_ver"] || meta["atr_fi_ver"] || meta["sm_fi_ver"] || 0)
+      rescue
+        0
+      end
+
+      { seo: seo, fi: fi }
+    rescue => e
+      { seo: 0, fi: 0, error: e.message }
+    end
+
+    private
+
+    # --- low-level helpers ---
+
+    def wp_api_base
+      if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_api_base) && !Atr::Config.wp_api_base.to_s.empty?
+        Atr::Config.wp_api_base.to_s
+      elsif ENV["WP_API_BASE"].to_s != ""
+        ENV["WP_API_BASE"].to_s
+      elsif defined?(Atr::Config) && Atr::Config.respond_to?(:base) && !Atr::Config.base.to_s.empty?
+        "#{Atr::Config.base.to_s.sub(%r{/\z}, "")}/wp-json/wp/v2"
+      else
+        raise "WP API base missing (set WP_API_BASE or ATR_BASE)"
+      end
+    end
+
+    def wp_user
+      if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_user) && !Atr::Config.wp_user.to_s.empty?
+        Atr::Config.wp_user
+      else
+        ENV["WP_USER"] || ENV["WP_USERNAME"]
+      end
+    end
+
+    def wp_pass
+      if defined?(Atr::Config) && Atr::Config.respond_to?(:wp_app_pw) && !Atr::Config.wp_app_pw.to_s.empty?
+        Atr::Config.wp_app_pw
+      else
+        ENV["WP_APP_PW"] || ENV["WP_PASSWORD"]
+      end
+    end
+
+    def basic_auth_header
+      user = wp_user
+      pass = wp_pass
+      raise "WP credentials missing" if user.to_s.empty? || pass.to_s.empty?
+      "Basic #{Base64.strict_encode64("#{user}:#{pass}")}"
+    end
+
+    def do_http(uri, req)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      http.open_timeout = 20
+      http.read_timeout = 60
+      http.start { http.request(req) }
+    end
+
+    def safe_json(body)
+      JSON.parse(body)
+    rescue
+      {}
+    end
+
+    # --- multipart helpers for upload_media! ---
+
+    def build_field_part(name, value, boundary)
+      "--#{boundary}\r\n" \
+      "Content-Disposition: form-data; name=\"#{name}\"\r\n\r\n" \
+      "#{value}\r\n"
+    end
+
+    def build_file_part(name, filename, mime, binary, boundary)
+      "--#{boundary}\r\n" \
+      "Content-Disposition: form-data; name=\"#{name}\"; filename=\"#{filename}\"\r\n" \
+      "Content-Type: #{mime}\r\n\r\n" \
+      "#{binary}\r\n"
+    end
+
+    def mime_type_from_ext(filename)
+      case File.extname(filename).downcase
+      when ".png"         then "image/png"
+      when ".jpg", ".jpeg" then "image/jpeg"
+      when ".webp"        then "image/webp"
+      when ".gif"         then "image/gif"
+      else "application/octet-stream"
+      end
+    end
+  end
+end
