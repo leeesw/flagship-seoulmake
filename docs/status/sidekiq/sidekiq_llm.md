@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 165069
 - **Since**: Mon 2025-10-06 21:15:34 KST
-- **Generated**: 2025-10-06T12:20:57Z
+- **Generated**: 2025-10-06T12:25:37Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,9 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 20:59:03 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.448Z pid=4149844 tid=2gws4 INFO: Shutting down
-Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.449Z pid=4149844 tid=2gws4 INFO: Terminating quiet threads for default capsule
 Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.449Z pid=4149844 tid=2h4fg INFO: Scheduler exiting...
 Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.949Z pid=4149844 tid=2h4k4 INFO: Pausing to allow jobs to finish...
 Oct 06 20:59:05 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:05.450Z pid=4149844 tid=2gws4 INFO: Bye!
@@ -62,4 +59,7 @@ Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.612Z pid=16
 Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.348Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa INFO: start
 Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.476Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa INFO: [score] skip update_post_id=5123 (no marker)
 Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.477Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa elapsed=0.128 INFO: done
+Oct 06 21:23:48 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:23:48.301Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=fdbc8c82f0f3ad373f94f70d INFO: start
+Oct 06 21:23:48 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:23:48.563Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=fdbc8c82f0f3ad373f94f70d INFO: [score] skip update_post_id=5123 (no marker)
+Oct 06 21:23:48 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:23:48.563Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=fdbc8c82f0f3ad373f94f70d elapsed=0.262 INFO: done
 ```
