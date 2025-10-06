@@ -3,22 +3,15 @@
 - **Active**: active (running)
 - **PID**: 412043
 - **Since**: Mon 2025-10-06 22:15:18 KST
-- **Generated**: 2025-10-06T13:20:29Z
+- **Generated**: 2025-10-06T13:25:27Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
-- retries: **1**
-- dead: **3**
+- retries: **0**
+- dead: **4**
 
 ## Recent logs (last 50)
 ```
-Oct 06 22:15:20 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:20.335Z pid=412043 tid=8v8r INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
-Oct 06 22:15:25 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:25.605Z pid=412043 tid=9037 class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 INFO: start
-Oct 06 22:15:29 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:29.380Z pid=412043 tid=9037 class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 INFO: [score] content replaced base_id=40000 from update_id=40001
-Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:30.152Z pid=412043 tid=9037 class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 elapsed=4.548 INFO: fail
-Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:30.152Z pid=412043 tid=9037 WARN: {"context":"Job raised exception","job":{"retry":5,"queue":"llm_score","args":[40001],"class":"Score::ProcessUpdatePostJob","jid":"78b39da46fcb1957b5dccef3","created_at":1759756525.603936,"enqueued_at":1759756525.6040416}}
-Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:30.152Z pid=412043 tid=9037 WARN: RuntimeError: 400 Bad Request: {"code":"rest_invalid_param","message":"\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \ud30c\ub77c\ubbf8\ud130: status","data":{"status":400,"params":{"status":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4."},"details":{"status":{"code":"rest_not_in_enum","message":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4.","data":null}}}}
-Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:30.153Z pid=412043 tid=9037 WARN: app/services/atr/wp_client_update_support.rb:70:in 'Atr::WpClientUpdateSupport#_wp_json_request'
 Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: app/services/atr/wp_client_update_support.rb:22:in 'Atr::WpClientUpdateSupport#trash_post!'
 Oct 06 22:15:30 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:35:in 'Score::ProcessUpdatePostJob#perform'
 Oct 06 22:15:52 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:15:52.403Z pid=412043 tid=8zzf class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 INFO: start
@@ -62,4 +55,11 @@ Oct 06 22:19:21 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:19:21.764Z pid=41
 Oct 06 22:19:21 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:19:21.764Z pid=412043 tid=90p7 WARN: app/services/atr/wp_client_update_support.rb:70:in 'Atr::WpClientUpdateSupport#_wp_json_request'
 Oct 06 22:19:21 ip-172-31-11-160 bundle[412043]: app/services/atr/wp_client_update_support.rb:22:in 'Atr::WpClientUpdateSupport#trash_post!'
 Oct 06 22:19:21 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:35:in 'Score::ProcessUpdatePostJob#perform'
+Oct 06 22:23:57 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:57.932Z pid=412043 tid=90pv class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 INFO: start
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:58.051Z pid=412043 tid=90pv class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 INFO: Adding dead Score::ProcessUpdatePostJob job 78b39da46fcb1957b5dccef3
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:58.052Z pid=412043 tid=90pv class=Score::ProcessUpdatePostJob jid=78b39da46fcb1957b5dccef3 elapsed=0.12 INFO: fail
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:58.052Z pid=412043 tid=90pv WARN: {"context":"Job raised exception","job":{"retry":5,"queue":"llm_score","args":[40001],"class":"Score::ProcessUpdatePostJob","jid":"78b39da46fcb1957b5dccef3","created_at":1759756525.603936,"enqueued_at":1759757037.932153,"error_message":"400 Bad Request: {\"code\":\"rest_invalid_param\",\"message\":\"\\uc720\\ud6a8\\ud558\\uc9c0 \\uc54a\\uc740 \\ud30c\\ub77c\\ubbf8\\ud130: status\",\"data\":{\"status\":400,\"params\":{\"status\":\"status\\uc740(\\ub294) publish, future, draft, pending, private, \\uadf8\\ub9ac\\uace0 acf-disabled\\uc911 \\ud558\\ub098\\uac00 \\uc544\\ub2d9\\ub2c8\\ub2e4.\"},\"details\":{\"status\":{\"code\":\"rest_not_in_enum\",\"message\":\"status\\uc740(\\ub294) publish, future, draft, pending, private, \\uadf8\\ub9ac\\uace0 acf-disabled\\uc911 \\ud558\\ub098\\uac00 \\uc544\\ub2d9\\ub2c8\\ub2e4.\",\"data\":null}}}}","error_class":"RuntimeError","failed_at":1759756530.1521256,"retry_count":4,"retried_at":1759756761.7639687}}
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:58.052Z pid=412043 tid=90pv WARN: RuntimeError: HTTP 401 Unauthorized
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:23:58.052Z pid=412043 tid=90pv WARN: config/initializers/zz_wp_client_fix.rb:19:in 'Atr::WpClient.get_post'
+Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:15:in 'Score::ProcessUpdatePostJob#perform'
 ```
