@@ -1,6 +1,6 @@
 # ALERTS
 
-- Generated: 2025-10-06T17:30:57Z
+- Generated: 2025-10-06T17:35:38Z
 - Window: 1 hour ago
 - Thresholds: queue>20, retries>10, dead>1, errors>10
 
