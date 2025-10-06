@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 228854
 - **Since**: Mon 2025-10-06 21:29:29 KST
-- **Generated**: 2025-10-06T12:30:40Z
+- **Generated**: 2025-10-06T12:35:32Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,9 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 21:12:05 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
-Oct 06 21:12:06 ip-172-31-11-160 bundle[114515]: 2025-10-06T12:12:06.246Z pid=114515 tid=29sj INFO: Pausing to allow jobs to finish...
-Oct 06 21:12:07 ip-172-31-11-160 bundle[114515]: 2025-10-06T12:12:07.247Z pid=114515 tid=2bjn INFO: Bye!
 Oct 06 21:12:07 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
 Oct 06 21:12:07 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
 Oct 06 21:12:07 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 2.845s CPU time, 110.2M memory peak, 0B memory swap peak.
@@ -62,4 +59,7 @@ Oct 06 21:29:31 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:29:31.630Z pid=22
 Oct 06 21:29:31 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:29:31.630Z pid=228854 tid=4riu INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
 Oct 06 21:29:31 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:29:31.630Z pid=228854 tid=4riu INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
 Oct 06 21:29:31 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:29:31.632Z pid=228854 tid=4riu INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 06 21:31:39 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:31:39.339Z pid=228854 tid=4q1a class=Score::ProcessUpdatePostJob jid=ba925a2d3e4f9a17aa5eddc9 INFO: start
+Oct 06 21:31:39 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:31:39.481Z pid=228854 tid=4q1a class=Score::ProcessUpdatePostJob jid=ba925a2d3e4f9a17aa5eddc9 INFO: [score] skip update_post_id=4835 (no marker)
+Oct 06 21:31:39 ip-172-31-11-160 bundle[228854]: 2025-10-06T12:31:39.481Z pid=228854 tid=4q1a class=Score::ProcessUpdatePostJob jid=ba925a2d3e4f9a17aa5eddc9 elapsed=0.142 INFO: done
 ```
