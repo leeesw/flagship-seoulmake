@@ -1,9 +1,9 @@
 # sidekiq_llm.service
 
-- **Active**: deactivating (stop-sigterm)
-- **PID**: 152571
-- **Since**: Mon 2025-10-06 21:12:07 KST
-- **Generated**: 2025-10-06T12:15:34Z
+- **Active**: active (running)
+- **PID**: 165069
+- **Since**: Mon 2025-10-06 21:15:34 KST
+- **Generated**: 2025-10-06T12:20:57Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,20 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 20:21:47 ip-172-31-11-160 bundle[452005]: 2025-10-06T11:21:47.850Z pid=452005 tid=9t6t INFO: Terminating quiet threads for default capsule
-Oct 06 20:21:47 ip-172-31-11-160 bundle[452005]: 2025-10-06T11:21:47.850Z pid=452005 tid=9iu5 INFO: Scheduler exiting...
-Oct 06 20:21:48 ip-172-31-11-160 bundle[452005]: 2025-10-06T11:21:48.351Z pid=452005 tid=9iw5 INFO: Pausing to allow jobs to finish...
-Oct 06 20:21:49 ip-172-31-11-160 bundle[452005]: 2025-10-06T11:21:49.852Z pid=452005 tid=9t6t INFO: Bye!
-Oct 06 20:21:49 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
-Oct 06 20:21:49 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 20:21:49 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 1min 4.629s CPU time, 112.5M memory peak, 0B memory swap peak.
-Oct 06 20:21:49 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.866Z pid=4149844 tid=2gws4 INFO: Booted Rails 8.0.2.1 application in production environment
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.866Z pid=4149844 tid=2gws4 INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.866Z pid=4149844 tid=2gws4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.866Z pid=4149844 tid=2gws4 INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.866Z pid=4149844 tid=2gws4 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 06 20:21:51 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:21:51.868Z pid=4149844 tid=2gws4 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
 Oct 06 20:59:03 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
 Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.448Z pid=4149844 tid=2gws4 INFO: Shutting down
 Oct 06 20:59:03 ip-172-31-11-160 bundle[4149844]: 2025-10-06T11:59:03.449Z pid=4149844 tid=2gws4 INFO: Terminating quiet threads for default capsule
@@ -62,4 +48,18 @@ Oct 06 21:15:34 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Side
 Oct 06 21:15:34 ip-172-31-11-160 bundle[152571]: 2025-10-06T12:15:34.088Z pid=152571 tid=37tn INFO: Shutting down
 Oct 06 21:15:34 ip-172-31-11-160 bundle[152571]: 2025-10-06T12:15:34.088Z pid=152571 tid=37tn INFO: Terminating quiet threads for default capsule
 Oct 06 21:15:34 ip-172-31-11-160 bundle[152571]: 2025-10-06T12:15:34.088Z pid=152571 tid=3fsz INFO: Scheduler exiting...
+Oct 06 21:15:34 ip-172-31-11-160 bundle[152571]: 2025-10-06T12:15:34.589Z pid=152571 tid=37tn INFO: Bye!
+Oct 06 21:15:34 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
+Oct 06 21:15:34 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
+Oct 06 21:15:34 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 2.313s CPU time, 103.8M memory peak, 0B memory swap peak.
+Oct 06 21:15:34 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.610Z pid=165069 tid=3o8d INFO: Booted Rails 8.0.2.1 application in production environment
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.610Z pid=165069 tid=3o8d INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.610Z pid=165069 tid=3o8d INFO: See LICENSE and the LGPL-3.0 for licensing details.
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.610Z pid=165069 tid=3o8d INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.610Z pid=165069 tid=3o8d INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 06 21:15:36 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:15:36.612Z pid=165069 tid=3o8d INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.348Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa INFO: start
+Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.476Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa INFO: [score] skip update_post_id=5123 (no marker)
+Oct 06 21:19:15 ip-172-31-11-160 bundle[165069]: 2025-10-06T12:19:15.477Z pid=165069 tid=3px1 class=Score::ProcessUpdatePostJob jid=410f25ea0c3ecfc0755725aa elapsed=0.128 INFO: done
 ```
