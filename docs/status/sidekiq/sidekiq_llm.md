@@ -1,9 +1,9 @@
 # sidekiq_llm.service
 
 - **Active**: active (running)
-- **PID**: 412043
-- **Since**: Mon 2025-10-06 22:15:18 KST
-- **Generated**: 2025-10-06T13:40:32Z
+- **PID**: 522509
+- **Since**: Mon 2025-10-06 22:44:21 KST
+- **Generated**: 2025-10-06T13:45:39Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,22 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 06 22:23:58 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:15:in 'Score::ProcessUpdatePostJob#perform'
-Oct 06 22:29:59 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:29:59.517Z pid=412043 tid=90qb class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: start
-Oct 06 22:30:02 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:02.872Z pid=412043 tid=90qb class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: [score] content replaced base_id=40006 from update_id=40006
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:03.001Z pid=412043 tid=90qb class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a elapsed=3.484 INFO: fail
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:03.001Z pid=412043 tid=90qb WARN: {"context":"Job raised exception","job":{"retry":5,"queue":"llm_score","args":[40006],"class":"Score::ProcessUpdatePostJob","jid":"3730bc2370b29088f81f061a","created_at":1759757399.5165534,"enqueued_at":1759757399.5166552}}
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:03.001Z pid=412043 tid=90qb WARN: RuntimeError: 400 Bad Request: {"code":"rest_invalid_param","message":"\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \ud30c\ub77c\ubbf8\ud130: status","data":{"status":400,"params":{"status":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4."},"details":{"status":{"code":"rest_not_in_enum","message":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4.","data":null}}}}
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:03.001Z pid=412043 tid=90qb WARN: app/services/atr/wp_client_update_support.rb:70:in 'Atr::WpClientUpdateSupport#_wp_json_request'
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: app/services/atr/wp_client_update_support.rb:22:in 'Atr::WpClientUpdateSupport#trash_post!'
-Oct 06 22:30:03 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:35:in 'Score::ProcessUpdatePostJob#perform'
-Oct 06 22:30:22 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:22.150Z pid=412043 tid=90k3 class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: start
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:26.327Z pid=412043 tid=90k3 class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: [score] content replaced base_id=40006 from update_id=40006
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:26.453Z pid=412043 tid=90k3 class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a elapsed=4.302 INFO: fail
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:26.453Z pid=412043 tid=90k3 WARN: {"context":"Job raised exception","job":{"retry":5,"queue":"llm_score","args":[40006],"class":"Score::ProcessUpdatePostJob","jid":"3730bc2370b29088f81f061a","created_at":1759757399.5165534,"enqueued_at":1759757422.1501536,"error_message":"400 Bad Request: {\"code\":\"rest_invalid_param\",\"message\":\"\\uc720\\ud6a8\\ud558\\uc9c0 \\uc54a\\uc740 \\ud30c\\ub77c\\ubbf8\\ud130: status\",\"data\":{\"status\":400,\"params\":{\"status\":\"status\\uc740(\\ub294) publish, future, draft, pending, private, \\uadf8\\ub9ac\\uace0 acf-disabled\\uc911 \\ud558\\ub098\\uac00 \\uc544\\ub2d9\\ub2c8\\ub2e4.\"},\"details\":{\"status\":{\"code\":\"rest_not_in_enum\",\"message\":\"status\\uc740(\\ub294) publish, future, draft, pending, private, \\uadf8\\ub9ac\\uace0 acf-disabled\\uc911 \\ud558\\ub098\\uac00 \\uc544\\ub2d9\\ub2c8\\ub2e4.\",\"data\":null}}}}","error_class":"RuntimeError","failed_at":1759757403.0007215,"retry_count":0}}
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:26.453Z pid=412043 tid=90k3 WARN: RuntimeError: 400 Bad Request: {"code":"rest_invalid_param","message":"\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \ud30c\ub77c\ubbf8\ud130: status","data":{"status":400,"params":{"status":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4."},"details":{"status":{"code":"rest_not_in_enum","message":"status\uc740(\ub294) publish, future, draft, pending, private, \uadf8\ub9ac\uace0 acf-disabled\uc911 \ud558\ub098\uac00 \uc544\ub2d9\ub2c8\ub2e4.","data":null}}}}
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:26.453Z pid=412043 tid=90k3 WARN: app/services/atr/wp_client_update_support.rb:70:in 'Atr::WpClientUpdateSupport#_wp_json_request'
-Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: app/services/atr/wp_client_update_support.rb:22:in 'Atr::WpClientUpdateSupport#trash_post!'
 Oct 06 22:30:26 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:35:in 'Score::ProcessUpdatePostJob#perform'
 Oct 06 22:30:45 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:45.107Z pid=412043 tid=90kz class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: start
 Oct 06 22:30:46 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:30:46.797Z pid=412043 tid=90kz class=Score::ProcessUpdatePostJob jid=3730bc2370b29088f81f061a INFO: [score] content replaced base_id=40006 from update_id=40006
@@ -62,4 +46,20 @@ Oct 06 22:38:51 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:38:51.153Z pid=41
 Oct 06 22:38:51 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:38:51.153Z pid=412043 tid=90gj WARN: app/services/atr/wp_client_update_support.rb:70:in 'Atr::WpClientUpdateSupport#_wp_json_request'
 Oct 06 22:38:51 ip-172-31-11-160 bundle[412043]: app/services/atr/wp_client_update_support.rb:22:in 'Atr::WpClientUpdateSupport#trash_post!'
 Oct 06 22:38:51 ip-172-31-11-160 bundle[412043]: app/jobs/score/process_update_post_job.rb:35:in 'Score::ProcessUpdatePostJob#perform'
+Oct 06 22:44:19 ip-172-31-11-160 systemd[1]: Stopping sidekiq_llm.service - Sidekiq LLM worker...
+Oct 06 22:44:19 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:44:19.913Z pid=412043 tid=8v8r INFO: Shutting down
+Oct 06 22:44:19 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:44:19.913Z pid=412043 tid=8v8r INFO: Terminating quiet threads for default capsule
+Oct 06 22:44:19 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:44:19.913Z pid=412043 tid=90hf INFO: Scheduler exiting...
+Oct 06 22:44:20 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:44:20.414Z pid=412043 tid=90i3 INFO: Pausing to allow jobs to finish...
+Oct 06 22:44:21 ip-172-31-11-160 bundle[412043]: 2025-10-06T13:44:21.414Z pid=412043 tid=8v8r INFO: Bye!
+Oct 06 22:44:21 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Deactivated successfully.
+Oct 06 22:44:21 ip-172-31-11-160 systemd[1]: Stopped sidekiq_llm.service - Sidekiq LLM worker.
+Oct 06 22:44:21 ip-172-31-11-160 systemd[1]: sidekiq_llm.service: Consumed 4.500s CPU time, 107.0M memory peak, 0B memory swap peak.
+Oct 06 22:44:21 ip-172-31-11-160 systemd[1]: Started sidekiq_llm.service - Sidekiq LLM worker.
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.470Z pid=522509 tid=b2ct INFO: Booted Rails 8.0.2.1 application in production environment
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.471Z pid=522509 tid=b2ct INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.471Z pid=522509 tid=b2ct INFO: See LICENSE and the LGPL-3.0 for licensing details.
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.471Z pid=522509 tid=b2ct INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.471Z pid=522509 tid=b2ct INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 06 22:44:23 ip-172-31-11-160 bundle[522509]: 2025-10-06T13:44:23.473Z pid=522509 tid=b2ct INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
 ```
