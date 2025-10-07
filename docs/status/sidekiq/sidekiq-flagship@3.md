@@ -2,8 +2,8 @@
 
 - **Active**: activating (auto-restart)
 - **PID**: 0
-- **Since**: Tue 2025-10-07 23:55:24 KST
-- **Generated**: 2025-10-07T14:55:24Z
+- **Since**: Wed 2025-10-08 00:00:08 KST
+- **Generated**: 2025-10-07T15:00:08Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,54 +12,54 @@
 
 ## Recent logs (last 50)
 ```
-Oct 07 23:54:37 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 25.
-Oct 07 23:54:37 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:54:37 ip-172-31-11-160 sidekiq-flagship[3][2219914]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:54:37 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:54:37 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:54:42 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 26.
-Oct 07 23:54:42 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:54:42 ip-172-31-11-160 sidekiq-flagship[3][2219946]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:54:42 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:54:42 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:54:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 27.
-Oct 07 23:54:47 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:54:47 ip-172-31-11-160 sidekiq-flagship[3][2219978]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:54:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:54:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:54:53 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 28.
-Oct 07 23:54:53 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:54:53 ip-172-31-11-160 sidekiq-flagship[3][2220010]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:54:53 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:54:53 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:54:58 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 29.
-Oct 07 23:54:58 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:54:58 ip-172-31-11-160 sidekiq-flagship[3][2220042]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:54:58 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:54:58 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:55:03 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 30.
-Oct 07 23:55:03 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:55:03 ip-172-31-11-160 sidekiq-flagship[3][2220099]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:55:03 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:55:03 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:55:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 31.
-Oct 07 23:55:08 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:55:08 ip-172-31-11-160 sidekiq-flagship[3][2223154]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:55:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:55:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:55:14 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 32.
-Oct 07 23:55:14 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:55:14 ip-172-31-11-160 sidekiq-flagship[3][2223186]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:55:14 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:55:14 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:55:19 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 33.
-Oct 07 23:55:19 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:55:19 ip-172-31-11-160 sidekiq-flagship[3][2223225]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:55:19 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:55:19 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 07 23:55:24 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 34.
-Oct 07 23:55:24 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 07 23:55:24 ip-172-31-11-160 sidekiq-flagship[3][2223257]: /usr/local/bin/run-sidekiq-flagship.sh: line 32: exec: bundle: not found
-Oct 07 23:55:24 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=127/n/a
-Oct 07 23:55:24 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:05 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:05 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:10 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 77.
+Oct 07 23:59:10 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:10 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:10 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:15 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 78.
+Oct 07 23:59:15 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:15 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:15 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:20 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 79.
+Oct 07 23:59:20 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:20 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:20 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:26 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 80.
+Oct 07 23:59:26 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:26 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:26 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:31 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 81.
+Oct 07 23:59:31 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:31 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:31 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:36 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 82.
+Oct 07 23:59:36 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:36 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:36 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:41 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 83.
+Oct 07 23:59:41 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:41 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:41 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 84.
+Oct 07 23:59:47 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:47 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:52 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 85.
+Oct 07 23:59:52 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:52 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:52 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 07 23:59:57 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 86.
+Oct 07 23:59:57 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 07 23:59:57 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 07 23:59:57 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 08 00:00:02 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 87.
+Oct 08 00:00:02 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 08 00:00:02 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 08 00:00:02 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
+Oct 08 00:00:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 88.
+Oct 08 00:00:08 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 08 00:00:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
+Oct 08 00:00:08 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
 ```
