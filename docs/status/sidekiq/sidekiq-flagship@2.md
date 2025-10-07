@@ -3,7 +3,7 @@
 - **Active**: inactive (dead)
 - **PID**: 0
 - **Since**: Wed 2025-10-08 00:08:59 KST
-- **Generated**: 2025-10-07T15:25:35Z
+- **Generated**: 2025-10-07T15:30:27Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
