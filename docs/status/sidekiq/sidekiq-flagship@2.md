@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 946959
 - **Since**: Tue 2025-10-07 18:25:08 KST
-- **Generated**: 2025-10-07T09:35:42Z
+- **Generated**: 2025-10-07T12:25:42Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -21,4 +21,6 @@ Oct 07 18:25:10 ip-172-31-11-160 bash[946959]: 2025-10-07T09:25:10.826Z pid=9469
 Oct 07 18:25:10 ip-172-31-11-160 bash[946959]: 2025-10-07T09:25:10.826Z pid=946959 tid=k91b INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
 Oct 07 18:25:10 ip-172-31-11-160 bash[946959]: 2025-10-07T09:25:10.826Z pid=946959 tid=k91b INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
 Oct 07 18:25:10 ip-172-31-11-160 bash[946959]: 2025-10-07T09:25:10.828Z pid=946959 tid=k91b INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 07 18:37:17 ip-172-31-11-160 systemd[1]: /etc/systemd/system/sidekiq-flagship@.service:17: Unbalanced quoting, ignoring: "/bin/bash -lc '   eval "$(rbenv init -)";    QARGS=""; for q in ${QUEUES//,/ } ; do QARGS="$QARGS -q $q"; done;    exec bundle exec sidekiq -e ${RAILS_ENV:-production} -g sidekiq-flagship@%i -C /etc/sidekiq/flagship/sidekiq-%i.yml"
+Oct 07 18:37:17 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Unit configuration has fatal error, unit will not be started.
 ```
