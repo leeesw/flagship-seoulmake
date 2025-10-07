@@ -1,9 +1,9 @@
 # sidekiq-flagship@3.service
 
-- **Active**: inactive (dead)
-- **PID**: 0
-- **Since**: Wed 2025-10-08 00:08:59 KST
-- **Generated**: 2025-10-07T15:40:23Z
+- **Active**: active (running)
+- **PID**: 2434071
+- **Since**: Wed 2025-10-08 00:42:54 KST
+- **Generated**: 2025-10-07T15:45:42Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,16 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 08 00:07:56 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 08 00:08:01 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 178.
-Oct 08 00:08:01 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 08 00:08:01 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 00:08:01 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 08 00:08:07 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 179.
-Oct 08 00:08:07 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
-Oct 08 00:08:07 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 00:08:07 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
-Oct 08 00:08:12 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Scheduled restart job, restart counter is at 180.
 Oct 08 00:08:12 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
 Oct 08 00:08:12 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
 Oct 08 00:08:12 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
@@ -62,4 +52,14 @@ Oct 08 00:08:59 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service 
 Oct 08 00:08:59 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Main process exited, code=exited, status=1/FAILURE
 Oct 08 00:08:59 ip-172-31-11-160 systemd[1]: sidekiq-flagship@3.service: Failed with result 'exit-code'.
 Oct 08 00:09:03 ip-172-31-11-160 systemd[1]: Stopped sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 08 00:42:54 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@3.service - Sidekiq (flagship) instance 3.
+Oct 08 00:42:54 ip-172-31-11-160 sidekiq-flagship[3][2434071]: [run-sidekiq-flagship] iid=3 rails_env=production queues=default concurrency=5 app_dir=/home/ubuntu/flagship-seoulmake
+Oct 08 00:42:55 ip-172-31-11-160 sidekiq-flagship[3][2434192]: The Gemfile's dependencies are satisfied
+Oct 08 00:42:56 ip-172-31-11-160 sidekiq-flagship[3][2434071]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.433Z pid=2434071 tid=1gaxz INFO: Booted Rails 8.0.2.1 application in production environment
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.433Z pid=2434071 tid=1gaxz INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.433Z pid=2434071 tid=1gaxz INFO: See LICENSE and the LGPL-3.0 for licensing details.
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.433Z pid=2434071 tid=1gaxz INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.433Z pid=2434071 tid=1gaxz INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 08 00:42:57 ip-172-31-11-160 sidekiq-flagship[3][2434071]: 2025-10-07T15:42:57.435Z pid=2434071 tid=1gaxz INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
 ```
