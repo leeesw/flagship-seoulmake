@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-07T09:20:42Z
-- Branch: ops-status (fa365ae)
+- Generated: 2025-10-07T09:25:42Z
+- Branch: ops-status (baa7091)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,11 +12,15 @@
 | Queue backlog | 0 |
 | Retries (global) | 0 |
 | Dead (global) | 5 |
-| Error lines (since 1 hour ago) | 1 |
+| Error lines (since 1 hour ago) | 5 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
 |---|---|---|---:|---|
+| sidekiq-flagship@1.service | active | running | 946958 | Tue 2025-10-07 18:25:08 KST |
+| sidekiq-flagship@2.service | active | running | 946959 | Tue 2025-10-07 18:25:08 KST |
+| sidekiq-flagship@3.service | active | running | 946960 | Tue 2025-10-07 18:25:08 KST |
+| sidekiq-flagship@4.service | active | running | 946962 | Tue 2025-10-07 18:25:08 KST |
 | sidekiq_llm.service | active | running | 3670572 | Tue 2025-10-07 12:13:28 KST |
 
 Detail pages: `docs/status/sidekiq/*.md`
