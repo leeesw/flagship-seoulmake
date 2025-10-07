@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-07T03:05:07Z
-- Branch: ops-status (bdde92a)
+- Generated: 2025-10-07T03:10:17Z
+- Branch: ops-status (55b4df5)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -17,6 +17,6 @@
 ## Workers
 | Service | Active | Sub | PID | Since |
 |---|---|---|---:|---|
-| sidekiq_llm.service | activating | auto-restart | 0 | Tue 2025-10-07 12:05:04 KST |
+| sidekiq_llm.service | active | running | 3660546 | Tue 2025-10-07 12:10:17 KST |
 
 Detail pages: `docs/status/sidekiq/*.md`
