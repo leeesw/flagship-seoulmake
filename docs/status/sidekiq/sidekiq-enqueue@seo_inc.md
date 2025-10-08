@@ -1,9 +1,9 @@
 # sidekiq-enqueue@seo_inc.service
 
-- **Active**: failed (failed)
-- **PID**: 0
+- **Active**: activating (start)
+- **PID**: 3024160
 - **Since**: 
-- **Generated**: 2025-10-08T20:40:01Z
+- **Generated**: 2025-10-08T20:45:03Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,7 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 09 05:40:01 ip-172-31-11-160 bash[3007171]:         from /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/activesupport-8.0.2.1/lib/active_support/notifications.rb:212:in 'ActiveSupport::Notifications.instrument'
 Oct 09 05:40:01 ip-172-31-11-160 bash[3007171]:         from /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/engine.rb:692:in 'Rails::Engine#load_config_initializer'
 Oct 09 05:40:01 ip-172-31-11-160 bash[3007171]:         from /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/engine.rb:646:in 'block (2 levels) in <class:Engine>'
 Oct 09 05:40:01 ip-172-31-11-160 bash[3007171]:         from /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/engine.rb:645:in 'Array#each'
@@ -62,4 +61,5 @@ Oct 09 05:40:01 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Ma
 Oct 09 05:40:01 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Failed with result 'exit-code'.
 Oct 09 05:40:01 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@seo_inc.service - Enqueue Sidekiq profile seo_inc.
 Oct 09 05:40:01 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Consumed 1.166s CPU time.
+Oct 09 05:45:03 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@seo_inc.service - Enqueue Sidekiq profile seo_inc...
 ```
