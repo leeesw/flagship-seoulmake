@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T12:40:25Z
-- Branch: ops-status (4177ebed)
+- Generated: 2025-10-08T12:45:31Z
+- Branch: ops-status (65b0fc6c)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 56 |
-| Dead (global) | 46 |
-| Error lines (since 1 hour ago) | 100 |
+| Retries (global) | 58 |
+| Dead (global) | 48 |
+| Error lines (since 1 hour ago) | 101 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -86,7 +86,7 @@ active
 active
 active
 active
-activating
+active
 active
 active
 failed
@@ -231,7 +231,7 @@ running
 
 exited
 
-auto-restart
+running
 
 running
 
@@ -361,7 +361,7 @@ exited | 635
 
 1682531
 
-1023587
+1040483
 
 238
 
@@ -383,7 +383,7 @@ exited | 635
 
 0
 
-0
+1040482
 
 1682543
 
@@ -535,7 +535,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 21:40:23 KST
+Wed 2025-10-08 21:45:31 KST
 
 Thu 2025-10-02 15:39:50 KST
 
