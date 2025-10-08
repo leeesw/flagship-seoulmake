@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T10:40:08Z
-- Branch: ops-status (02ce9f8a)
+- Generated: 2025-10-08T10:45:18Z
+- Branch: ops-status (6d91367e)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,16 +10,14 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 16 |
-| Dead (global) | 6 |
-| Error lines (since 1 hour ago) | 152 |
+| Retries (global) | 18 |
+| Dead (global) | 8 |
+| Error lines (since 1 hour ago) | 140 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
 |---|---|---|---:|---|
 | *.service | active
-active
-active
 active
 active
 active
@@ -86,7 +84,7 @@ active
 active
 active
 active
-active
+activating
 active
 active
 failed
@@ -105,8 +103,6 @@ running
 
 exited
 
-running
-
 exited
 
 exited
@@ -134,8 +130,6 @@ exited
 running
 
 exited
-
-running
 
 exited
 
@@ -231,7 +225,7 @@ running
 
 exited
 
-running
+auto-restart
 
 running
 
@@ -256,8 +250,6 @@ exited | 635
 630
 
 0
-
-501194
 
 0
 
@@ -286,8 +278,6 @@ exited | 635
 1064
 
 0
-
-501027
 
 0
 
@@ -361,7 +351,7 @@ exited | 635
 
 1682531
 
-514522
+531572
 
 238
 
@@ -383,7 +373,7 @@ exited | 635
 
 0
 
-514521
+0
 
 1682543
 
@@ -408,8 +398,6 @@ Fri 2025-09-26 03:19:04 KST
 Fri 2025-09-26 03:19:12 KST
 
 Fri 2025-09-26 03:19:02 KST
-
-Wed 2025-10-08 19:36:11 KST
 
 Fri 2025-09-26 03:19:12 KST
 
@@ -438,8 +426,6 @@ Fri 2025-09-26 03:18:59 KST
 Fri 2025-09-26 03:19:50 KST
 
 Fri 2025-09-26 03:18:59 KST
-
-Wed 2025-10-08 19:36:03 KST
 
 Fri 2025-09-26 03:18:59 KST
 
@@ -535,7 +521,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 19:40:08 KST
+Wed 2025-10-08 19:45:16 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -556,6 +542,5 @@ Fri 2025-09-26 03:19:11 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
 | sidekiq-flagship@4.service | active | running | 4101568 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq@llm.service | active | running | 501193 | Wed 2025-10-08 19:36:11 KST |
-| sidekiq@score.service | active | running | 501194 | Wed 2025-10-08 19:36:11 KST |
 
 Detail pages: `docs/status/sidekiq/*.md`
