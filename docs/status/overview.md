@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T10:55:04Z
-- Branch: ops-status (68001d68)
+- Generated: 2025-10-08T11:00:28Z
+- Branch: ops-status (3a9c26e4)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 21 |
-| Dead (global) | 11 |
-| Error lines (since 1 hour ago) | 186 |
+| Retries (global) | 23 |
+| Dead (global) | 13 |
+| Error lines (since 1 hour ago) | 108 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -40,8 +40,8 @@ active
 active
 active
 active
-activating
-activating
+active
+failed
 active
 active
 active
@@ -52,7 +52,7 @@ failed
 failed
 active
 active
-activating
+failed
 active
 active
 active
@@ -85,7 +85,7 @@ active
 active
 active
 active
-active
+activating
 active
 active
 failed
@@ -104,6 +104,8 @@ running
 
 exited
 
+running
+
 exited
 
 exited
@@ -117,12 +119,6 @@ exited
 running
 
 exited
-
-exited
-
-exited
-
-running
 
 exited
 
@@ -136,11 +132,15 @@ exited
 
 running
 
+exited
+
+exited
+
 running
 
-start
+running
 
-start
+failed
 
 exited
 
@@ -162,7 +162,7 @@ exited
 
 running
 
-start
+failed
 
 exited
 
@@ -228,7 +228,7 @@ running
 
 exited
 
-running
+auto-restart
 
 running
 
@@ -253,6 +253,8 @@ exited | 635
 630
 
 0
+
+592555
 
 0
 
@@ -288,9 +290,7 @@ exited | 635
 
 1682524
 
-573304
-
-573305
+0
 
 0
 
@@ -312,13 +312,13 @@ exited | 635
 
 723
 
-573303
-
 0
 
 0
 
-501193
+0
+
+592396
 
 0
 
@@ -356,7 +356,7 @@ exited | 635
 
 1682531
 
-573306
+602708
 
 238
 
@@ -378,7 +378,7 @@ exited | 635
 
 0
 
-573302
+0
 
 1682543
 
@@ -403,6 +403,8 @@ Fri 2025-09-26 03:19:04 KST
 Fri 2025-09-26 03:19:12 KST
 
 Fri 2025-09-26 03:19:02 KST
+
+Wed 2025-10-08 19:57:02 KST
 
 Fri 2025-09-26 03:19:12 KST
 
@@ -440,8 +442,6 @@ Thu 2025-10-02 15:39:50 KST
 
 
 
-
-
 Tue 2025-10-07 20:49:59 KST
 
 Fri 2025-09-26 03:19:50 KST
@@ -468,7 +468,7 @@ Fri 2025-09-26 03:19:01 KST
 
 Fri 2025-09-26 03:18:59 KST
 
-Wed 2025-10-08 19:36:11 KST
+Wed 2025-10-08 19:56:56 KST
 
 Fri 2025-09-26 03:19:00 KST
 
@@ -528,7 +528,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 19:55:04 KST
+Wed 2025-10-08 20:00:27 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -543,13 +543,12 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@ads_drip.service | activating | start | 573303 |  |
 | sidekiq-enqueue@score_scan.service | inactive | dead | 0 |  |
-| sidekiq-enqueue@seo_inc.service | activating | start | 573304 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
 | sidekiq-flagship@4.service | active | running | 4101568 | Wed 2025-10-08 17:18:35 KST |
-| sidekiq@llm.service | active | running | 501193 | Wed 2025-10-08 19:36:11 KST |
+| sidekiq@llm.service | active | running | 592396 | Wed 2025-10-08 19:56:56 KST |
+| sidekiq@score.service | active | running | 592555 | Wed 2025-10-08 19:57:02 KST |
 
 Detail pages: `docs/status/sidekiq/*.md`
