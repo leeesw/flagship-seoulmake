@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T20:55:28Z
-- Branch: ops-status (26c548b5)
+- Generated: 2025-10-08T21:00:05Z
+- Branch: ops-status (5238b7fb)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 142 |
+| Error lines (since 1 hour ago) | 248 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -41,21 +41,21 @@ active
 active
 active
 active
-failed
-failed
+activating
+activating
 active
 active
 active
 active
 active
 active
-failed
-failed
-active
-active
+activating
 failed
 active
-failed
+active
+activating
+active
+activating
 active
 active
 active
@@ -87,7 +87,7 @@ active
 active
 active
 active
-active
+activating
 active
 active
 failed
@@ -142,31 +142,31 @@ running
 
 running
 
-failed
+start
 
-failed
-
-exited
+start
 
 exited
-
-running
-
-running
-
-running
-
-exited
-
-failed
-
-failed
 
 exited
 
 running
 
+running
+
+running
+
+exited
+
+start
+
 failed
+
+exited
+
+running
+
+start
 
 exited
 
@@ -234,7 +234,7 @@ running
 
 exited
 
-running
+auto-restart
 
 running
 
@@ -298,7 +298,7 @@ exited | 635
 
 0
 
-0
+3098328
 
 0
 
@@ -312,7 +312,7 @@ exited | 635
 
 0
 
-0
+3098324
 
 0
 
@@ -320,7 +320,7 @@ exited | 635
 
 723
 
-0
+3098323
 
 0
 
@@ -366,7 +366,7 @@ exited | 635
 
 1682531
 
-3081632
+3098329
 
 238
 
@@ -542,7 +542,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Thu 2025-10-09 05:55:28 KST
+Thu 2025-10-09 06:00:05 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -557,6 +557,10 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
+| sidekiq-enqueue@ads_drip.service | failed | failed | 0 |  |
+| sidekiq-enqueue@image_drip.service | failed | failed | 0 |  |
+| sidekiq-enqueue@score_scan.service | failed | failed | 0 |  |
+| sidekiq-enqueue@seo_inc.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
