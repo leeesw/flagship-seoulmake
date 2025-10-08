@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T14:05:28Z
-- Branch: ops-status (7377d09f)
+- Generated: 2025-10-08T14:10:01Z
+- Branch: ops-status (4ee5c466)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 83 |
-| Dead (global) | 75 |
-| Error lines (since 1 hour ago) | 111 |
+| Retries (global) | 86 |
+| Dead (global) | 76 |
+| Error lines (since 1 hour ago) | 183 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -41,8 +41,8 @@ active
 active
 active
 active
-failed
-failed
+activating
+activating
 active
 active
 active
@@ -53,7 +53,7 @@ failed
 failed
 active
 active
-failed
+activating
 active
 active
 active
@@ -141,31 +141,31 @@ running
 
 running
 
+start
+
+start
+
+exited
+
+exited
+
+running
+
+running
+
+running
+
+exited
+
 failed
 
 failed
 
 exited
 
-exited
-
 running
 
-running
-
-running
-
-exited
-
-failed
-
-failed
-
-exited
-
-running
-
-failed
+start
 
 exited
 
@@ -293,9 +293,9 @@ exited | 635
 
 1682524
 
-0
+1384269
 
-0
+1384271
 
 0
 
@@ -317,7 +317,7 @@ exited | 635
 
 723
 
-0
+1384268
 
 0
 
@@ -361,7 +361,7 @@ exited | 635
 
 1682531
 
-1370664
+1384272
 
 238
 
@@ -383,7 +383,7 @@ exited | 635
 
 0
 
-1370663
+1384267
 
 1682543
 
@@ -535,7 +535,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 23:05:28 KST
+Wed 2025-10-08 23:10:01 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -550,7 +550,9 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
+| sidekiq-enqueue@ads_drip.service | activating | start | 1384268 |  |
 | sidekiq-enqueue@score_scan.service | inactive | dead | 0 |  |
+| sidekiq-enqueue@seo_inc.service | activating | start | 1384269 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
