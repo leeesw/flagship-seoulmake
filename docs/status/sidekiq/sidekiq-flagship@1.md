@@ -3,12 +3,12 @@
 - **Active**: active (running)
 - **PID**: 4101673
 - **Since**: Wed 2025-10-08 17:18:35 KST
-- **Generated**: 2025-10-08T11:35:23Z
+- **Generated**: 2025-10-08T11:40:15Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
-- retries: **33**
-- dead: **25**
+- retries: **36**
+- dead: **26**
 
 ## Recent logs (last 50)
 ```
