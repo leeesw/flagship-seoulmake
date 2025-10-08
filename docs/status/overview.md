@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T11:05:08Z
-- Branch: ops-status (c7268865)
+- Generated: 2025-10-08T11:10:02Z
+- Branch: ops-status (a1d752ca)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 23 |
-| Dead (global) | 15 |
-| Error lines (since 1 hour ago) | 99 |
+| Retries (global) | 26 |
+| Dead (global) | 16 |
+| Error lines (since 1 hour ago) | 171 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -42,6 +42,7 @@ active
 active
 active
 failed
+activating
 active
 active
 active
@@ -141,6 +142,8 @@ running
 running
 
 failed
+
+start
 
 exited
 
@@ -292,6 +295,8 @@ exited | 635
 
 0
 
+636116
+
 0
 
 0
@@ -356,7 +361,7 @@ exited | 635
 
 1682531
 
-619421
+636202
 
 238
 
@@ -439,6 +444,8 @@ Fri 2025-09-26 03:18:59 KST
 Fri 2025-09-26 03:19:13 KST
 
 Thu 2025-10-02 15:39:50 KST
+
+
 
 
 
@@ -528,7 +535,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 20:05:07 KST
+Wed 2025-10-08 20:10:01 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -543,7 +550,9 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
+| sidekiq-enqueue@ads_drip.service | failed | failed | 0 |  |
 | sidekiq-enqueue@score_scan.service | inactive | dead | 0 |  |
+| sidekiq-enqueue@seo_inc.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
