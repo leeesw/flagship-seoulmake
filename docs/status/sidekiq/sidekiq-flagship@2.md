@@ -1,9 +1,9 @@
 # sidekiq-flagship@2.service
 
 - **Active**: active (running)
-- **PID**: 3404806
-- **Since**: Wed 2025-10-08 14:24:31 KST
-- **Generated**: 2025-10-08T05:25:42Z
+- **PID**: 3417598
+- **Since**: Wed 2025-10-08 14:27:51 KST
+- **Generated**: 2025-10-08T05:30:50Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,24 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 08 14:18:38 ip-172-31-11-160 systemd[1]: Stopped sidekiq-flagship@2.service - Sidekiq (flagship) instance 2.
-Oct 08 14:18:38 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Consumed 2.726s CPU time.
-Oct 08 14:18:38 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@2.service - Sidekiq (flagship) instance 2.
-Oct 08 14:18:38 ip-172-31-11-160 sidekiq-flagship[2][3388279]: [run-sidekiq-flagship] iid=2 rails_env=production queues=images,llm concurrency=5 app_dir=/home/ubuntu/flagship-seoulmake
-Oct 08 14:18:39 ip-172-31-11-160 sidekiq-flagship[2][3388381]: The Gemfile's dependencies are satisfied
-Oct 08 14:18:40 ip-172-31-11-160 sidekiq-flagship[2][3388279]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.096Z pid=3388279 tid=20kqv INFO: Booted Rails 8.0.2.1 application in production environment
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.096Z pid=3388279 tid=20kqv INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.096Z pid=3388279 tid=20kqv INFO: See LICENSE and the LGPL-3.0 for licensing details.
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.096Z pid=3388279 tid=20kqv INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.096Z pid=3388279 tid=20kqv INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 08 14:18:41 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:18:41.098Z pid=3388279 tid=20kqv INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
-Oct 08 14:21:33 ip-172-31-11-160 systemd[1]: Stopping sidekiq-flagship@2.service - Sidekiq (flagship) instance 2...
-Oct 08 14:21:33 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:21:33.383Z pid=3388279 tid=20kqv INFO: Shutting down
-Oct 08 14:21:33 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:21:33.383Z pid=3388279 tid=20kqv INFO: Terminating quiet threads for default capsule
-Oct 08 14:21:33 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:21:33.383Z pid=3388279 tid=20g2f INFO: Scheduler exiting...
-Oct 08 14:21:33 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:21:33.883Z pid=3388279 tid=20g2n INFO: Pausing to allow jobs to finish...
-Oct 08 14:21:34 ip-172-31-11-160 sidekiq-flagship[2][3388279]: 2025-10-08T05:21:34.884Z pid=3388279 tid=20kqv INFO: Bye!
 Oct 08 14:21:34 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Deactivated successfully.
 Oct 08 14:21:34 ip-172-31-11-160 systemd[1]: Stopped sidekiq-flagship@2.service - Sidekiq (flagship) instance 2.
 Oct 08 14:21:34 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Consumed 2.886s CPU time, 106.6M memory peak, 0B memory swap peak.
@@ -62,4 +44,22 @@ Oct 08 14:24:33 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:24:
 Oct 08 14:24:33 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:24:33.627Z pid=3404806 tid=20xo6 INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
 Oct 08 14:24:33 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:24:33.627Z pid=3404806 tid=20xo6 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
 Oct 08 14:24:33 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:24:33.629Z pid=3404806 tid=20xo6 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 08 14:27:51 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:27:51.051Z pid=3404806 tid=20xo6 INFO: Shutting down
+Oct 08 14:27:51 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:27:51.051Z pid=3404806 tid=20xo6 INFO: Terminating quiet threads for default capsule
+Oct 08 14:27:51 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:27:51.051Z pid=3404806 tid=20sva INFO: Scheduler exiting...
+Oct 08 14:27:51 ip-172-31-11-160 systemd[1]: Stopping sidekiq-flagship@2.service - Sidekiq (flagship) instance 2...
+Oct 08 14:27:51 ip-172-31-11-160 sidekiq-flagship[2][3404806]: 2025-10-08T05:27:51.552Z pid=3404806 tid=20xo6 INFO: Bye!
+Oct 08 14:27:51 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Deactivated successfully.
+Oct 08 14:27:51 ip-172-31-11-160 systemd[1]: Stopped sidekiq-flagship@2.service - Sidekiq (flagship) instance 2.
+Oct 08 14:27:51 ip-172-31-11-160 systemd[1]: sidekiq-flagship@2.service: Consumed 2.888s CPU time, 106.6M memory peak, 0B memory swap peak.
+Oct 08 14:27:51 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@2.service - Sidekiq (flagship) instance 2.
+Oct 08 14:27:51 ip-172-31-11-160 sidekiq-flagship[2][3417598]: [run-sidekiq-flagship] iid=2 rails_env=production queues=images,llm concurrency=5 app_dir=/home/ubuntu/flagship-seoulmake
+Oct 08 14:27:52 ip-172-31-11-160 sidekiq-flagship[2][3417667]: The Gemfile's dependencies are satisfied
+Oct 08 14:27:53 ip-172-31-11-160 sidekiq-flagship[2][3417598]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.067Z pid=3417598 tid=21dou INFO: Booted Rails 8.0.2.1 application in production environment
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.068Z pid=3417598 tid=21dou INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.068Z pid=3417598 tid=21dou INFO: See LICENSE and the LGPL-3.0 for licensing details.
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.068Z pid=3417598 tid=21dou INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.068Z pid=3417598 tid=21dou INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 08 14:27:54 ip-172-31-11-160 sidekiq-flagship[2][3417598]: 2025-10-08T05:27:54.070Z pid=3417598 tid=21dou INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
 ```
