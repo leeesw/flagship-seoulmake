@@ -3,22 +3,15 @@
 - **Active**: inactive (dead)
 - **PID**: 0
 - **Since**: 
-- **Generated**: 2025-10-08T13:15:12Z
+- **Generated**: 2025-10-08T13:20:08Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
-- retries: **68**
-- dead: **58**
+- retries: **69**
+- dead: **59**
 
 ## Recent logs (last 50)
 ```
-Oct 08 21:54:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 2.033s CPU time.
-Oct 08 21:57:11 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
-Oct 08 21:57:12 ip-172-31-11-160 bash[1077907]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 21:57:13 ip-172-31-11-160 bash[1077907]: 2025-10-08T12:57:13.737Z pid=1077907 tid=n2bv INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
-Oct 08 21:57:13 ip-172-31-11-160 bash[1077907]: {"ts":"2025-10-08T12:57:13Z","enqueued":2,"queue":"llm_score"}
-Oct 08 21:57:13 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Deactivated successfully.
-Oct 08 21:57:13 ip-172-31-11-160 systemd[1]: Finished sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
 Oct 08 21:57:13 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 1.970s CPU time.
 Oct 08 22:00:02 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
 Oct 08 22:00:03 ip-172-31-11-160 bash[1087839]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
@@ -62,4 +55,11 @@ Oct 08 22:15:05 ip-172-31-11-160 bash[1158470]: {"ts":"2025-10-08T13:15:05Z","en
 Oct 08 22:15:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Deactivated successfully.
 Oct 08 22:15:05 ip-172-31-11-160 systemd[1]: Finished sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
 Oct 08 22:15:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 2.859s CPU time.
+Oct 08 22:18:07 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
+Oct 08 22:18:08 ip-172-31-11-160 bash[1168783]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 08 22:18:09 ip-172-31-11-160 bash[1168783]: 2025-10-08T13:18:09.254Z pid=1168783 tid=p02f INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 08 22:18:09 ip-172-31-11-160 bash[1168783]: {"ts":"2025-10-08T13:18:09Z","enqueued":2,"queue":"llm_score"}
+Oct 08 22:18:09 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Deactivated successfully.
+Oct 08 22:18:09 ip-172-31-11-160 systemd[1]: Finished sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
+Oct 08 22:18:09 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 1.933s CPU time.
 ```
