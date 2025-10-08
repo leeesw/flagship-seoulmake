@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T09:20:04Z
-- Branch: ops-status (6572690a)
+- Generated: 2025-10-08T09:25:29Z
+- Branch: ops-status (341c4dbe)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 0 |
 | Dead (global) | 5 |
-| Error lines (since 1 hour ago) | 257 |
+| Error lines (since 1 hour ago) | 157 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -40,20 +40,6 @@ active
 active
 active
 active
-activating
-activating
-active
-active
-active
-active
-active
-active
-failed
-activating
-active
-active
-activating
-active
 failed
 active
 active
@@ -61,6 +47,19 @@ active
 active
 active
 active
+failed
+failed
+active
+active
+failed
+active
+failed
+active
+active
+active
+active
+active
+active
 active
 active
 active
@@ -79,7 +78,7 @@ active
 active
 active
 active
-activating
+failed
 active
 active
 active
@@ -137,9 +136,7 @@ running
 
 running
 
-start
-
-start
+failed
 
 exited
 
@@ -155,13 +152,13 @@ exited
 
 failed
 
-start
+failed
 
 exited
 
 running
 
-start
+failed
 
 exited
 
@@ -215,7 +212,7 @@ exited
 
 running
 
-start
+failed
 
 exited
 
@@ -285,9 +282,7 @@ exited | 635
 
 1682524
 
-178529
-
-178531
+0
 
 0
 
@@ -303,13 +298,13 @@ exited | 635
 
 0
 
-178528
+0
 
 0
 
 723
 
-178526
+0
 
 0
 
@@ -353,7 +348,7 @@ exited | 635
 
 1682531
 
-178532
+198875
 
 238
 
@@ -363,7 +358,7 @@ exited | 635
 
 655
 
-178527
+0
 
 0
 
@@ -375,7 +370,7 @@ exited | 635
 
 0
 
-178525
+198874
 
 1682543
 
@@ -432,8 +427,6 @@ Fri 2025-09-26 03:18:59 KST
 Fri 2025-09-26 03:19:13 KST
 
 Thu 2025-10-02 15:39:50 KST
-
-
 
 
 
@@ -523,7 +516,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 18:20:04 KST
+Wed 2025-10-08 18:25:29 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -536,10 +529,6 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@ads_drip.service | activating | start | 178526 |  |
-| sidekiq-enqueue@score_drip.service | activating | start | 178527 |  |
-| sidekiq-enqueue@seo_drip.service | activating | start | 178528 |  |
-| sidekiq-enqueue@seo_inc.service | activating | start | 178529 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
