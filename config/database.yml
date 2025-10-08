@@ -1,60 +1,22 @@
-# config/database.yml
-
-# --- PostgreSQL 공통 기본값 (Rails 메인 DB: RDS PostgreSQL) ---
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV["PG_HOST"] %>
-  port: <%= (ENV["PG_PORT"] || 5432) %>
-  username: <%= ENV["PG_USER"] %>
-  password: <%= ENV["PG_PASSWORD"] %>
-  pool: <%= (ENV["DB_POOL"] || 10) %>
-
-development:
-  <<: *default
-  # 주: 개발용 DB 이름은 운영용 이름 뒤에 _dev를 붙입니다.
-  database: <%= "#{ENV['PG_DB']}_dev" %>
-
-test:
-  <<: *default
-  # 주: 테스트용 DB 이름은 운영용 이름 뒤에 _test를 붙입니다.
-  database: <%= "#{ENV['PG_DB']}_test" %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
 production:
-  <<: *default
-  database: <%= ENV["PG_DB"] %>
-
-# Rails의 Solid 계열(옵션): 같은 PG로 붙이되 필요 시 별도 DB를 줄 수도 있습니다.
-cable:
-  <<: *default
-  database: <%= ENV["PG_DB"] %>
-
-queue:
-  <<: *default
-  database: <%= ENV["PG_DB"] %>
-
-cache:
-  <<: *default
-  database: <%= ENV["PG_DB"] %>
-
-# --- WordPress(MariaDB, RDS) 읽기용 연결 ---
-# 코드 예시:
-#   class WpBase < ActiveRecord::Base
-#     self.abstract_class = true
-#     establish_connection :wordpress
-#   end
-#   class WpPost < WpBase
-#     self.table_name = "wp_posts"
-#   end
-wordpress:
-  adapter: mysql2
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
-  host: <%= ENV["MARIADB_RDS_HOST"] %>
-  port: <%= (ENV["MARIADB_RDS_PORT"] || 3306) %>
-  username: <%= ENV["MARIADB_RDS_USER"] %>
-  password: <%= ENV["MARIADB_RDS_PASSWORD"] %>
-  database: <%= ENV["MARIADB_RDS_DBNAME"] %>
-  pool: <%= (ENV["WP_DB_POOL"] || 5) %>
-  variables:
-    sql_mode: STRICT_ALL_TABLES
+  primary:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
+  cable:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
+  queue:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
+  cache:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
