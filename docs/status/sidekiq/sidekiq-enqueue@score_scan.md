@@ -1,9 +1,9 @@
 # sidekiq-enqueue@score_scan.service
 
-- **Active**: failed (failed)
-- **PID**: 0
+- **Active**: activating (start)
+- **PID**: 4091938
 - **Since**: 
-- **Generated**: 2025-10-08T08:05:03Z
+- **Generated**: 2025-10-08T08:15:03Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,16 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 08 16:40:03 ip-172-31-11-160 bash[3955624]: undefined method 'perform_later' for an instance of Sidekiq::Job::Setter
-Oct 08 16:40:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 16:40:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Failed with result 'exit-code'.
-Oct 08 16:40:03 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
-Oct 08 16:40:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 2.093s CPU time.
-Oct 08 16:45:04 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
-Oct 08 16:45:05 ip-172-31-11-160 bash[3972256]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 16:45:06 ip-172-31-11-160 bash[3972256]: Please specify a valid ruby command or the path of a script to run.
-Oct 08 16:45:06 ip-172-31-11-160 bash[3972256]: Run 'bin/rails runner -h' for help.
-Oct 08 16:45:06 ip-172-31-11-160 bash[3972256]: undefined method 'perform_later' for an instance of Sidekiq::Job::Setter
 Oct 08 16:45:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Main process exited, code=exited, status=1/FAILURE
 Oct 08 16:45:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Failed with result 'exit-code'.
 Oct 08 16:45:06 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
@@ -62,4 +52,14 @@ Oct 08 17:05:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service:
 Oct 08 17:05:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Failed with result 'exit-code'.
 Oct 08 17:05:03 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
 Oct 08 17:05:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 2.018s CPU time.
+Oct 08 17:10:02 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
+Oct 08 17:10:03 ip-172-31-11-160 bash[4075354]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 08 17:10:04 ip-172-31-11-160 bash[4075354]: Please specify a valid ruby command or the path of a script to run.
+Oct 08 17:10:04 ip-172-31-11-160 bash[4075354]: Run 'bin/rails runner -h' for help.
+Oct 08 17:10:04 ip-172-31-11-160 bash[4075354]: undefined method 'perform_later' for an instance of Sidekiq::Job::Setter
+Oct 08 17:10:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Main process exited, code=exited, status=1/FAILURE
+Oct 08 17:10:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Failed with result 'exit-code'.
+Oct 08 17:10:04 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan.
+Oct 08 17:10:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@score_scan.service: Consumed 2.015s CPU time.
+Oct 08 17:15:03 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@score_scan.service - Enqueue Sidekiq profile score_scan...
 ```
