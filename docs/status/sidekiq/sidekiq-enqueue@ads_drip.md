@@ -1,65 +1,65 @@
 # sidekiq-enqueue@ads_drip.service
 
 - **Active**: activating (start)
-- **PID**: 1384268
+- **PID**: 2061902
 - **Since**: 
-- **Generated**: 2025-10-08T14:10:01Z
+- **Generated**: 2025-10-08T16:55:01Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
-- retries: **86**
-- dead: **76**
+- retries: **141**
+- dead: **131**
 
 ## Recent logs (last 50)
 ```
-Oct 08 23:03:01 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:03:02 ip-172-31-11-160 bash[1360846]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:03:03 ip-172-31-11-160 bash[1360846]: {"ts":"2025-10-08T14:03:03Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:03:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:03:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:03:03 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:03:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.981s CPU time.
-Oct 08 23:04:04 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:04:05 ip-172-31-11-160 bash[1364172]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:04:06 ip-172-31-11-160 bash[1364172]: {"ts":"2025-10-08T14:04:06Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:04:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:04:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:04:06 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:04:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.001s CPU time.
-Oct 08 23:05:00 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:05:01 ip-172-31-11-160 bash[1367433]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:05:02 ip-172-31-11-160 bash[1367433]: {"ts":"2025-10-08T14:05:02Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:05:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:05:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:05:02 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:05:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.022s CPU time.
-Oct 08 23:06:03 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:06:04 ip-172-31-11-160 bash[1371101]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:06:05 ip-172-31-11-160 bash[1371101]: {"ts":"2025-10-08T14:06:05Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:06:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:06:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:06:05 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:06:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.991s CPU time.
-Oct 08 23:07:01 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:07:02 ip-172-31-11-160 bash[1374427]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:07:03 ip-172-31-11-160 bash[1374427]: {"ts":"2025-10-08T14:07:03Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:07:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:07:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:07:03 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:07:03 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.989s CPU time.
-Oct 08 23:08:02 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:08:03 ip-172-31-11-160 bash[1377685]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:08:04 ip-172-31-11-160 bash[1377685]: {"ts":"2025-10-08T14:08:04Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:08:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:08:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:08:04 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:08:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.961s CPU time.
-Oct 08 23:09:00 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
-Oct 08 23:09:01 ip-172-31-11-160 bash[1380960]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
-Oct 08 23:09:02 ip-172-31-11-160 bash[1380960]: {"ts":"2025-10-08T14:09:02Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
-Oct 08 23:09:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
-Oct 08 23:09:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
-Oct 08 23:09:02 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
-Oct 08 23:09:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.002s CPU time.
-Oct 08 23:10:01 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:48:00 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:48:01 ip-172-31-11-160 bash[2038465]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:48:02 ip-172-31-11-160 bash[2038465]: {"ts":"2025-10-08T16:48:02Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:48:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:48:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:48:02 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:48:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.093s CPU time.
+Oct 09 01:49:04 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:49:05 ip-172-31-11-160 bash[2043077]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:49:06 ip-172-31-11-160 bash[2043077]: {"ts":"2025-10-08T16:49:06Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:49:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:49:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:49:06 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:49:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.054s CPU time.
+Oct 09 01:50:00 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:50:01 ip-172-31-11-160 bash[2045058]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:50:02 ip-172-31-11-160 bash[2045058]: {"ts":"2025-10-08T16:50:02Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:50:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:50:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:50:02 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:50:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.990s CPU time.
+Oct 09 01:51:03 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:51:04 ip-172-31-11-160 bash[2048727]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:51:05 ip-172-31-11-160 bash[2048727]: {"ts":"2025-10-08T16:51:05Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:51:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:51:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:51:05 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:51:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.988s CPU time.
+Oct 09 01:52:00 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:52:01 ip-172-31-11-160 bash[2052057]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:52:02 ip-172-31-11-160 bash[2052057]: {"ts":"2025-10-08T16:52:02Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:52:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:52:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:52:02 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:52:02 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.915s CPU time.
+Oct 09 01:53:02 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:53:03 ip-172-31-11-160 bash[2055319]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:53:04 ip-172-31-11-160 bash[2055319]: {"ts":"2025-10-08T16:53:04Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:53:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:53:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:53:04 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:53:04 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 1.999s CPU time.
+Oct 09 01:54:05 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
+Oct 09 01:54:06 ip-172-31-11-160 bash[2058596]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 09 01:54:07 ip-172-31-11-160 bash[2058596]: {"ts":"2025-10-08T16:54:07Z","queue":"llm_ads","skipped":"no DRIP_JOB"}
+Oct 09 01:54:07 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Main process exited, code=exited, status=1/FAILURE
+Oct 09 01:54:07 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Failed with result 'exit-code'.
+Oct 09 01:54:07 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip.
+Oct 09 01:54:07 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@ads_drip.service: Consumed 2.020s CPU time.
+Oct 09 01:55:01 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@ads_drip.service - Enqueue Sidekiq profile ads_drip...
 ```
