@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T19:40:06Z
-- Branch: ops-status (220a790b)
+- Generated: 2025-10-08T19:45:18Z
+- Branch: ops-status (2140bd25)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 196 |
-| Dead (global) | 186 |
-| Error lines (since 1 hour ago) | 112 |
+| Retries (global) | 195 |
+| Dead (global) | 187 |
+| Error lines (since 1 hour ago) | 113 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -55,6 +55,7 @@ active
 active
 failed
 active
+failed
 active
 active
 active
@@ -86,7 +87,7 @@ active
 active
 active
 active
-activating
+active
 active
 active
 failed
@@ -169,6 +170,8 @@ failed
 
 exited
 
+failed
+
 exited
 
 running
@@ -231,7 +234,7 @@ running
 
 exited
 
-auto-restart
+running
 
 running
 
@@ -323,6 +326,8 @@ exited | 635
 
 0
 
+0
+
 592396
 
 0
@@ -361,7 +366,7 @@ exited | 635
 
 1682531
 
-2763239
+2780504
 
 238
 
@@ -473,6 +478,8 @@ Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:01 KST
 
+
+
 Fri 2025-09-26 03:18:59 KST
 
 Wed 2025-10-08 19:56:56 KST
@@ -535,7 +542,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Thu 2025-10-09 04:40:02 KST
+Thu 2025-10-09 04:45:18 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -550,7 +557,6 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@score_scan.service | inactive | dead | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
