@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T13:00:01Z
-- Branch: ops-status (f5561810)
+- Generated: 2025-10-08T13:05:21Z
+- Branch: ops-status (65d638f9)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -10,9 +10,9 @@
 | Metric | Value |
 |---|---:|
 | Queue backlog | 0 |
-| Retries (global) | 61 |
-| Dead (global) | 53 |
-| Error lines (since 1 hour ago) | 193 |
+| Retries (global) | 63 |
+| Dead (global) | 55 |
+| Error lines (since 1 hour ago) | 102 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -41,44 +41,15 @@ active
 active
 active
 active
-activating
-activating
-active
-active
-active
-active
-active
-active
-activating
 failed
 active
 active
-activating
-active
-activating
 active
 active
 active
 active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-active
-activating
-active
-active
+failed
+failed
 active
 active
 failed
@@ -87,7 +58,34 @@ active
 active
 active
 active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
+active
 activating
+active
+active
+active
+active
+failed
+active
+active
+active
+active
+active
+active
 active
 active
 failed
@@ -142,43 +140,11 @@ running
 
 running
 
-start
-
-start
-
-exited
-
-exited
-
-running
-
-running
-
-running
-
-exited
-
-start
-
 failed
 
 exited
 
-running
-
-start
-
 exited
-
-start
-
-exited
-
-running
-
-exited
-
-running
 
 running
 
@@ -188,35 +154,9 @@ running
 
 exited
 
-exited
+failed
 
-exited
-
-running
-
-exited
-
-exited
-
-exited
-
-exited
-
-exited
-
-exited
-
-running
-
-running
-
-running
-
-start
-
-running
-
-running
+failed
 
 exited
 
@@ -230,11 +170,65 @@ exited
 
 running
 
+exited
+
+running
+
+running
+
+running
+
 running
 
 exited
 
-auto-restart
+exited
+
+exited
+
+running
+
+exited
+
+exited
+
+exited
+
+exited
+
+exited
+
+exited
+
+running
+
+running
+
+running
+
+start
+
+running
+
+running
+
+exited
+
+running
+
+failed
+
+exited
+
+exited
+
+running
+
+running
+
+exited
+
+running
 
 running
 
@@ -296,9 +290,7 @@ exited | 635
 
 1682524
 
-1087687
-
-1087689
+0
 
 0
 
@@ -312,7 +304,7 @@ exited | 635
 
 0
 
-1087686
+0
 
 0
 
@@ -320,11 +312,9 @@ exited | 635
 
 723
 
-1087685
-
 0
 
-1087839
+0
 
 0
 
@@ -366,7 +356,7 @@ exited | 635
 
 1682531
 
-1087690
+1128051
 
 238
 
@@ -388,7 +378,7 @@ exited | 635
 
 0
 
-0
+1128050
 
 1682543
 
@@ -452,8 +442,6 @@ Thu 2025-10-02 15:39:50 KST
 
 
 
-
-
 Tue 2025-10-07 20:49:59 KST
 
 Fri 2025-09-26 03:19:50 KST
@@ -477,8 +465,6 @@ Fri 2025-09-26 03:19:13 KST
 
 
 Fri 2025-09-26 03:19:01 KST
-
-
 
 Fri 2025-09-26 03:18:59 KST
 
@@ -542,7 +528,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 21:59:59 KST
+Wed 2025-10-08 22:05:21 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -557,10 +543,7 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@ads_drip.service | activating | start | 1087685 |  |
-| sidekiq-enqueue@image_drip.service | activating | start | 1087686 |  |
-| sidekiq-enqueue@score_scan.service | activating | start | 1087839 |  |
-| sidekiq-enqueue@seo_inc.service | activating | start | 1087687 |  |
+| sidekiq-enqueue@score_scan.service | inactive | dead | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
