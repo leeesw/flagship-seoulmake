@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T08:45:21Z
-- Branch: ops-status (7b551cbf)
+- Generated: 2025-10-08T08:50:25Z
+- Branch: ops-status (4c1b796c)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 0 |
 | Dead (global) | 5 |
-| Error lines (since 1 hour ago) | 28 |
+| Error lines (since 1 hour ago) | 45 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -40,6 +40,7 @@ active
 active
 active
 active
+active
 failed
 active
 active
@@ -47,8 +48,11 @@ active
 active
 active
 active
+failed
+failed
 active
 active
+failed
 active
 failed
 active
@@ -75,12 +79,13 @@ active
 active
 active
 active
+failed
 active
 active
 active
 active
 active
-activating
+active
 active
 active
 active
@@ -110,6 +115,8 @@ exited
 
 running
 
+running
+
 exited
 
 exited
@@ -146,9 +153,15 @@ running
 
 exited
 
+failed
+
+failed
+
 exited
 
 running
+
+failed
 
 exited
 
@@ -202,6 +215,8 @@ exited
 
 running
 
+failed
+
 exited
 
 exited
@@ -212,7 +227,7 @@ running
 
 exited
 
-auto-restart
+running
 
 running
 
@@ -245,6 +260,8 @@ exited | 635
 664
 
 0
+
+31619
 
 618
 
@@ -286,7 +303,13 @@ exited | 635
 
 0
 
+0
+
+0
+
 723
+
+0
 
 0
 
@@ -330,7 +353,7 @@ exited | 635
 
 1682531
 
-29815
+59692
 
 238
 
@@ -344,13 +367,15 @@ exited | 635
 
 0
 
+0
+
 625
 
 3114130
 
 0
 
-0
+59691
 
 1682543
 
@@ -383,6 +408,8 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:13 KST
+
+Wed 2025-10-08 17:45:50 KST
 
 Fri 2025-09-26 03:19:13 KST
 
@@ -422,9 +449,15 @@ Fri 2025-09-26 03:19:12 KST
 
 Fri 2025-09-26 03:19:02 KST
 
+
+
+
+
 Fri 2025-09-26 03:19:00 KST
 
 Fri 2025-09-26 03:19:13 KST
+
+
 
 Fri 2025-09-26 03:19:01 KST
 
@@ -478,6 +511,8 @@ Fri 2025-09-26 03:19:12 KST
 
 Fri 2025-09-26 03:19:13 KST
 
+
+
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:13 KST
@@ -488,7 +523,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 17:45:17 KST
+Wed 2025-10-08 17:50:25 KST
 
 Thu 2025-10-02 15:39:50 KST
 
