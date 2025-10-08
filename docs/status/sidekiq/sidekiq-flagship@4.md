@@ -1,9 +1,9 @@
 # sidekiq-flagship@4.service
 
 - **Active**: active (running)
-- **PID**: 3114097
-- **Since**: Wed 2025-10-08 13:13:08 KST
-- **Generated**: 2025-10-08T04:55:42Z
+- **PID**: 3293117
+- **Since**: Wed 2025-10-08 13:56:32 KST
+- **Generated**: 2025-10-08T05:00:57Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,25 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:32:in 'Rails::Initializable::Initializer#run'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:61:in 'block in Rails::Initializable#run_initializers'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:231:in 'block in TSort.tsort_each'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:353:in 'block (2 levels) in TSort.each_strongly_connected_component'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:434:in 'TSort.each_strongly_connected_component_from'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:352:in 'block in TSort.each_strongly_connected_component'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'Rails::Initializable::Collection#each'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'Method#call'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:350:in 'TSort.each_strongly_connected_component'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:229:in 'TSort.tsort_each'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/tsort.rb:208:in 'TSort#tsort_each'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/initializable.rb:60:in 'Rails::Initializable#run_initializers'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/railties-8.0.2.1/lib/rails/application.rb:440:in 'Rails::Application#initialize!'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/config/environment.rb:5:in '<top (required)>'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/bundled_gems.rb:82:in 'Kernel.require'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/3.4.0/bundled_gems.rb:82:in 'block (2 levels) in Kernel#replace_require'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/lib/sidekiq/cli.rb:308:in 'Sidekiq::CLI#boot_application'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/lib/sidekiq/cli.rb:42:in 'Sidekiq::CLI#run'
-Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/gems/sidekiq-7.3.9/bin/sidekiq:31:in '<top (required)>'
 Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/bin/sidekiq:25:in 'Kernel#load'
 Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/flagship-seoulmake/vendor/bundle/ruby/3.4.0/bin/sidekiq:25:in '<top (required)>'
 Oct 08 13:13:03 ip-172-31-11-160 sidekiq-flagship[4][3113755]: /home/ubuntu/.rbenv/versions/3.4.5/lib/ruby/gems/3.4.0/gems/bundler-2.7.1/lib/bundler/cli/exec.rb:59:in 'Kernel.load'
@@ -62,4 +43,23 @@ Oct 08 13:13:10 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:13:
 Oct 08 13:13:10 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:13:10.776Z pid=3114097 tid=1uvi9 INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
 Oct 08 13:13:10 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:13:10.777Z pid=3114097 tid=1uvi9 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
 Oct 08 13:13:10 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:13:10.779Z pid=3114097 tid=1uvi9 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
+Oct 08 13:56:31 ip-172-31-11-160 systemd[1]: Stopping sidekiq-flagship@4.service - Sidekiq (flagship) instance 4...
+Oct 08 13:56:31 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:56:31.820Z pid=3114097 tid=1uvi9 INFO: Shutting down
+Oct 08 13:56:31 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:56:31.820Z pid=3114097 tid=1uvi9 INFO: Terminating quiet threads for default capsule
+Oct 08 13:56:31 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:56:31.820Z pid=3114097 tid=1ux5d INFO: Scheduler exiting...
+Oct 08 13:56:32 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:56:32.321Z pid=3114097 tid=1ux5l INFO: Pausing to allow jobs to finish...
+Oct 08 13:56:32 ip-172-31-11-160 sidekiq-flagship[4][3114097]: 2025-10-08T04:56:32.821Z pid=3114097 tid=1uvi9 INFO: Bye!
+Oct 08 13:56:32 ip-172-31-11-160 systemd[1]: sidekiq-flagship@4.service: Deactivated successfully.
+Oct 08 13:56:32 ip-172-31-11-160 systemd[1]: Stopped sidekiq-flagship@4.service - Sidekiq (flagship) instance 4.
+Oct 08 13:56:32 ip-172-31-11-160 systemd[1]: sidekiq-flagship@4.service: Consumed 4.135s CPU time, 111.2M memory peak, 0B memory swap peak.
+Oct 08 13:56:32 ip-172-31-11-160 systemd[1]: Started sidekiq-flagship@4.service - Sidekiq (flagship) instance 4.
+Oct 08 13:56:32 ip-172-31-11-160 sidekiq-flagship[4][3293117]: [run-sidekiq-flagship] iid=4 rails_env=production queues=ads concurrency=5 app_dir=/home/ubuntu/flagship-seoulmake
+Oct 08 13:56:33 ip-172-31-11-160 sidekiq-flagship[4][3293215]: The Gemfile's dependencies are satisfied
+Oct 08 13:56:34 ip-172-31-11-160 sidekiq-flagship[4][3293117]: [DEPRECATION] Rack::Attack.throttled_response is deprecated. Please use Rack::Attack.throttled_responder instead
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.363Z pid=3293117 tid=1yg99 INFO: Booted Rails 8.0.2.1 application in production environment
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.363Z pid=3293117 tid=1yg99 INFO: Running in ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.363Z pid=3293117 tid=1yg99 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.363Z pid=3293117 tid=1yg99 INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.363Z pid=3293117 tid=1yg99 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://127.0.0.1:6380/1"}
+Oct 08 13:56:35 ip-172-31-11-160 sidekiq-flagship[4][3293117]: 2025-10-08T04:56:35.365Z pid=3293117 tid=1yg99 INFO: Sidekiq 7.3.9 connecting to Redis with options {size: 5, pool_name: "default", url: "redis://127.0.0.1:6380/1"}
 ```
