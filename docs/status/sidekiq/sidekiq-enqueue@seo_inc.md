@@ -1,18 +1,17 @@
 # sidekiq-enqueue@seo_inc.service
 
-- **Active**: failed (failed)
-- **PID**: 0
+- **Active**: activating (start)
+- **PID**: 573304
 - **Since**: 
-- **Generated**: 2025-10-08T10:50:05Z
+- **Generated**: 2025-10-08T10:55:04Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
-- retries: **18**
-- dead: **10**
+- retries: **21**
+- dead: **11**
 
 ## Recent logs (last 50)
 ```
-Oct 08 19:25:06 ip-172-31-11-160 bash[440421]: uninitialized constant Post
 Oct 08 19:25:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Main process exited, code=exited, status=1/FAILURE
 Oct 08 19:25:06 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Failed with result 'exit-code'.
 Oct 08 19:25:06 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@seo_inc.service - Enqueue Sidekiq profile seo_inc.
@@ -62,4 +61,5 @@ Oct 08 19:50:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Ma
 Oct 08 19:50:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Failed with result 'exit-code'.
 Oct 08 19:50:05 ip-172-31-11-160 systemd[1]: Failed to start sidekiq-enqueue@seo_inc.service - Enqueue Sidekiq profile seo_inc.
 Oct 08 19:50:05 ip-172-31-11-160 systemd[1]: sidekiq-enqueue@seo_inc.service: Consumed 2.035s CPU time.
+Oct 08 19:55:04 ip-172-31-11-160 systemd[1]: Starting sidekiq-enqueue@seo_inc.service - Enqueue Sidekiq profile seo_inc...
 ```
