@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-08T09:50:05Z
-- Branch: ops-status (04081aba)
+- Generated: 2025-10-08T09:55:33Z
+- Branch: ops-status (53d5a1fb)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 0 |
 | Dead (global) | 5 |
-| Error lines (since 1 hour ago) | 418 |
+| Error lines (since 1 hour ago) | 227 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -41,7 +41,6 @@ active
 active
 active
 failed
-activating
 active
 active
 active
@@ -85,7 +84,7 @@ active
 active
 active
 active
-activating
+active
 active
 failed
 active
@@ -140,8 +139,6 @@ running
 
 failed
 
-start
-
 exited
 
 exited
@@ -228,7 +225,7 @@ running
 
 exited
 
-auto-restart
+running
 
 running
 
@@ -289,8 +286,6 @@ exited | 635
 1682524
 
 0
-
-300975
 
 0
 
@@ -356,7 +351,7 @@ exited | 635
 
 1682531
 
-301118
+321539
 
 238
 
@@ -378,7 +373,7 @@ exited | 635
 
 0
 
-0
+321538
 
 1682543
 
@@ -437,8 +432,6 @@ Fri 2025-09-26 03:18:59 KST
 Fri 2025-09-26 03:19:13 KST
 
 Thu 2025-10-02 15:39:50 KST
-
-
 
 
 
@@ -528,7 +521,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Wed 2025-10-08 18:50:03 KST
+Wed 2025-10-08 18:55:33 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -543,11 +536,6 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@ads_drip.service | failed | failed | 0 |  |
-| sidekiq-enqueue@reconcile_drip.service | failed | failed | 0 |  |
-| sidekiq-enqueue@score_drip.service | failed | failed | 0 |  |
-| sidekiq-enqueue@seo_drip.service | failed | failed | 0 |  |
-| sidekiq-enqueue@seo_inc.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
