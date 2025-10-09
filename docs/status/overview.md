@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T16:30:25Z
-- Branch: ops-status (0c1eac96)
+- Generated: 2025-10-09T16:35:30Z
+- Branch: ops-status (3b281fe1)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -88,7 +88,7 @@ active
 active
 active
 active
-activating
+active
 active
 active
 failed
@@ -119,9 +119,9 @@ running
 
 exited
 
-running
-
 exited
+
+running
 
 exited
 
@@ -275,9 +275,9 @@ exited | 635
 
 0
 
-618
-
 0
+
+618
 
 0
 
@@ -371,7 +371,7 @@ exited | 635
 
 1682531
 
-1567244
+1573559
 
 238
 
@@ -431,9 +431,9 @@ Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-09-26 03:19:13 KST
-
 Fri 2025-09-26 03:18:59 KST
+
+Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:12 KST
 
@@ -549,7 +549,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-10-10 01:30:24 KST
+Fri 2025-10-10 01:35:30 KST
 
 Thu 2025-10-02 15:39:50 KST
 
