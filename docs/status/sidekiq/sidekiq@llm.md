@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 592396
 - **Since**: Wed 2025-10-08 19:56:56 KST
-- **Generated**: 2025-10-09T02:20:19Z
+- **Generated**: 2025-10-09T02:25:26Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,11 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 09 11:01:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:01:09.734Z pid=592396 tid=br8s class=Score::ScanUpdatePostsJob jid=76f18526ad2b0fbcdbf164db INFO: start
-Oct 09 11:01:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:01:09.735Z pid=592396 tid=br8s class=Score::ScanUpdatePostsJob jid=76f18526ad2b0fbcdbf164db elapsed=0.001 INFO: fail
-Oct 09 11:01:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:01:09.736Z pid=592396 tid=br8s WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"76f18526ad2b0fbcdbf164db","created_at":1759949289.2509527,"enqueued_at":1759975269.7340984,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759949289.2528203,"retry_count":10,"retried_at":1759965153.3392005}}
-Oct 09 11:01:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:01:09.736Z pid=592396 tid=br8s WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
-Oct 09 11:01:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:01:09.736Z pid=592396 tid=br8s WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
 Oct 09 11:04:15 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:04:15.437Z pid=592396 tid=br9o class=Score::ScanUpdatePostsJob jid=9dbaaf1be8c27999196389d6 INFO: start
 Oct 09 11:04:15 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:04:15.438Z pid=592396 tid=br9w class=Score::ScanUpdatePostsJob jid=ffde364c46ce5c4c65965827 INFO: start
 Oct 09 11:04:15 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:04:15.438Z pid=592396 tid=br9o class=Score::ScanUpdatePostsJob jid=9dbaaf1be8c27999196389d6 elapsed=0.001 INFO: fail
@@ -62,4 +57,9 @@ Oct 09 11:19:00 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:19:00.988Z p
 Oct 09 11:19:00 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:19:00.989Z pid=592396 tid=brgs WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"2bd7408a11a86d7eda0c8ccf","created_at":1759935791.7550673,"enqueued_at":1759976340.9874568,"error_message":"uninitialized constant Sidekiq::Process::CLOCK_MONOTONIC","error_class":"NameError","failed_at":1759935791.7568512,"retry_count":11,"retried_at":1759961600.818362}}
 Oct 09 11:19:00 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:19:00.989Z pid=592396 tid=brgs WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
 Oct 09 11:19:00 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:19:00.989Z pid=592396 tid=brgs WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
+Oct 09 11:21:32 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:21:32.854Z pid=592396 tid=brho class=Score::ScanUpdatePostsJob jid=bffe0eff6af011f35bd49f35 INFO: start
+Oct 09 11:21:32 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:21:32.855Z pid=592396 tid=brho class=Score::ScanUpdatePostsJob jid=bffe0eff6af011f35bd49f35 elapsed=0.001 INFO: fail
+Oct 09 11:21:32 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:21:32.855Z pid=592396 tid=brho WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"bffe0eff6af011f35bd49f35","created_at":1759935966.5582664,"enqueued_at":1759976492.8537266,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759935966.5599666,"retry_count":11,"retried_at":1759961791.8714595}}
+Oct 09 11:21:32 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:21:32.855Z pid=592396 tid=brho WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
+Oct 09 11:21:32 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T02:21:32.855Z pid=592396 tid=brho WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
 ```
