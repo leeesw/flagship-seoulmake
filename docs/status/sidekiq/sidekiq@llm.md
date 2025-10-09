@@ -3,7 +3,7 @@
 - **Active**: active (running)
 - **PID**: 592396
 - **Since**: Wed 2025-10-08 19:56:56 KST
-- **Generated**: 2025-10-09T17:15:14Z
+- **Generated**: 2025-10-09T17:20:24Z
 
 ## Queue (global snapshot)
 - `llm_seo` backlog: **0**
@@ -12,11 +12,6 @@
 
 ## Recent logs (last 50)
 ```
-Oct 10 01:41:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:41:09.703Z pid=592396 tid=bvpo class=Score::ScanUpdatePostsJob jid=2844bcbda50b6ec12af3339e INFO: start
-Oct 10 01:41:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:41:09.704Z pid=592396 tid=bvpo class=Score::ScanUpdatePostsJob jid=2844bcbda50b6ec12af3339e elapsed=0.001 INFO: fail
-Oct 10 01:41:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:41:09.704Z pid=592396 tid=bvpo WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"2844bcbda50b6ec12af3339e","created_at":1759938126.5987337,"enqueued_at":1760028069.7029796,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759938126.6005511,"retry_count":13,"retried_at":1759999449.5857794}}
-Oct 10 01:41:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:41:09.704Z pid=592396 tid=bvpo WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
-Oct 10 01:41:09 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:41:09.704Z pid=592396 tid=bvpo WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
 Oct 10 01:49:41 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:49:41.419Z pid=592396 tid=bvqk class=Score::ScanUpdatePostsJob jid=2d3dca4dcfcdc32ce6967d3f INFO: start
 Oct 10 01:49:41 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:49:41.420Z pid=592396 tid=bvqk class=Score::ScanUpdatePostsJob jid=2d3dca4dcfcdc32ce6967d3f elapsed=0.001 INFO: fail
 Oct 10 01:49:41 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T16:49:41.420Z pid=592396 tid=bvqk WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"2d3dca4dcfcdc32ce6967d3f","created_at":1759938664.7754445,"enqueued_at":1760028581.419052,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759938664.7774656,"retry_count":13,"retried_at":1759999963.3322256}}
@@ -62,4 +57,9 @@ Oct 10 02:14:05 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:14:05.510Z p
 Oct 10 02:14:05 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:14:05.510Z pid=592396 tid=bzvw WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"1720402016e04a18ca36230c","created_at":1759940107.8357813,"enqueued_at":1760030045.5093877,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759940107.8381457,"retry_count":13,"retried_at":1760001425.4197729}}
 Oct 10 02:14:05 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:14:05.510Z pid=592396 tid=bzvw WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
 Oct 10 02:14:05 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:14:05.511Z pid=592396 tid=bzvw WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
+Oct 10 02:19:18 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:19:18.852Z pid=592396 tid=bzws class=Score::ScanUpdatePostsJob jid=6fa601875432671715bb0a2e INFO: start
+Oct 10 02:19:18 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:19:18.853Z pid=592396 tid=bzws class=Score::ScanUpdatePostsJob jid=6fa601875432671715bb0a2e elapsed=0.001 INFO: fail
+Oct 10 02:19:18 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:19:18.853Z pid=592396 tid=bzws WARN: {"context":"Job raised exception","job":{"retry":true,"queue":"llm_score","args":[],"class":"Score::ScanUpdatePostsJob","jid":"6fa601875432671715bb0a2e","created_at":1759940289.2316737,"enqueued_at":1760030358.8524384,"error_message":"undefined method 'clock_gettime' for class Sidekiq::Process","error_class":"NoMethodError","failed_at":1759940289.2332373,"retry_count":13,"retried_at":1760001767.8365767}}
+Oct 10 02:19:18 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:19:18.853Z pid=592396 tid=bzws WARN: NoMethodError: undefined method 'clock_gettime' for class Sidekiq::Process
+Oct 10 02:19:18 ip-172-31-11-160 sidekiq-llm[592396]: 2025-10-09T17:19:18.854Z pid=592396 tid=bzws WARN: app/sidekiq/metrics_middleware.rb:13:in 'Sidekiq::MetricsMiddleware#call'
 ```
