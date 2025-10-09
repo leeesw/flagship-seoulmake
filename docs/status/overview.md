@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T17:25:00Z
-- Branch: ops-status (31955559)
+- Generated: 2025-10-09T17:30:10Z
+- Branch: ops-status (c76bb6c3)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 689 |
+| Error lines (since 1 hour ago) | 618 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -42,7 +42,7 @@ active
 active
 active
 failed
-activating
+failed
 active
 active
 active
@@ -88,7 +88,7 @@ active
 active
 active
 active
-active
+activating
 active
 active
 failed
@@ -119,9 +119,9 @@ running
 
 exited
 
-running
-
 exited
+
+running
 
 exited
 
@@ -144,79 +144,79 @@ exited
 running
 
 failed
+
+failed
+
+exited
+
+exited
+
+running
+
+running
+
+running
+
+exited
+
+failed
+
+failed
+
+failed
+
+exited
+
+running
+
+failed
+
+exited
+
+failed
+
+exited
+
+running
+
+exited
+
+running
+
+running
+
+running
+
+running
+
+exited
+
+exited
+
+exited
+
+running
+
+exited
+
+exited
+
+exited
+
+exited
+
+exited
+
+exited
+
+running
+
+running
+
+running
 
 start
 
-exited
-
-exited
-
-running
-
-running
-
-running
-
-exited
-
-failed
-
-failed
-
-failed
-
-exited
-
-running
-
-failed
-
-exited
-
-failed
-
-exited
-
-running
-
-exited
-
-running
-
-running
-
-running
-
-running
-
-exited
-
-exited
-
-exited
-
-running
-
-exited
-
-exited
-
-exited
-
-exited
-
-exited
-
-exited
-
-running
-
-running
-
-running
-
-start
-
 running
 
 running
@@ -237,7 +237,7 @@ running
 
 exited
 
-running
+auto-restart
 
 running
 
@@ -275,9 +275,9 @@ exited | 635
 
 0
 
-618
-
 0
+
+618
 
 0
 
@@ -301,7 +301,7 @@ exited | 635
 
 0
 
-1635882
+0
 
 0
 
@@ -371,7 +371,7 @@ exited | 635
 
 1682531
 
-1635883
+1643306
 
 238
 
@@ -431,9 +431,9 @@ Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-09-26 03:19:13 KST
-
 Fri 2025-09-26 03:18:59 KST
+
+Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:12 KST
 
@@ -549,7 +549,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-10-10 02:25:00 KST
+Fri 2025-10-10 02:30:06 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -564,8 +564,6 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@ads_drip.service | failed | failed | 0 |  |
-| sidekiq-enqueue@seo_inc.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
