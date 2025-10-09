@@ -1,16 +1,16 @@
 # ALERTS
 
-- Generated: 2025-10-09T04:20:03Z
+- Generated: 2025-10-09T04:25:14Z
 - Window: 1 hour ago
 - Thresholds: queue>20, retries>10, dead>1, errors>10
 
 ## Triggers
 - **Retries 195 > 10**
 - **Dead 187 > 1**
-- **Errors 226 > 10 (since 1 hour ago)**
+- **Errors 154 > 10 (since 1 hour ago)**
 
 ## Snapshot
 - Queue backlog: 0
 - Retries: 195
 - Dead: 187
-- Error lines: 226
+- Error lines: 154
