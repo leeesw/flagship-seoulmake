@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T07:25:02Z
-- Branch: ops-status (eabee8a7)
+- Generated: 2025-10-09T07:30:01Z
+- Branch: ops-status (416029c7)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 613 |
+| Error lines (since 1 hour ago) | 672 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -298,7 +298,7 @@ exited | 635
 
 0
 
-887770
+893773
 
 0
 
@@ -366,7 +366,7 @@ exited | 635
 
 1682531
 
-887837
+893955
 
 238
 
@@ -542,7 +542,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Thu 2025-10-09 16:24:59 KST
+Thu 2025-10-09 16:29:58 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -557,6 +557,7 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
+| sidekiq-enqueue@ads_drip.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
