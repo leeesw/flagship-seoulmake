@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T12:45:07Z
-- Branch: ops-status (210ee908)
+- Generated: 2025-10-09T12:50:06Z
+- Branch: ops-status (365c093a)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 632 |
+| Error lines (since 1 hour ago) | 616 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -88,7 +88,7 @@ active
 active
 active
 active
-activating
+active
 active
 active
 failed
@@ -237,7 +237,7 @@ running
 
 exited
 
-auto-restart
+running
 
 running
 
@@ -371,7 +371,7 @@ exited | 635
 
 1682531
 
-1287291
+1293563
 
 238
 
@@ -549,7 +549,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Thu 2025-10-09 21:45:06 KST
+Thu 2025-10-09 21:50:06 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -564,7 +564,6 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
-| sidekiq-enqueue@score_scan.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
