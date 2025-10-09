@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T18:30:05Z
-- Branch: ops-status (d1e5c961)
+- Generated: 2025-10-09T18:35:17Z
+- Branch: ops-status (0422d183)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,13 +12,12 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 616 |
+| Error lines (since 1 hour ago) | 614 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
 |---|---|---|---:|---|
 | *.service | active
-active
 active
 active
 active
@@ -90,7 +89,7 @@ active
 active
 active
 active
-active
+activating
 active
 active
 failed
@@ -121,12 +120,6 @@ running
 
 exited
 
-running
-
-exited
-
-exited
-
 exited
 
 running
@@ -139,7 +132,11 @@ running
 
 exited
 
+exited
+
 running
+
+exited
 
 exited
 
@@ -243,7 +240,7 @@ running
 
 exited
 
-running
+auto-restart
 
 running
 
@@ -281,9 +278,9 @@ exited | 635
 
 0
 
-618
-
 0
+
+618
 
 0
 
@@ -298,8 +295,6 @@ exited | 635
 1064
 
 0
-
-1715541
 
 0
 
@@ -381,7 +376,7 @@ exited | 635
 
 1682531
 
-1718374
+1724831
 
 238
 
@@ -441,9 +436,9 @@ Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-09-26 03:19:13 KST
-
 Fri 2025-09-26 03:18:59 KST
+
+Fri 2025-09-26 03:19:13 KST
 
 Fri 2025-09-26 03:19:12 KST
 
@@ -458,8 +453,6 @@ Fri 2025-09-26 03:18:59 KST
 Fri 2025-09-26 03:19:50 KST
 
 Fri 2025-09-26 03:18:59 KST
-
-Fri 2025-10-10 03:27:50 KST
 
 Fri 2025-09-26 03:18:59 KST
 
@@ -563,7 +556,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Fri 2025-10-10 03:30:05 KST
+Fri 2025-10-10 03:35:17 KST
 
 Thu 2025-10-02 15:39:50 KST
 
