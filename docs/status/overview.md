@@ -1,7 +1,7 @@
 # Ops Overview
 
-- Generated: 2025-10-09T08:40:11Z
-- Branch: ops-status (bc0732ad)
+- Generated: 2025-10-09T08:45:01Z
+- Branch: ops-status (12037cd9)
 
 ## Redis / Sidekiq
 - **REDIS_URL**: redis://127.0.0.1:6380/1
@@ -12,7 +12,7 @@
 | Queue backlog | 0 |
 | Retries (global) | 195 |
 | Dead (global) | 187 |
-| Error lines (since 1 hour ago) | 605 |
+| Error lines (since 1 hour ago) | 625 |
 
 ## Workers
 | Service | Active | Sub | PID | Since |
@@ -42,7 +42,7 @@ active
 active
 active
 failed
-failed
+activating
 active
 active
 active
@@ -136,15 +136,15 @@ running
 
 exited
 
+running
+
 exited
 
 running
 
-running
-
 failed
 
-failed
+start
 
 exited
 
@@ -290,15 +290,15 @@ exited | 635
 
 0
 
-0
-
 627
+
+0
 
 1682524
 
 0
 
-0
+986732
 
 0
 
@@ -366,7 +366,7 @@ exited | 635
 
 1682531
 
-980841
+986900
 
 238
 
@@ -444,9 +444,9 @@ Fri 2025-09-26 03:19:50 KST
 
 Fri 2025-09-26 03:18:59 KST
 
-Fri 2025-09-26 03:18:59 KST
-
 Fri 2025-09-26 03:19:13 KST
+
+Fri 2025-09-26 03:18:59 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -542,7 +542,7 @@ Wed 2025-10-08 13:13:08 KST
 
 Fri 2025-09-26 03:19:13 KST
 
-Thu 2025-10-09 17:40:12 KST
+Thu 2025-10-09 17:45:00 KST
 
 Thu 2025-10-02 15:39:50 KST
 
@@ -557,6 +557,7 @@ Fri 2025-09-26 03:19:12 KST
 Fri 2025-09-26 03:18:59 KST
 
 Fri 2025-09-26 03:19:11 KST |
+| sidekiq-enqueue@image_drip.service | failed | failed | 0 |  |
 | sidekiq-flagship@1.service | active | running | 4101673 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@2.service | active | running | 4101567 | Wed 2025-10-08 17:18:35 KST |
 | sidekiq-flagship@3.service | active | running | 4101771 | Wed 2025-10-08 17:18:36 KST |
