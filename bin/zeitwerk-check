@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export RAILS_ENV=production
+export SECRET_KEY_BASE_DUMMY=1
+bundle exec rake zeitwerk:check
