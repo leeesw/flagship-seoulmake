@@ -70,5 +70,5 @@ gem "nokogiri", ">= 1.16"       # ← 추가
 # --- GA4 Data API client (for GA4_PULL=api) ---
 gem "google-analytics-data"
 
-gem "sidekiq", "~> 7.2"
+gem "sidekiq", "~> 8.0"
 gem 'rack-attack'
