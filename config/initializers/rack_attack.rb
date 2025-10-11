@@ -48,3 +48,9 @@ class Rack::Attack
     [429, headers, [body]]
   end
 end
+
+# -- silences: Rack::Attack.throttled_response deprecated --
+Rack::Attack.throttled_responder = lambda do |request|
+  [429, { 'Content-Type' => 'application/json' },
+   [ { error: 'Throttle limit reached' }.to_json ]]
+end
