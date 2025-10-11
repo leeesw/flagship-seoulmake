@@ -1,13 +1,10 @@
 # frozen_string_literal: true
-unless defined?(Seo::PromptTemplates)
-  module Seo
-    module PromptTemplates; end
-  end
-end
 
-module SEO
+module Seo
   module PromptTemplates
-    TAG_BLOCKLIST = %w[설정 정보 방법 후기 리뷰 비교 가격 최신 가이드 소개 의미 정의 요약 정리 리스트 팁 체크리스트 꿀팁 베스트].freeze
+    TAG_BLOCKLIST = %w[
+      설정 정보 방법 후기 리뷰 비교 가격 최신 가이드 소개 의미 정의 요약 정리 리스트 팁 체크리스트 꿀팁 베스트
+    ].freeze
 
     TEMPLATE = <<~PROMPT
       System:
@@ -35,3 +32,6 @@ module SEO
   end
 end
 
+# ---- Back-compat ----
+# (과거 코드가 ::SEO::PromptTemplates를 참조했다면 안전하게 alias)
+::SEO = ::Seo unless defined?(::SEO)
