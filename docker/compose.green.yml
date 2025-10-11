@@ -1,0 +1,125 @@
+version: "3.9"
+
+x-common-env: &common_env
+  RAILS_ENV: production
+  RACK_ENV: production
+  REDIS_URL: ${REDIS_URL}
+  DATABASE_URL: ${DATABASE_URL}
+  WP_BASE_URL: ${WP_BASE_URL}
+  ACTIVE_COLOR_KEY: sm:active_color
+  COLOR: ${COLOR}
+  OPS_TARGET_VERSION: ${OPS_TARGET_VERSION}
+  GA4_PROPERTY_ID: ${GA4_PROPERTY_ID}
+  INDEXNOW_KEY: ${INDEXNOW_KEY}
+  INDEXNOW_KEY_LOCATION: ${INDEXNOW_KEY_LOCATION}
+
+networks:
+  seoulmake_services_net:
+    external: true
+    name: seoulmake-services_seoulmake_network
+
+services:
+  app:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    environment:
+      <<: *common_env
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - "${APP_PORT:-3002}:3000"   # ← Green은 보통 3002 추천
+    networks: [seoulmake_services_net]
+    cpus: 1.0
+    mem_limit: 1024m
+
+  sidekiq-io:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: io,io_default
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-20} -q io -q io_default"
+    networks: [seoulmake_services_net]
+    cpus: 1.0
+    mem_limit: 1536m
+
+  sidekiq-llm:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: llm
+      LLM_RATE_PER_MIN: "${LLM_RATE_PER_MIN:-30}"
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-3} -q llm"
+    networks: [seoulmake_services_net]
+    cpus: 0.5
+    mem_limit: 1024m
+
+  sidekiq-analytics:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: analytics
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-3} -q analytics"
+    networks: [seoulmake_services_net]
+    cpus: 0.6
+    mem_limit: 1024m
+
+  sidekiq-cpu:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: cpu
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-2} -q cpu"
+    networks: [seoulmake_services_net]
+    cpus: 2.0
+    mem_limit: 2560m
+
+  sidekiq-indexing:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: indexing
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-2} -q indexing"
+    networks: [seoulmake_services_net]
+    cpus: 0.2
+    mem_limit: 512m
+
+  sidekiq-admatch:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: admatch
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-4} -q admatch"
+    networks: [seoulmake_services_net]
+    cpus: 0.3
+    mem_limit: 768m
+
+  sidekiq-scheduler:
+    image: ${APP_IMAGE}
+    pull_policy: never
+    restart: always
+    depends_on: [app]
+    environment:
+      <<: *common_env
+      QUEUES: scheduler
+    command: bash -lc "bundle exec sidekiq -r ./config/environment -c ${CONCURRENCY:-1} -q scheduler -C config/sidekiq-cron.yml"
+    networks: [seoulmake_services_net]
+    cpus: 0.1
+    mem_limit: 256m

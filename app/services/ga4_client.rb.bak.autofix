@@ -1,0 +1,1 @@
+class GA4Client\n  def initialize(property_id:, credentials_json: ENV["GA4_CREDENTIALS_JSON"])\n    @property = "properties/#{property_id}"\n    @cred = credentials_json\n  end\n  def report(start_date:, end_date:, page_paths: [])\n    []\n  end\nend\n\n

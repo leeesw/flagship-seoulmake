@@ -1,0 +1,1 @@
+class Ga4Score < ApplicationRecord\n  self.primary_key = [:post_id, :window]\n  scope :for_post, ->(pid, w) { find_by(post_id: pid, window: w) }\nend\n\n

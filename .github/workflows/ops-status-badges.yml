@@ -1,0 +1,82 @@
+name: ops-status | badges
+on:
+  push:
+    branches: [ ops-status ]
+    paths:
+      - 'docs/status/**'
+      - '.github/ops-status.yml'
+
+jobs:
+  badges:
+    if: github.actor != 'github-actions[bot]'   # 봇 자기푸시로 루프 방지
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load config
+        id: cfg
+        run: |
+          yq -o=json '. | @json' .github/ops-status.yml > cfg.json || echo '{}' > cfg.json
+          echo "CFG=$(cat cfg.json)" >> $GITHUB_OUTPUT
+        shell: bash
+      - uses: mikefarah/yq@v4.44.2
+
+      - name: Parse last commit metrics
+        id: m
+        run: |
+          msg="$(git log -1 --pretty=%B)"
+          # 예: "status: refresh ... ⚠ q=0 r=0 d=2 e=0"
+          Q=$(echo "$msg" | sed -nE 's/.* q=([0-9]+).*/\1/p'); Q=${Q:-0}
+          R=$(echo "$msg" | sed -nE 's/.* r=([0-9]+).*/\1/p'); R=${R:-0}
+          D=$(echo "$msg" | sed -nE 's/.* d=([0-9]+).*/\1/p'); D=${D:-0}
+          E=$(echo "$msg" | sed -nE 's/.* e=([0-9]+).*/\1/p'); E=${E:-0}
+          echo "q=$Q" >> $GITHUB_OUTPUT
+          echo "r=$R" >> $GITHUB_OUTPUT
+          echo "d=$D" >> $GITHUB_OUTPUT
+          echo "e=$E" >> $GITHUB_OUTPUT
+
+      - name: Compute badge colors
+        id: color
+        run: |
+          cfg='.thresholds'
+          q=${{ steps.m.outputs.q }}; r=${{ steps.m.outputs.r }}; d=${{ steps.m.outputs.d }}; e=${{ steps.m.outputs.e }}
+          get() { yq "$1" .github/ops-status.yml 2>/dev/null || echo; }
+          q_warn=$(get "$cfg.queue.warn"); q_crit=$(get "$cfg.queue.crit")
+          r_warn=$(get "$cfg.retries.warn"); r_crit=$(get "$cfg.retries.crit")
+          d_warn=$(get "$cfg.dead.warn"); d_crit=$(get "$cfg.dead.crit")
+          e_warn=$(get "$cfg.errors.warn"); e_crit=$(get "$cfg.errors.crit")
+
+          color_of() {
+            val=$1; warn=$2; crit=$3
+            if [ -z "$warn" ] || [ -z "$crit" ]; then echo "lightgrey"; return; fi
+            if [ "$val" -ge "$crit" ]; then echo "red"; elif [ "$val" -ge "$warn" ]; then echo "orange"; else echo "brightgreen"; fi
+          }
+          echo "q=$(color_of $q $q_warn $q_crit)" >> $GITHUB_OUTPUT
+          echo "r=$(color_of $r $r_warn $r_crit)" >> $GITHUB_OUTPUT
+          echo "d=$(color_of $d $d_warn $d_crit)" >> $GITHUB_OUTPUT
+          echo "e=$(color_of $e $e_warn $e_crit)" >> $GITHUB_OUTPUT
+
+      - name: Write badge JSON files
+        run: |
+          mkdir -p badges
+          write_badge() {
+            path="$1"; label="$2"; message="$3"; color="$4"
+            cat > "$path" <<JSON
+          { "schemaVersion": 1, "label": "$label", "message": "$message", "color": "$color" }
+JSON
+          }
+          Q=${{ steps.m.outputs.q }}; R=${{ steps.m.outputs.r }}; D=${{ steps.m.outputs.d }}; E=${{ steps.m.outputs.e }}
+          write_badge "$(yq '.badges.queue' .github/ops-status.yml)"   "llm queue" "q=$Q" "${{ steps.color.outputs.q }}"
+          write_badge "$(yq '.badges.errors' .github/ops-status.yml)"  "errors"    "e=$E" "${{ steps.color.outputs.e }}"
+          write_badge "$(yq '.badges.retries' .github/ops-status.yml)" "retries"   "r=$R" "${{ steps.color.outputs.r }}"
+          write_badge "$(yq '.badges.dead' .github/ops-status.yml)"    "dead"      "d=$D" "${{ steps.color.outputs.d }}"
+
+      - name: Commit badges to ops-status
+        run: |
+          git config user.name  "seoulmake-bot"
+          git config user.email "status-bot@seoulmake"
+          git add badges/*.json
+          git commit -m "chore(badge): refresh [skip ci]" || exit 0
+          git push

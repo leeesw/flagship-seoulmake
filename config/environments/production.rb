@@ -1,6 +1,9 @@
 require "active_support/core_ext/integer/time"
+require "ipaddr"
 
 Rails.application.configure do
+  config.hosts << "127.0.0.1"
+  config.hosts << "localhost"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -29,6 +32,15 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
+
+  # Trust reverse proxies so request.remote_ip reflects real client IP (e.g., behind Nginx/ALB).
+  config.action_dispatch.trusted_proxies = [
+    IPAddr.new('127.0.0.1'),  # local reverse proxy
+    IPAddr.new('::1'),
+    IPAddr.new('10.0.0.0/8'), # VPC ranges
+    IPAddr.new('172.16.0.0/12'),
+    IPAddr.new('192.168.0.0/16')
+  ]
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }

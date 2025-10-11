@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+production:
+  primary:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
+  cable:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
+  queue:
+    url: <%= ENV["DATABASE_URL"] %>
+    variables:
+      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>

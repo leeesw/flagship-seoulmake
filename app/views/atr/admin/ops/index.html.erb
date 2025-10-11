@@ -1,0 +1,35 @@
+<h1>Operations Dashboard</h1>
+
+<section>
+  <h2>낮은 점수 Top 50</h2>
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>post_id</th><th>quality</th><th>readability</th><th>ads_relevance</th><th>computed_at</th>
+    </tr>
+    <% @low_scores.each do |m| %>
+      <tr>
+        <td><%= m.post_id %></td>
+        <td><%= m.quality_score %></td>
+        <td><%= m.readability_score %></td>
+        <td><%= m.ads_relevance_score %></td>
+        <td><%= m.computed_at&.in_time_zone %></td>
+      </tr>
+    <% end %>
+  </table>
+</section>
+
+<section style="margin-top:24px;">
+  <h2>단어수 낮은 Top 50</h2>
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>post_id</th><th>word_count</th><th>computed_at</th>
+    </tr>
+    <% @short_posts.each do |m| %>
+      <tr>
+        <td><%= m.post_id %></td>
+        <td><%= m.word_count %></td>
+        <td><%= m.computed_at&.in_time_zone %></td>
+      </tr>
+    <% end %>
+  </table>
+</section>

@@ -1,0 +1,53 @@
+<%= render "filters" %>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>PID</th>
+      <th>Title</th>
+      <th>Title[최신]</th>
+      <th>URL</th>
+      <th>Category</th>
+      <th>Words</th>
+      <th>7d</th>
+      <th>28d</th>
+      <th>Ops Ver</th>
+      <th>Last Step</th>
+      <th>Index</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @posts.each do |p| %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><%= p.title %></td>
+        <td><%= p.title =~ /\[최신\]$/ ? p.title : "#{p.title} [최신]" %></td>
+        <td><%= p.canonical_url %></td>
+        <td><%= p.category_name %></td>
+        <td><%= p.metric&.words %></td>
+        <td><%= score_badge(p.score_7d) %></td>
+        <td><%= score_badge(p.score_28d) %></td>
+        <td><%= p.ops_state&.ops_version_global %></td>
+        <td><%= p.ops_state&.last_step %></td>
+        <td><%= p.index_status %></td>
+        <td>
+          <%= check_box_tag "ids[]", p.id %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="mt-2">
+  <%= form_with url: ops_dashboard_path(format: :csv), method: :get, local: true do |f| %>
+    <label>CSV Columns</label>
+    <%= select_tag :columns, options_for_select([
+      ["PID","pid"],["Title","title"],["Title[최신]","title_with_latest"],["URL","url"],["Category","category"],["Words","words"],["7d","score_7d"],["28d","score_28d"],["Ops Ver","ops_version"],["Last Step","last_step"],["Index","index_status"]
+    ], ["title","title_with_latest"]), multiple: true, class: "form-select", size: 6 %>
+    <%= hidden_field_tag :unscored, params[:unscored] %>
+    <%= hidden_field_tag :version_below, params[:version_below] %>
+    <%= hidden_field_tag :category, params[:category] %>
+    <%= hidden_field_tag :min_words, params[:min_words] %>
+    <%= submit_tag "Download CSV", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>
+

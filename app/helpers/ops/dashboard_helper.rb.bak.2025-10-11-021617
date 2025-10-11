@@ -1,0 +1,1 @@
+module Ops::DashboardHelper\n  def score_badge(val)\n    return content_tag(:span, "UNSCORED", class: "badge bg-secondary") if val.nil?\n    cls = val.to_f >= 0 ? "bg-success" : "bg-warning"\n    content_tag(:span, format("%.2f", val), class: "badge #{cls}")\n  end\nend\n\n

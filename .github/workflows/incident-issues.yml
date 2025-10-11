@@ -1,0 +1,160 @@
+name: Incident Issues
+on:
+  push:
+    branches: [ops-status]
+    paths: ['docs/status/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ops-status-incidents-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  incident:
+    runs-on: ubuntu-latest
+    env:
+      # Repository variables로 커스터마이즈 가능 (없으면 기본값 사용)
+      Q_WARN: ${{ vars.Q_WARN }}
+      Q_CRIT: ${{ vars.Q_CRIT }}
+      R_WARN: ${{ vars.R_WARN }}
+      R_CRIT: ${{ vars.R_CRIT }}
+      D_WARN: ${{ varsD_WARN }}
+      D_CRIT: ${{ vars.D_CRIT }}
+      E_WARN: ${{ vars.E_WARN }}
+      E_CRIT: ${{ vars.E_CRIT }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Extract metrics from commit message
+        id: m
+        shell: bash
+        run: |
+          set -euo pipefail
+          msg="${{ github.event.head_commit.message }}"
+          if [[ "$msg" =~ q=([0-9]+)[[:space:]]+r=([0-9]+)[[:space:]]+d=([0-9]+)[[:space:]]+e=([0-9]+) ]]; then
+            echo "q=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+            echo "r=${BASH_REMATCH[2]}" >> $GITHUB_OUTPUT
+            echo "d=${BASH_REMATCH[3]}" >> $GITHUB_OUTPUT
+            echo "e=${BASH_REMATCH[4]}" >> $GITHUB_OUTPUT
+          else
+            echo "q=0" >> $GITHUB_OUTPUT
+            echo "r=0" >> $GITHUB_OUTPUT
+            echo "d=0" >> $GITHUB_OUTPUT
+            echo "e=0" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: actions/github-script@v7
+        id: script
+        env:
+          Q: ${{ steps.m.outputs.q }}
+          R: ${{ steps.m.outputs.r }}
+          D: ${{ steps.m.outputs.d }}
+          E: ${{ steps.m.outputs.e }}
+          QW: ${{ env.Q_WARN }}
+          QC: ${{ env.Q_CRIT }}
+          RW: ${{ env.R_WARN }}
+          RC: ${{ env.R_CRIT }}
+          DW: ${{ env.D_WARN }}
+          DC: ${{ env.D_CRIT }}
+          EW: ${{ env.E_WARN }}
+          EC: ${{ env.E_CRIT }}
+        with:
+          script: |
+            // helpers for defaults
+            function dflt(v, f){ return (v && String(v).length) ? parseInt(v,10) : f }
+            const metrics = {
+              q: parseInt(process.env.Q,10)||0,
+              r: parseInt(process.env.R,10)||0,
+              d: parseInt(process.env.D,10)||0,
+              e: parseInt(process.env.E,10)||0,
+            }
+            const TH = {
+              q: { warn: dflt(process.env.QW,50),  crit: dflt(process.env.QC,200) },
+              r: { warn: dflt(process.env.RW,10),  crit: dflt(process.env.RC,50)  },
+              d: { warn: dflt(process.env.DW,1),   crit: dflt(process.env.DC,5)   },
+              e: { warn: dflt(process.env.EW,1),   crit: dflt(process.env.EC,10)  },
+            }
+
+            const offenders = []
+            for (const k of Object.keys(metrics)) {
+              const v = metrics[k]
+              if (v >= TH[k].crit) offenders.push({k,v,sev:'CRIT'})
+              else if (v >= TH[k].warn) offenders.push({k,v,sev:'WARN'})
+            }
+
+            core.summary
+              .addHeading('Incident evaluation')
+              .addRaw(`q=${metrics.q}, r=${metrics.r}, d=${metrics.d}, e=${metrics.e}`)
+              .addBreak()
+              .addRaw(offenders.length ? `Offenders: ${offenders.map(o=>o.k+':'+o.v).join(', ')}` : 'OK (no offenders)')
+              .write()
+
+            if (!offenders.length) {
+              // close all open 'incident' issues (auto-resolved)
+              const { data: issues } = await github.rest.issues.listForRepo({
+                ...context.repo, state:'open', labels:'incident'
+              })
+              for (const is of issues) {
+                await github.rest.issues.createComment({
+                  ...context.repo, issue_number:is.number, body:'Auto-resolved: metrics back to normal.'
+                })
+                await github.rest.issues.update({
+                  ...context.repo, issue_number:is.number, state:'closed'
+                })
+              }
+              core.setOutput('status','OK')
+              return
+            }
+
+            // Create/update 1 issue per metric
+            for (const p of offenders) {
+              const title = `[${p.sev}] ${p.k.toUpperCase()} exceeded: ${p.v}`
+              const { data: issues } = await github.rest.issues.listForRepo({
+                ...context.repo, state:'open', labels:`incident,${p.k}`
+              })
+              const body = [
+                `**Metric**: \`${p.k}\` value=\`${p.v}\``,
+                `**Severity**: ${p.sev}`,
+                `Commit: ${context.sha}`,
+                `Branch: ${context.ref}`,
+                `Source: ops-status pipeline`
+              ].join('\n')
+
+              const existing = issues.find(i => i.title.includes(`${p.k.toUpperCase()} exceeded`))
+              if (existing) {
+                // ensure severity label up to date
+                const labels = new Set(existing.labels.map(l => (typeof l==='string'? l : l.name)))
+                labels.delete('sev-1'); labels.delete('sev-2')
+                labels.add(p.sev==='CRIT' ? 'sev-1' : 'sev-2')
+                await github.rest.issues.update({
+                  ...context.repo, issue_number: existing.number, labels: Array.from(labels)
+                })
+                await github.rest.issues.createComment({
+                  ...context.repo, issue_number: existing.number, body
+                })
+              } else {
+                await github.rest.issues.create({
+                  ...context.repo,
+                  title, body,
+                  labels: ['incident', p.k, p.sev==='CRIT'?'sev-1':'sev-2']
+                })
+              }
+            }
+            core.setOutput('status','ALERT')
+
+      - name: Slack notify (optional)
+        if: env.SLACK_WEBHOOK_URL != '' && steps.script.outputs.status == 'ALERT'
+        shell: bash
+        env:
+          Q: ${{ steps.m.outputs.q }}
+          R: ${{ steps.m.outputs.r }}
+          D: ${{ steps.m.outputs.d }}
+          E: ${{ steps.m.outputs.e }}
+        run: |
+          text="*Ops Status Alert* – q=${Q}, r=${R}, d=${D}, e=${E}\nRepo: ${GITHUB_REPOSITORY}\nCommit: ${GITHUB_SHA}"
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "{\"text\": ${text@Q}}" \
+            "$SLACK_WEBHOOK_URL"

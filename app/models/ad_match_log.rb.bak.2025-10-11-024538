@@ -1,0 +1,1 @@
+class AdMatchLog < ApplicationRecord; end\n\n

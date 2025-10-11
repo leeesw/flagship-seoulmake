@@ -1,0 +1,120 @@
+name: Status Badges
+on:
+  push:
+    branches: [ops-status]
+    paths: ['docs/status/**']
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ops-status-badges-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  badges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ops-status
+          fetch-depth: 2
+
+      - name: Skip if only badge files changed
+        id: changes
+        shell: bash
+        run: |
+          set -e
+          files="$(git diff-tree --no-commit-id --name-only -r "${GITHUB_SHA}")"
+          only_badges=true
+          for f in $files; do
+            [[ "$f" =~ ^docs/status/badges/ ]] || { only_badges=false; break; }
+          done
+          echo "only_badges=$only_badges" >> "$GITHUB_OUTPUT"
+
+      - name: Extract metrics (commit message or overview.md)
+        if: steps.changes.outputs.only_badges != 'true'
+        id: m
+        shell: bash
+        run: |
+          set -euo pipefail
+          msg="$(git log -1 --pretty=%B || true)"
+          if [[ "$msg" =~ q=([0-9]+)[[:space:]]+r=([0-9]+)[[:space:]]+d=([0-9]+)[[:space:]]+e=([0-9]+) ]]; then
+            q="${BASH_REMATCH[1]}"; r="${BASH_REMATCH[2]}"; d="${BASH_REMATCH[3]}"; e="${BASH_REMATCH[4]}"
+          else
+            o=docs/status/overview.md
+            q="$(grep -Eo 'queue[^0-9]*([0-9]+)' -i "$o" | tail -1 | grep -Eo '[0-9]+' || echo 0)"
+            r="$(grep -Eo 'retry[^0-9]*([0-9]+)' -i "$o" | tail -1 | grep -Eo '[0-9]+' || echo 0)"
+            d="$(grep -Eo 'dead[^0-9]*([0-9]+)'  -i "$o" | tail -1 | grep -Eo '[0-9]+' || echo 0)"
+            e="$(grep -Eo 'error[^0-9]*([0-9]+)' -i "$o" | tail -1 | grep -Eo '[0-9]+' || echo 0)"
+          fi
+          echo "q=$q" >> "$GITHUB_OUTPUT"
+          echo "r=$r" >> "$GITHUB_OUTPUT"
+          echo "d=$d" >> "$GITHUB_OUTPUT"
+          echo "e=$e" >> "$GITHUB_OUTPUT"
+
+      - name: Generate badge SVGs
+        if: steps.changes.outputs.only_badges != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/status/badges
+          badge() {
+            local name="$1" val="$2" warn="$3" crit="$4" out="docs/status/badges/$name.svg"
+            local color="#4c1" # green
+            (( val >= warn )) && color="#dfb317"   # yellow
+            (( val >= crit )) && color="#e05d44"   # red
+            cat > "$out" <<SVG
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="20" role="img" aria-label="${name}: ${val}">
+  <linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient>
+  <mask id="a"><rect width="120" height="20" rx="3" fill="#fff"/></mask>
+  <g mask="url(#a)">
+    <rect width="60" height="20" fill="#555"/>
+    <rect x="60" width="60" height="20" fill="$color"/>
+    <rect width="120" height="20" fill="url(#b)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+    <text x="30" y="14">${name}</text>
+    <text x="90" y="14">${val}</text>
+  </g>
+</svg>
+SVG
+          }
+          badge "queue" "${{ steps.m.outputs.q }}" 50 200
+          badge "retry" "${{ steps.m.outputs.r }}"  10 50
+          badge "dead"  "${{ steps.m.outputs.d }}"  1  5
+          badge "error" "${{ steps.m.outputs.e }}"  1  10
+
+      - name: Commit badges if changed
+        if: steps.changes.outputs.only_badges != 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name  "Seoulmake Status Bot"
+          git config user.email "status-bot@seoulmake"
+          git add docs/status/badges/*.svg
+          if git diff --cached --quiet; then
+            echo "No badge changes."
+            exit 0
+          fi
+          git commit -m "chore: update status badges"
+          git push origin ops-status
+
+      - name: Job summary
+        if: steps.changes.outputs.only_badges != 'true'
+        shell: bash
+        run: |
+          repo="${GITHUB_REPOSITORY}"
+          base="https://raw.githubusercontent.com/${repo}/ops-status/docs/status/badges"
+          {
+            echo "### Current metrics"
+            echo "- Queue: **${{ steps.m.outputs.q }}**"
+            echo "- Retry: **${{ steps.m.outputs.r }}**"
+            echo "- Dead:  **${{ steps.m.outputs.d }}**"
+            echo "- Error: **${{ steps.m.outputs.e }}**"
+            echo
+            echo "![queue](${base}/queue.svg) ![retry](${base}/retry.svg) ![dead](${base}/dead.svg) ![error](${base}/error.svg)"
+          } >> "$GITHUB_STEP_SUMMARY"

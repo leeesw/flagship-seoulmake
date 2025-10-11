@@ -1,0 +1,31 @@
+services:
+  rails_blue:
+    image: flagship_seoulmake:latest
+    container_name: rails_blue
+    env_file: .env.rails
+    restart: always
+    networks: [seoulmake_net_ext]
+    deploy: { resources: { limits: { cpus: '2', memory: 2g } } }
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  rails_green:
+    image: flagship_seoulmake:latest
+    container_name: rails_green
+    env_file: .env.rails
+    restart: always
+    networks: [seoulmake_net_ext]
+    deploy: { resources: { limits: { cpus: '2', memory: 2g } } }
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+networks:
+  seoulmake_net_ext:
+    external: true
+    name: seoulmake-services_seoulmake_network

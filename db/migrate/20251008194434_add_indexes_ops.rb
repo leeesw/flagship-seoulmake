@@ -1,0 +1,1 @@
+class AddIndexesOps < ActiveRecord::Migration[7.1]\n  def change\n    add_index :posts_metrics, :updated_at\n    add_index :ga4_scores, [:window, :score]\n    add_index :indexing_submissions, [:engine, :status]\n    add_index :posts_ops_states, :ops_version_global\n  end\nend\n\n

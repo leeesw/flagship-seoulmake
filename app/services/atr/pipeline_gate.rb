@@ -24,15 +24,23 @@ module Atr
       mark.version == @version && mark.checksum == checksum
     end
 
-    # 처리 완료 마킹(업서트)
+    # 처리 완료 마킹(업서트; 동시성 안전)
+    # 고유 인덱스: index_pipeline_marks_on_pipeline_and_post
     def mark!(post_id:, checksum:)
       now = Time.current
-      rec = PipelineMark.find_or_initialize_by(pipeline: @pipeline, post_id: post_id)
-      rec.version  = @version
-      rec.checksum = checksum
-      rec.marked_at = now
-      rec.save!
-      rec
+      attrs = {
+        pipeline:  @pipeline,
+        post_id:   post_id,
+        version:   @version,
+        checksum:  checksum,
+        marked_at: now
+      }
+
+      # Atomic UPSERT (Rails 7.1+/8, PG의 ON CONFLICT 사용)
+      PipelineMark.upsert(attrs, unique_by: :index_pipeline_marks_on_pipeline_and_post)
+
+      # 레코드 반환(일관된 반환 타입을 위해 재조회)
+      PipelineMark.find_by!(pipeline: @pipeline, post_id: post_id)
     end
   end
 end

@@ -1,0 +1,2 @@
+class IndexingSubmission < ApplicationRecord; end
+

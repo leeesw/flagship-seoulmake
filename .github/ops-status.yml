@@ -1,0 +1,27 @@
+# ops-status 알림/배지 공통 설정
+thresholds:
+  queue:
+    warn: 5
+    crit: 20
+  errors:
+    warn: 1
+    crit: 5
+  retries:
+    warn: 5
+    crit: 30
+  dead:
+    warn: 1
+    crit: 5
+
+labels:
+  base: "ops-status"
+  alert: "alert"
+  sev_warn: "severity:warning"
+  sev_crit: "severity:critical"
+
+# 배지 파일 경로(README에서 참조)
+badges:
+  queue: "badges/llm_queue.json"
+  errors: "badges/errors.json"
+  retries: "badges/retries.json"
+  dead: "badges/dead.json"

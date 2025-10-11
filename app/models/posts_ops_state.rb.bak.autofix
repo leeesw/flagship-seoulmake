@@ -1,0 +1,1 @@
+class PostsOpsState < ApplicationRecord\n  self.primary_key = :post_id\nend\n\n

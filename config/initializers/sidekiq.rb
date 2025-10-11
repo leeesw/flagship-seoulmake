@@ -1,12 +1,15 @@
-# frozen_string_literal: true
-
-# Sidekiq가 서버/클라이언트 모두에서 같은 REDIS_URL을 쓰도록 고정
-REDIS_URL = ENV.fetch("REDIS_URL", "redis://127.0.0.1:6380/1")
+require "sidekiq"
+require "sidekiq/web"
 
 Sidekiq.configure_server do |config|
-  config.redis = { url: REDIS_URL }
+  config.redis = { url: ENV["REDIS_URL"], network_timeout: 5 }
+  require Rails.root.join("app/services/active_color_guard")
+  config.server_middleware do |chain|
+    chain.add ActiveColorGuard, color: ENV.fetch("COLOR"), redis_key: ENV.fetch("ACTIVE_COLOR_KEY", "sm:active_color")
+  end
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: REDIS_URL }
+  config.redis = { url: ENV["REDIS_URL"], network_timeout: 5 }
 end
+

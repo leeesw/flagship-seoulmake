@@ -1,0 +1,1 @@
+module Indexing\n  class GscStatusPollWorker\n    include Sidekiq::Worker\n    sidekiq_options queue: :indexing\n    def perform(post_id)\n      p = Post.find(post_id)\n      IndexingSubmission.create!(url: p.canonical_url, engine: 'gsc', status: 'POLL')\n    end\n  end\nend\n\n

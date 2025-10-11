@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+require "sidekiq"
+require "sidekiq/api"
+
+# 주 구현을 명시적으로 로드하여 부팅 순서 이슈 방지
+require Rails.root.join("app/sidekiq/metrics_middleware").to_s
+# (선택) 혹시 모를 참조를 위해 최상위 상수도 보장
+require Rails.root.join("app/metrics_middleware").to_s
+
+REDIS_URL_DEFAULT = "redis://127.0.0.1:6380/1"
+
+Sidekiq.configure_server do |config|
+  config.redis = { url: ENV.fetch("REDIS_URL", REDIS_URL_DEFAULT) }
+  config.server_middleware do |chain|
+    # 반드시 풀네임스페이스로 참조
+    chain.add ::Sidekiq::MetricsMiddleware
+  end
+end
+
+Sidekiq.configure_client do |config|
+  config.redis = { url: ENV.fetch("REDIS_URL", REDIS_URL_DEFAULT) }
+end

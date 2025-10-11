@@ -1,0 +1,1 @@
+class PostsMetric < ApplicationRecord\n  self.primary_key = :post_id\n  def self.upsert!(post_id:, words:, reading_time_sec:)\n    rec = find_or_initialize_by(post_id: post_id)\n    rec.words = words\n    rec.reading_time_sec = reading_time_sec\n    rec.updated_at = Time.now\n    rec.ops_version = OPS_TARGET_VERSION\n    rec.save!\n  end\nend\n\n

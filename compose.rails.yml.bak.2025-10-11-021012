@@ -1,0 +1,39 @@
+services:
+  rails_blue:
+    image: flagship_seoulmake:latest
+    container_name: rails_blue
+    env_file: .env.rails
+    restart: always
+    networks: [seoulmake_net_ext]
+    entrypoint: []   # 초기 bring-up용으로 entrypoint 우회
+    deploy:
+      resources:
+        limits: { cpus: '2', memory: 2g }
+    command: ["bash","-lc","./bin/rails server -b 0.0.0.0 -p 80"]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  rails_green:
+    image: flagship_seoulmake:latest
+    container_name: rails_green
+    env_file: .env.rails
+    restart: always
+    networks: [seoulmake_net_ext]
+    entrypoint: []
+    deploy:
+      resources:
+        limits: { cpus: '2', memory: 2g }
+    command: ["bash","-lc","./bin/rails server -b 0.0.0.0 -p 80"]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+networks:
+  seoulmake_net_ext:
+    external: true
+    name: seoulmake-services_seoulmake_network

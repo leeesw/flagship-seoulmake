@@ -5,18 +5,14 @@ default: &default
 
 production:
   primary:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    variables:
-      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
   cable:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    variables:
-      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
   queue:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    variables:
-      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
   cache:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    variables:
-      sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>

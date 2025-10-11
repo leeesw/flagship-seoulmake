@@ -71,3 +71,4 @@ gem "nokogiri", ">= 1.16"       # ← 추가
 gem "google-analytics-data"
 
 gem "sidekiq", "~> 7.2"
+gem 'rack-attack'

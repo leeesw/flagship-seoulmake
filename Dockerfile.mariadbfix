@@ -1,0 +1,13 @@
+FROM ghcr.io/seoulmake/flagship:latest
+USER root
+
+# Debian/Ubuntu 기반 런타임 라이브러리 주입
+RUN set -eux; \
+    apt-get update -y \
+ && apt-get install -y --no-install-recommends \
+      libmariadb3 \
+      libpq5 \
+ && rm -rf /var/lib/apt/lists/*
+
+# (앱 실행 유저로 복귀)
+USER rails

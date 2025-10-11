@@ -1,0 +1,8 @@
+<form method="get" action="<%= ops_dashboard_path %>">
+  <label><input type="checkbox" name="unscored" value="1" <%= "checked" if params[:unscored] %>> Unscored만</label>
+  <label>버전 미달: <input type="text" name="version_below" value="<%= params[:version_below] %>" placeholder="2025.10.0"></label>
+  <label>카테고리: <input type="text" name="category" value="<%= params[:category] %>"></label>
+  <label>최소 단어수: <input type="number" name="min_words" value="<%= params[:min_words] %>"></label>
+  <button class="btn btn-sm btn-secondary">필터</button>
+</form>
+

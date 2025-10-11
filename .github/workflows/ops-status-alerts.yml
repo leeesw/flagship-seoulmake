@@ -1,0 +1,143 @@
+name: ops-status | alerts
+on:
+  push:
+    branches: [ ops-status ]
+    paths:
+      - 'docs/status/**'
+      - '.github/ops-status.yml'
+
+jobs:
+  alerts:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mikefarah/yq@v4.44.2
+
+      - name: Load thresholds & labels
+        id: cfg
+        run: |
+          yq -o=json '.' .github/ops-status.yml > cfg.json
+          echo "cfg=$(cat cfg.json)" >> $GITHUB_OUTPUT
+
+      - name: Parse last commit metrics
+        id: m
+        run: |
+          msg="$(git log -1 --pretty=%B)"
+          Q=$(echo "$msg" | sed -nE 's/.* q=([0-9]+).*/\1/p'); Q=${Q:-0}
+          R=$(echo "$msg" | sed -nE 's/.* r=([0-9]+).*/\1/p'); R=${R:-0}
+          D=$(echo "$msg" | sed -nE 's/.* d=([0-9]+).*/\1/p'); D=${D:-0}
+          E=$(echo "$msg" | sed -nE 's/.* e=([0-9]+).*/\1/p'); E=${E:-0}
+          echo "q=$Q" >> $GITHUB_OUTPUT
+          echo "r=$R" >> $GITHUB_OUTPUT
+          echo "d=$D" >> $GITHUB_OUTPUT
+          echo "e=$E" >> $GITHUB_OUTPUT
+          echo "msg<<EOF" >> $GITHUB_OUTPUT
+          echo "$msg" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Decide severity
+        id: sev
+        run: |
+          get() { yq "$1" .github/ops-status.yml; }
+          in_range() { val=$1; warn=$2; crit=$3; if [ "$val" -ge "$crit" ]; then echo crit; elif [ "$val" -ge "$warn" ]; then echo warn; else echo ok; fi; }
+          sev_q=$(in_range ${{ steps.m.outputs.q }} $(get .thresholds.queue.warn) $(get .thresholds.queue.crit))
+          sev_r=$(in_range ${{ steps.m.outputs.r }} $(get .thresholds.retries.warn) $(get .thresholds.retries.crit))
+          sev_d=$(in_range ${{ steps.m.outputs.d }} $(get .thresholds.dead.warn) $(get .thresholds.dead.crit))
+          sev_e=$(in_range ${{ steps.m.outputs.e }} $(get .thresholds.errors.warn) $(get .thresholds.errors.crit))
+          # 최종 severity
+          if [[ $sev_q == crit || $sev_r == crit || $sev_d == crit || $sev_e == crit ]]; then s=crit
+          elif [[ $sev_q == warn || $sev_r == warn || $sev_d == warn || $sev_e == warn ]]; then s=warn
+          else s=ok; fi
+          echo "overall=$s" >> $GITHUB_OUTPUT
+
+      - name: Open/Update GitHub Issue when not OK
+        if: steps.sev.outputs.overall != 'ok'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const cfg = require('fs').existsSync('.github/ops-status.yml')
+              ? require('js-yaml').load(require('fs').readFileSync('.github/ops-status.yml','utf8'))
+              : {};
+            const labels = [
+              cfg.labels?.base || 'ops-status',
+              cfg.labels?.alert || 'alert',
+              ( '${{ steps.sev.outputs.overall }}' === 'crit'
+                ? (cfg.labels?.sev_crit || 'severity:critical')
+                : (cfg.labels?.sev_warn || 'severity:warning') )
+            ];
+            // 제목은 간결하게
+            const title = `[ALERT] ops-status q=${{ steps.m.outputs.q }} r=${{ steps.m.outputs.r }} d=${{ steps.m.outputs.d }} e=${{ steps.m.outputs.e }}`;
+            // 본문 스냅샷
+            const body = [
+              'Latest: `${{ steps.m.outputs.msg }}`',
+              '',
+              `Branch: ${context.ref}`,
+              `Commit: ${context.payload.head_commit?.id || context.sha}`,
+              ''
+            ].join('\n');
+
+            // 동일 제목 열린 이슈 검색
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: cfg.labels?.base || 'ops-status'
+            });
+            let existing = issues.find(i => i.title.startsWith('[ALERT] ops-status'));
+            if (!existing) {
+              const { data: created } = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels
+              });
+              core.info(`Created issue #${created.number}`);
+            } else {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                title
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body
+              });
+              core.info(`Updated issue #${existing.number}`);
+            }
+
+      - name: Auto-close open alert when recovered
+        if: steps.sev.outputs.overall == 'ok'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const cfg = require('js-yaml').load(require('fs').readFileSync('.github/ops-status.yml','utf8'));
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: cfg.labels?.base || 'ops-status'
+            });
+            for (const i of issues) {
+              if (i.title.startsWith('[ALERT] ops-status')) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: i.number,
+                  body: 'Recovered: metrics back to normal.'
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: i.number,
+                  state: 'closed'
+                });
+              }
+            }
