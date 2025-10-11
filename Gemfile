@@ -55,7 +55,7 @@ group :development do
   gem "web-console"
 end
 
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.6"
 # WordPress(MariaDB) 읽기용
 gem "mysql2", ">= 0.5"
 
