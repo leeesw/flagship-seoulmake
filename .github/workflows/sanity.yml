@@ -1,0 +1,26 @@
+name: Rails Sanity Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Docker 빌드(앱의 실제 빌드 이미지 환경에서 검사)
+      - name: Build app image
+        run: docker build -t flagship_seoulmake:ci .
+
+      - name: Zeitwerk check (production)
+        run: |
+          docker run --rm -v "$PWD":/rails flagship_seoulmake:ci \
+            bash -lc 'export RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1; bundle exec rake zeitwerk:check'
+
+      - name: I18n YAML validate
+        run: |
+          docker run --rm -v "$PWD":/rails flagship_seoulmake:ci \
+            bash -lc 'bundle exec rake i18n:validate'
