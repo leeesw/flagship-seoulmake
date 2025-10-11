@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+URL="${HEALTHCHECK_URL:-http://localhost:3000/health}"
+
+if command -v curl >/dev/null 2>&1; then
+  curl -fsS "$URL" >/dev/null
+elif command -v wget >/dev/null 2>&1; then
+  wget -qO- "$URL" >/dev/null
+else
+  ruby -rnet/http -ruri -e 'u=URI(ENV["URL"]||"http://localhost:3000/health");res=Net::HTTP.get_response(u);exit(res.is_a?(Net::HTTPSuccess) ? 0 : 1)' URL="$URL"
+fi

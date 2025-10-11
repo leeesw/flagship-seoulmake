@@ -53,3 +53,7 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 EXPOSE 80
 # 기본 CMD는 그대로 두되 Compose에서 override 가능
 CMD ["./bin/thrust", "./bin/rails", "server"]
+
+# --- app healthcheck ---
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD /rails/bin/healthcheck
